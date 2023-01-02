@@ -14,6 +14,7 @@ public class AIInstance : MonoBehaviour
     private Rigidbody _rigidbody;
 
     public WeaponInstance currentWeapon;
+    public WeaponInstance grenadeWeapon;
 
     //[Header("TEMPORAIRE A METTRE AU BON ENDROIT APRES")]
     //public GameObject prefabProjectile;
@@ -43,6 +44,8 @@ public class AIInstance : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         currentWeapon.transform.parent = transform;
         currentWeapon.transform.position = transform.position;
+        grenadeWeapon.transform.parent = transform;
+        grenadeWeapon.transform.position = transform.position;
     }
 
     // Start is called before the first frame update
@@ -71,7 +74,7 @@ public class AIInstance : MonoBehaviour
         }
         else
         {
-            currentWeapon.DoGrenade(target);
+            grenadeWeapon.DoFire(target);
         }
         
     }

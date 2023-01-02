@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7509bfbe866eb0478e84dcbc907553c, type: 3}
-  m_Name: WeaponData_default
+  m_Name: WeaponData_defaultGrenade
   m_EditorClassIdentifier: 
-  fireRate: 0.56
+  fireRate: 0.2
   cooldown: 0
-  prefabProjectile: {fileID: 3476202047971693012, guid: c48ffc837a1a7c2468629768637eeef1,
-    type: 3}
+  prefabProjectile: {fileID: 0}

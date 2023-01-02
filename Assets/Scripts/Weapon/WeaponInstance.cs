@@ -12,6 +12,7 @@ public class WeaponInstance : MonoBehaviour
     
     public float FireRate => weaponData.fireRate;
     public GameObject PrefabProjectile => weaponData.prefabProjectile;
+    public float ProjectileSpeed => weaponData.projectileSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +31,7 @@ public class WeaponInstance : MonoBehaviour
     /// </summary>
     /// <param name="target"></param>
     /// <returns></returns>
-    public bool DoFire(GameObject target)
+    public virtual bool DoFire(GameObject target)
     {
         if (IsHot) return false;
         
@@ -38,16 +39,11 @@ public class WeaponInstance : MonoBehaviour
         var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,transform);
         if (projectileInstance.TryGetComponent<Rigidbody>(out var _rigidbody))
         {
-            _rigidbody.AddForce(direction * 100, ForceMode.Impulse);
+            _rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
             projectileInstance.transform.LookAt(target.transform.position);
         }
 
         cooldown = FireRate;
         return true;
-    }
-
-    public void DoGrenade(GameObject target)
-    {
-        
     }
 }

@@ -7,10 +7,10 @@ public class ProjectileInstance : MonoBehaviour
 {
     private const int IndexLayerProjectile = 7;
     private float currentLifeTime = 5;
-
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;
+        
     }
 
     // Start is called before the first frame update
@@ -20,8 +20,9 @@ public class ProjectileInstance : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
+        
         if (currentLifeTime > 0)
         {
             currentLifeTime -= Time.deltaTime;
