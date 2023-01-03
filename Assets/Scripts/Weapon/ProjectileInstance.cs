@@ -9,17 +9,16 @@ public class ProjectileInstance : MonoBehaviour
     private float currentLifeTime = 5;
     public int damage = 0;
     public WeaponInstance fromWeapon;
-    public TeamEnum teamEnum;
-    public bool DestroyOnHit;
+
+    public TeamEnum teamEnum => fromWeapon.Owner.GetComponent<IActor>().Team;
+    
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;
-        
     }
     // Update is called once per frame
     public virtual void Update()
     {
-        
         if (currentLifeTime > 0)
         {
             currentLifeTime -= Time.deltaTime;
@@ -28,5 +27,11 @@ public class ProjectileInstance : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void OnHit()
+    {
+        if(fromWeapon.weaponData.projectileDestroyOnHit)
+            Destroy(gameObject);
     }
 }

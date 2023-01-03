@@ -25,7 +25,6 @@ public class GrenadeWeaponInstance : WeaponInstance
         }
         projectileInstance.GetComponent<ProjectileInstance>().fromWeapon = this;
         projectileInstance.GetComponent<ProjectileInstance>().damage = weaponData.damage;
-        projectileInstance.GetComponent<ProjectileInstance>().teamEnum = Owner.GetComponent<IActor>().Team;
         cooldown = FireRate;
         return true;
     }

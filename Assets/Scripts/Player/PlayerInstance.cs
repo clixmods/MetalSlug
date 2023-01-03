@@ -56,6 +56,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     {
         controller = gameObject.GetComponent<CharacterController>();
         eventPlayerJoin?.Invoke(  this);
+        
+        weaponInstance.Owner = gameObject;
     }
 
     private void OnDestroy()

@@ -42,8 +42,6 @@ public class LevelManager : MonoBehaviour
             {
                 var player = Instance.players[i];
                 if (player == null) continue;
-               
-                
                 if (player.IsAlive)
                 {
                     if (i == Instance.players.Count - 1)
@@ -93,7 +91,6 @@ public class LevelManager : MonoBehaviour
             Instance.players.Add(player);
         }
     }
-
     public static void RemovePlayer(PlayerInstance player)
     {
         if (Instance.players.Contains(player))
@@ -101,23 +98,10 @@ public class LevelManager : MonoBehaviour
             Instance.players.Remove(player);
         }
     }
-
     private void Start()
     {
         players = FindObjectsOfType<PlayerInstance>().ToList();
         PlayerInstance.eventPlayerJoin += AddPlayer;
         PlayerInstance.eventPlayerDisconnect += RemovePlayer;
-    }
-    
-    
-
-    private void Update()
-    {
-        // for (int i = 0; i < players.Count; i++)
-        // {
-        //     if(players[i] == null)
-        //         players.RemoveAt(i);
-        // }
-        
     }
 }
