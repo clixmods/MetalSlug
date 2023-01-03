@@ -16,9 +16,12 @@ public class PlayerInstance : MonoBehaviour
     [SerializeField]
     private float playerSpeed = 2.0f;
     [SerializeField]
-    private float jumpHeight = 1.0f;
+    private float jumpHeight = 3.0f;
     [SerializeField]
     private float gravityValue = -9.81f;
+
+    [SerializeField]
+    private int lastDirection;
 
     // RB
     private CharacterController controller;
@@ -76,18 +79,32 @@ public class PlayerInstance : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                // clamp the direction vector x to 0 if y > 1
-                if (aimDir.y > 0)
-                { aimDir.x = 0; }
-                // shoot
-                weaponInstance.DoFire(aimDir);
+                if (movementInput.x == 0 && lastDirection == 0 && movementInput.y ==0)
+                {
+                    weaponInstance.DoFire(transform.right);
+                }
+                else if (movementInput.x == 0 && lastDirection == 1 && movementInput.y == 0)
+                {
+                    weaponInstance.DoFire(-transform.right);
+                }
+                else
+                {
+                    // clamp the direction vector x to 0 if y > 1
+                    if (aimDir.y > 0)
+                    { aimDir.x = 0; }
+                    // shoot
+                    weaponInstance.DoFire(aimDir);
+                }
                 break;
+
             case InputActionPhase.Performed:
                 shooted = true;
                 break;
+
             case InputActionPhase.Canceled:
                 shooted = false;
                 break;
+
             default:
                 break;
         }
@@ -118,5 +135,16 @@ public class PlayerInstance : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         // motion
         controller.Move(playerVelocity * Time.deltaTime);
+
+        // last direction value
+        
+        if (movementInput.x >= .7f)
+        {
+            lastDirection = 0;
+        }
+        else if (movementInput.x <= -.7f)
+        {
+            lastDirection = 1;
+        }
     }
 }
