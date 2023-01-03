@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AudioAliase;
 using UnityEngine;
 [CreateAssetMenu(order = 0,fileName = "AI Data", menuName = "MetalSlug/AI")]
 public class AIScriptableObject : ScriptableObject
@@ -28,5 +29,8 @@ public class AIScriptableObject : ScriptableObject
     [Tooltip("The max distance in which a seen target is no longer perceived by the sight sense.")]
     public float LoseSightRadius = 10;
 
-    
+    [Header("Aliases")] 
+    [Aliase] public string AliasOnDeath;
+    [Aliase] public string AliasOnMove;
+    [Aliase] public string AliasOnSpawn;
 }

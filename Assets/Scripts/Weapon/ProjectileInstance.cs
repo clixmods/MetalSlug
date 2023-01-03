@@ -9,7 +9,6 @@ public class ProjectileInstance : MonoBehaviour
     private float currentLifeTime = 5;
     public int damage = 0;
     public WeaponInstance fromWeapon;
-
     public TeamEnum teamEnum => fromWeapon.Owner.GetComponent<IActor>().Team;
     
     private void Awake()

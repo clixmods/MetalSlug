@@ -25,3 +25,6 @@ MonoBehaviour:
   CanLoseTarget: 0
   SightRadius: 5
   LoseSightRadius: 10
+  AliasOnDeath: drone_death
+  AliasOnMove: None
+  AliasOnSpawn: None

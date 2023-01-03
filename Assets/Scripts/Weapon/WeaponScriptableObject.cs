@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AudioAliase;
 using UnityEngine;
 [CreateAssetMenu(order = 0,fileName = "Weapon Data", menuName = "MetalSlug/Weapon")]
 public class WeaponScriptableObject : ScriptableObject
@@ -10,15 +11,9 @@ public class WeaponScriptableObject : ScriptableObject
     public bool projectileDestroyOnHit = true;
     public GameObject prefabWeapon;
     public GameObject prefabProjectile;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Header("Aliases")] 
+    [Aliase] public string AliasOnFire;
+    [Aliase] public string AliasOnDrop;
+    [Aliase] public string AliasOnEquip;
+    
 }

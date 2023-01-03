@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AudioAliase;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -59,11 +60,12 @@ public class WeaponInstance : MonoBehaviour
             _rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
             projectileInstance.transform.LookAt(transform.position + direction);
         }
-
+        
         var projectileComponent = projectileInstance.GetComponent<ProjectileInstance>();
         projectileComponent.fromWeapon = this;
         projectileComponent.damage = weaponData.damage;
         cooldown = FireRate;
+        transform.PlaySoundAtPosition(weaponData.AliasOnFire);
         return true;
     }
 }

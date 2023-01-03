@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AudioAliase;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -189,6 +190,7 @@ public class AIInstance : MonoBehaviour , IActor
     public void OnDeath()
     {
         // Do shit before death
+        gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
         Destroy(gameObject);
     }
 
