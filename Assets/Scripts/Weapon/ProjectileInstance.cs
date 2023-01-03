@@ -10,6 +10,7 @@ public class ProjectileInstance : MonoBehaviour
     public int damage = 0;
     public WeaponInstance fromWeapon;
     public TeamEnum teamEnum;
+    public bool DestroyOnHit;
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;

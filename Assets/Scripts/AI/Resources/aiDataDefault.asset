@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c2599f918281c4bb79a4b4cfbe5df6, type: 3}
   m_Name: aiDataDefault
   m_EditorClassIdentifier: 
+  team: 2
   _minDistanceToKeepWithTarget: 3
+  Health: 1
   attackRange: 20
   angleAim: 0.3
   speed: 1

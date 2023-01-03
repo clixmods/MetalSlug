@@ -5,7 +5,9 @@ using UnityEngine;
 public class AIScriptableObject : ScriptableObject
 {
     [Tooltip("Minimum distance to keep with the target")]
+    public TeamEnum team;
     [SerializeField] private float _minDistanceToKeepWithTarget = 3;
+    public int Health = 1;
     [Tooltip("Range to allow Attack")]
     public float attackRange = 20;
     public float angleAim;

@@ -64,15 +64,16 @@ public class AIInstance : MonoBehaviour , IActor
     {
         currentWeapon = Instantiate(aiScriptableObject.primaryWeapon.prefabWeapon, transform.position, Quaternion.identity,
             transform).GetComponent<WeaponInstance>();
-        currentWeapon.Owner = this;
+        currentWeapon.Owner = gameObject;
         grenadeWeapon = Instantiate(aiScriptableObject.grenadeWeapon.prefabWeapon, transform.position, Quaternion.identity,
             transform).GetComponent<WeaponInstance>();
-        grenadeWeapon.Owner = this;
+        grenadeWeapon.Owner = gameObject;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        _health = aiScriptableObject.Health;
         target = LevelManager.GetRandomAlivePlayers.gameObject;
     }
 
@@ -190,8 +191,8 @@ public class AIInstance : MonoBehaviour , IActor
         return angle < aiScriptableObject.angleAim;
     }
 
-    [SerializeField] private TeamEnum _team;
-    public TeamEnum Team => _team;
+  
+    public TeamEnum Team => aiScriptableObject.team;
     public int Health => _health;
     public void DoDamage(int amount)
     {
@@ -210,13 +211,18 @@ public class AIInstance : MonoBehaviour , IActor
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Hitted", gameObject);
         if (other.gameObject.layer == IndexLayerProjectile)
         {
             var projectile = other.GetComponent<ProjectileInstance>();
-            if (projectile.teamEnum != _team)
+            if (projectile.teamEnum != Team)
             {
                 DoDamage(projectile.damage);
+                if(projectile.DestroyOnHit)
+                    Destroy(projectile);
+                
                 Debug.Log("Hitted", gameObject);
+                
             }
             
         }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class WeaponInstance : MonoBehaviour
 {
     public WeaponScriptableObject weaponData;
-    public IActor Owner;
+    public GameObject Owner;
     public float cooldown;
     public bool IsHot => cooldown > 0;
     public float FireRate => weaponData.fireRate;
@@ -40,16 +40,19 @@ public class WeaponInstance : MonoBehaviour
     {
         if (IsHot) return false;
         
-        var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,transform);
+        var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,null);
         if (projectileInstance.TryGetComponent<Rigidbody>(out var _rigidbody))
         {
             _rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
             projectileInstance.transform.LookAt(transform.position + direction);
         }
 
-        projectileInstance.GetComponent<ProjectileInstance>().fromWeapon = this;
-        projectileInstance.GetComponent<ProjectileInstance>().damage = weaponData.damage;
-        projectileInstance.GetComponent<ProjectileInstance>().teamEnum = Owner.Team;
+        var projectileComponent = projectileInstance.GetComponent<ProjectileInstance>();
+        projectileComponent.fromWeapon = this;
+        projectileComponent.damage = weaponData.damage;
+        projectileComponent.teamEnum = Owner.GetComponent<IActor>().Team;
+        projectileComponent.DestroyOnHit = weaponData.projectileDestroyOnHit;
+        
         cooldown = FireRate;
         return true;
     }
