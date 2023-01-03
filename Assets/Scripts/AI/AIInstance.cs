@@ -90,38 +90,46 @@ public class AIInstance : MonoBehaviour
                 _rigidbody.MovePosition(newPosition);
                 
             }
+            if (IsInAttackRange())
+            {
+                currentWeapon.DoFire(target);
+
+            }
+            else
+            {
+                grenadeWeapon.DoFire(target);
+            }
         }
 
-        if (IsInAttackRange())
-        {
-            currentWeapon.DoFire(target);
-
-        }
-        else
-        {
-            grenadeWeapon.DoFire(target);
-        }
+      
         
     }
     
 
     private void OnDrawGizmos()
     {
-        var direction = (target.transform.position - transform.position).normalized;
-        float angle = Mathf.Abs(direction.y);
-        Handles.Label(transform.position, 
-            $"Angle {angle }");
-        if (IsInAttackRange())
+        if (Application.isPlaying)
         {
+            if (target != null)
+            {
+                var direction = (target.transform.position - transform.position).normalized;
+                float angle = Mathf.Abs(direction.y);
+                Handles.Label(transform.position, 
+                    $"Angle {angle }");
+                if (IsInAttackRange())
+                {
            
-            Debug.DrawLine(transform.position, target.transform.position ,Color.green);
-        }
-        else
-        {
+                    Debug.DrawLine(transform.position, target.transform.position ,Color.green);
+                }
+                else
+                {
         
-            Debug.DrawLine(transform.position, target.transform.position,Color.red);
+                    Debug.DrawLine(transform.position, target.transform.position,Color.red);
+                }
+            }
             
         }
+       
         
         
     }

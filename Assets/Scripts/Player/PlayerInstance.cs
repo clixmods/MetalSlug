@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerInstance : MonoBehaviour
 {
+    
     [SerializeField]
     private float playerSpeed = 2.0f;
     [SerializeField]
