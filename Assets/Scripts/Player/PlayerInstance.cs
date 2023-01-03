@@ -1,9 +1,20 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerInstance : MonoBehaviour
 {
+    #region Events
+    //Event executed when player join
+    public delegate void CallbackOnJoin( PlayerInstance newPlayer);
+    public static event CallbackOnJoin eventPlayerJoin;
+    
+    public delegate void CallbackOnDisconnect( PlayerInstance newPlayer);
+    public static event CallbackOnDisconnect eventPlayerDisconnect;
+
+    #endregion
+    
     
     [SerializeField]
     private float playerSpeed = 2.0f;
@@ -19,9 +30,23 @@ public class PlayerInstance : MonoBehaviour
     private Vector2 movementInput = Vector2.zero;
     private bool jumped = false;
 
+    #region Properties
+
+    // Todo : need to be implemented
+    public bool IsAlive => true;
+
+
+    #endregion
+
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
+        eventPlayerJoin?.Invoke(  this);
+    }
+
+    private void OnDestroy()
+    {
+        eventPlayerDisconnect?.Invoke(this);
     }
 
     public void OnMove(InputAction.CallbackContext context)

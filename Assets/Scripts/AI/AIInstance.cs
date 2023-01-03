@@ -69,7 +69,7 @@ public class AIInstance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        target = LevelManager.GetRandomAlivePlayers.gameObject;
     }
 
     // Update is called once per frame
@@ -77,34 +77,79 @@ public class AIInstance : MonoBehaviour
     {
         if (target != null)
         {
-            float distanceWithTarget = Vector3.Distance(transform.position, target.transform.position);
-            Debug.Log(distanceWithTarget);
-            if ( distanceWithTarget > _minDistanceToKeepWithTarget)
-            {
-                Vector3 newPosition =
-                    Vector3.Lerp(transform.position, target.transform.position, Time.deltaTime * _speed);
-                if (aiScriptableObject.CanFly)
-                {
-                    newPosition.y = Mathf.Clamp(newPosition.y, aiScriptableObject.minY , 10);
-                }
-                _rigidbody.MovePosition(newPosition);
-                
-            }
-            if (IsInAttackRange())
-            {
-                currentWeapon.DoFire(target);
-
-            }
-            else
-            {
-                grenadeWeapon.DoFire(target);
-            }
+            ThinkMovement();
+            ThinkAttack();
+            ThinkTargetPerception();
         }
-
+        else
+        {
+            target = GetNearestPlayer();
+        }
+        
+        
       
         
     }
-    
+
+    private void ThinkTargetPerception()
+    {
+        float distanceWithTarget = Vector3.Distance(transform.position, target.transform.position ) ;
+        if (distanceWithTarget > aiScriptableObject.LoseSightRadius)
+        {
+            // TODO : Faire un getNearest ou utiliser radius perception
+           // var newTarget = LevelManager.GetRandomAlivePlayers.gameObject;
+            target = GetNearestPlayer();
+        }
+    }
+
+    private void ThinkMovement()
+    {
+        float distanceWithTarget = Vector3.Distance(transform.position, target.transform.position);
+//            Debug.Log(distanceWithTarget);
+        if (distanceWithTarget > _minDistanceToKeepWithTarget)
+        {
+            Vector3 newPosition =
+                Vector3.Lerp(transform.position, target.transform.position, Time.deltaTime * _speed);
+            if (aiScriptableObject.CanFly)
+            {
+                newPosition.y = Mathf.Clamp(newPosition.y, aiScriptableObject.minY, 10);
+            }
+
+            _rigidbody.MovePosition(newPosition);
+        }
+    }
+
+    private void ThinkAttack()
+    {
+        if (IsInAttackRange())
+        {
+            currentWeapon.DoFire(target);
+        }
+        else
+        {
+            grenadeWeapon.DoFire(target);
+        }
+    }
+
+    private GameObject GetNearestPlayer()
+    {
+        var alivePlayers = LevelManager.GetAlivePlayers;
+        GameObject nearestPlayer = null;
+        for (int i = 0; i < alivePlayers.Count; i++)
+        {
+            float distanceWithAlivePlayer = Vector3.Distance(transform.position, alivePlayers[i].transform.position);
+            float distanceWithPotentialTarget = distanceWithAlivePlayer+1;
+            if(nearestPlayer != null)
+                 distanceWithPotentialTarget = Vector3.Distance(transform.position, nearestPlayer.transform.position);
+
+            if (distanceWithAlivePlayer < distanceWithPotentialTarget)
+            {
+                nearestPlayer = alivePlayers[i].gameObject;
+            }
+        }
+
+        return nearestPlayer;
+    }
 
     private void OnDrawGizmos()
     {

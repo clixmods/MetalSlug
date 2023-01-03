@@ -18,6 +18,13 @@ public class AIScriptableObject : ScriptableObject
     [Header("Aerial Setting")] 
     public bool CanFly = false;
     public float minY = 3;
-    
 
+    [Header("Detection")] 
+    public bool CanLoseTarget;
+    [Tooltip("The max distance over which this sense can start perceiving.")]
+    public float SightRadius = 5;
+    [Tooltip("The max distance in which a seen target is no longer perceived by the sight sense.")]
+    public float LoseSightRadius = 10;
+
+    
 }
