@@ -6,10 +6,9 @@ using UnityEngine;
 public class WeaponInstance : MonoBehaviour
 {
     public WeaponScriptableObject weaponData;
+    public IActor Owner;
     public float cooldown;
-
     public bool IsHot => cooldown > 0;
-    
     public float FireRate => weaponData.fireRate;
     public GameObject PrefabProjectile => weaponData.prefabProjectile;
     public float ProjectileSpeed => weaponData.projectileSpeed;
@@ -48,6 +47,9 @@ public class WeaponInstance : MonoBehaviour
             projectileInstance.transform.LookAt(transform.position + direction);
         }
 
+        projectileInstance.GetComponent<ProjectileInstance>().fromWeapon = this;
+        projectileInstance.GetComponent<ProjectileInstance>().damage = weaponData.damage;
+        projectileInstance.GetComponent<ProjectileInstance>().teamEnum = Owner.Team;
         cooldown = FireRate;
         return true;
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerInstance : MonoBehaviour
+public class PlayerInstance : MonoBehaviour , IActor
 {
     #region Events
     //Event executed when player join
@@ -29,6 +29,7 @@ public class PlayerInstance : MonoBehaviour
 
     private Vector2 movementInput = Vector2.zero;
     private bool jumped = false;
+    private int _health;
 
     #region Properties
 
@@ -92,5 +93,23 @@ public class PlayerInstance : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+    }
+
+
+    [SerializeField] private TeamEnum _team;
+    public TeamEnum Team => _team;
+    public int Health => _health;
+    public void DoDamage(int amount)
+    {  
+        _health -= amount;
+        if (_health <= 0)
+        {
+            OnDeath();
+        }
+    }
+
+    public void OnDeath()
+    {
+        throw new NotImplementedException();
     }
 }

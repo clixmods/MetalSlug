@@ -7,18 +7,14 @@ public class ProjectileInstance : MonoBehaviour
 {
     private const int IndexLayerProjectile = 7;
     private float currentLifeTime = 5;
+    public int damage = 0;
+    public WeaponInstance fromWeapon;
+    public TeamEnum teamEnum;
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;
         
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     public virtual void Update()
     {

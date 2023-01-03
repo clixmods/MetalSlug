@@ -7,9 +7,10 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
-public class AIInstance : MonoBehaviour
+public class AIInstance : MonoBehaviour , IActor
 {
-    const string Aidatadefault = "aiDataDefault";
+    private const string Aidatadefault = "aiDataDefault";
+    private const int IndexLayerProjectile = 7;
     
     public AIScriptableObject aiScriptableObject;
     public GameObject target;
@@ -19,7 +20,8 @@ public class AIInstance : MonoBehaviour
 
     public WeaponInstance currentWeapon;
     public WeaponInstance grenadeWeapon;
-    
+    private int _health;
+
     //[Header("TEMPORAIRE A METTRE AU BON ENDROIT APRES")]
     //public GameObject prefabProjectile;
     #region Properties
@@ -62,8 +64,10 @@ public class AIInstance : MonoBehaviour
     {
         currentWeapon = Instantiate(aiScriptableObject.primaryWeapon.prefabWeapon, transform.position, Quaternion.identity,
             transform).GetComponent<WeaponInstance>();
+        currentWeapon.Owner = this;
         grenadeWeapon = Instantiate(aiScriptableObject.grenadeWeapon.prefabWeapon, transform.position, Quaternion.identity,
             transform).GetComponent<WeaponInstance>();
+        grenadeWeapon.Owner = this;
     }
 
     // Start is called before the first frame update
@@ -184,5 +188,38 @@ public class AIInstance : MonoBehaviour
         var direction = (target.transform.position - transform.position).normalized;
         float angle = Mathf.Abs(direction.y);
         return angle < aiScriptableObject.angleAim;
+    }
+
+    [SerializeField] private TeamEnum _team;
+    public TeamEnum Team => _team;
+    public int Health => _health;
+    public void DoDamage(int amount)
+    {
+        _health -= amount;
+        if (_health <= 0)
+        {
+            OnDeath();
+        }
+    }
+
+    public void OnDeath()
+    {
+        // Do shit before death
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == IndexLayerProjectile)
+        {
+            var projectile = other.GetComponent<ProjectileInstance>();
+            if (projectile.teamEnum != _team)
+            {
+                DoDamage(projectile.damage);
+                Debug.Log("Hitted", gameObject);
+            }
+            
+        }
+            
     }
 }
