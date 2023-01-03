@@ -6,6 +6,7 @@ public class WeaponScriptableObject : ScriptableObject
 {
     public float fireRate = 0.2f;
     public float projectileSpeed = 5;
+    public GameObject prefabWeapon;
     public GameObject prefabProjectile;
     // Start is called before the first frame update
     void Start()

@@ -33,14 +33,19 @@ public class WeaponInstance : MonoBehaviour
     /// <returns></returns>
     public virtual bool DoFire(GameObject target)
     {
+        var direction = (target.transform.position - transform.position).normalized;
+        return DoFire(direction);
+    }
+
+    public virtual bool DoFire(Vector3 direction)
+    {
         if (IsHot) return false;
         
-        var direction = (target.transform.position - transform.position).normalized;
         var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,transform);
         if (projectileInstance.TryGetComponent<Rigidbody>(out var _rigidbody))
         {
             _rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
-            projectileInstance.transform.LookAt(target.transform.position);
+            projectileInstance.transform.LookAt(transform.position + direction);
         }
 
         cooldown = FireRate;

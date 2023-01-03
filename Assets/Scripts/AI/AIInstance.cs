@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
 public class AIInstance : MonoBehaviour
@@ -12,14 +14,16 @@ public class AIInstance : MonoBehaviour
     public AIScriptableObject aiScriptableObject;
     public GameObject target;
     private Rigidbody _rigidbody;
+    private float _minDistanceToKeepWithTarget;
+    private float _speed;
 
     public WeaponInstance currentWeapon;
     public WeaponInstance grenadeWeapon;
-
+    
     //[Header("TEMPORAIRE A METTRE AU BON ENDROIT APRES")]
     //public GameObject prefabProjectile;
     #region Properties
-    private float MinDistanceToKeepWithTarget => aiScriptableObject.minDistanceToKeepWithTarget;
+    
     private float AttackRange => aiScriptableObject.minDistanceToKeepWithTarget;
 
     #endregion
@@ -42,10 +46,24 @@ public class AIInstance : MonoBehaviour
             Debug.LogWarning("AI Instance doesn't have aiScriptableObject variable assigned, please assign it", gameObject);
         }
         _rigidbody = GetComponent<Rigidbody>();
+
+        SpawnWeaponInstance();
+        
+        
         currentWeapon.transform.parent = transform;
         currentWeapon.transform.position = transform.position;
         grenadeWeapon.transform.parent = transform;
         grenadeWeapon.transform.position = transform.position;
+        _minDistanceToKeepWithTarget =  Random.Range( aiScriptableObject.minDistanceToKeepWithTarget, aiScriptableObject.minDistanceToKeepWithTarget * 1.5f);
+        _speed = Random.Range( aiScriptableObject.speed, aiScriptableObject.speed * 1.5f);
+    }
+
+    private void SpawnWeaponInstance()
+    {
+        currentWeapon = Instantiate(aiScriptableObject.primaryWeapon.prefabWeapon, transform.position, Quaternion.identity,
+            transform).GetComponent<WeaponInstance>();
+        grenadeWeapon = Instantiate(aiScriptableObject.grenadeWeapon.prefabWeapon, transform.position, Quaternion.identity,
+            transform).GetComponent<WeaponInstance>();
     }
 
     // Start is called before the first frame update
@@ -61,9 +79,16 @@ public class AIInstance : MonoBehaviour
         {
             float distanceWithTarget = Vector3.Distance(transform.position, target.transform.position);
             Debug.Log(distanceWithTarget);
-            if ( distanceWithTarget > MinDistanceToKeepWithTarget)
+            if ( distanceWithTarget > _minDistanceToKeepWithTarget)
             {
-                _rigidbody.MovePosition(Vector3.Lerp(transform.position ,target.transform.position, Time.deltaTime ));
+                Vector3 newPosition =
+                    Vector3.Lerp(transform.position, target.transform.position, Time.deltaTime * _speed);
+                if (aiScriptableObject.CanFly)
+                {
+                    newPosition.y = Mathf.Clamp(newPosition.y, aiScriptableObject.minY , 10);
+                }
+                _rigidbody.MovePosition(newPosition);
+                
             }
         }
 
