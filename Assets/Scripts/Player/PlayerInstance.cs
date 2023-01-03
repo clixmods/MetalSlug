@@ -4,7 +4,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerInstance : MonoBehaviour
 {
-    
+    // REFS DE SCRIPTS
+    [SerializeField]
+    private WeaponInstance weaponInstance;
+
+    // FLOAT & INT
     [SerializeField]
     private float playerSpeed = 2.0f;
     [SerializeField]
@@ -12,25 +16,42 @@ public class PlayerInstance : MonoBehaviour
     [SerializeField]
     private float gravityValue = -9.81f;
 
+    // RB
     private CharacterController controller;
+
+    // VECTOR
     private Vector3 playerVelocity;
-    private bool groundedPlayer;
-
     private Vector2 movementInput = Vector2.zero;
-    private bool jumped = false;
+    private Vector2 aimDir;
 
+    // BOOL
+    private bool groundedPlayer;
+    private bool jumped = false;
+    private bool shooted;
+
+    // start
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
     }
 
+    // move
     public void OnMove(InputAction.CallbackContext context)
     {
+        // readValue via InputSystem
         movementInput = context.ReadValue<Vector2>();
+        if (context.phase == InputActionPhase.Performed)
+        {
+            // stock the direction on a direction var
+            aimDir.x = Mathf.CeilToInt(movementInput.x);
+            aimDir.y = Mathf.CeilToInt(movementInput.y);
+        }
     }
 
+    // jump
     public void OnJump(InputAction.CallbackContext context)
     {
+        // switch for set true & false the action
         switch(context.phase)
         {
             case InputActionPhase.Performed:
@@ -42,22 +63,46 @@ public class PlayerInstance : MonoBehaviour
             default:
                 break;
         }
-        /*jumped = context.ReadValue<bool>();
-        Debug.Log(jumped);
-        jumped = context.action.triggered;
-        Debug.Log(jumped);*/
     }
 
+    // shoot
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        // switch for set true & false the action
+        switch (context.phase)
+        {
+            case InputActionPhase.Started:
+                // clamp the direction vector x to 0 if y > 1
+                if (aimDir.y > 0)
+                { aimDir.x = 0; }
+                // shoot
+                weaponInstance.DoFire(aimDir);
+                break;
+            case InputActionPhase.Performed:
+                shooted = true;
+                break;
+            case InputActionPhase.Canceled:
+                shooted = false;
+                break;
+            default:
+                break;
+        }
+    }
+
+    // update
     void Update()
     {
+        // check if the player is grounded
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
+            // set the velocity to 0
             playerVelocity.y = 0f;
         }
 
-        Vector3 move = new Vector3(movementInput.x, 0, movementInput.y);
-        controller.Move(move * Time.deltaTime * playerSpeed);
+        // move the player
+        Vector3 move = new Vector3(movementInput.x, 0, 0);
+        controller.Move(move.normalized * Time.deltaTime * playerSpeed);
 
         // Changes the height position of the player..
         if (jumped && groundedPlayer)
@@ -65,7 +110,9 @@ public class PlayerInstance : MonoBehaviour
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
 
+        // add gravity to the player
         playerVelocity.y += gravityValue * Time.deltaTime;
+        // motion
         controller.Move(playerVelocity * Time.deltaTime);
     }
 }
