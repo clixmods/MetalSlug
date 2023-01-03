@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using AudioAliase;
@@ -27,7 +28,12 @@ public class WeaponInstance : MonoBehaviour
     public float FireRate => weaponData.fireRate;
     public GameObject PrefabProjectile => weaponData.prefabProjectile;
     public float ProjectileSpeed => weaponData.projectileSpeed;
-   
+
+    private void Start()
+    {
+        transform.PlaySoundAtPosition(weaponData.AliasOnEquip);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -66,6 +72,7 @@ public class WeaponInstance : MonoBehaviour
         projectileComponent.damage = weaponData.damage;
         cooldown = FireRate;
         transform.PlaySoundAtPosition(weaponData.AliasOnFire);
+        transform.PlaySoundAtPosition(weaponData.AliasOnAfterFire);
         return true;
     }
 }

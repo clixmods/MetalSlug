@@ -68,7 +68,7 @@ namespace AudioAliase
         } 
         [SerializeField] private List<AudioPlayer> _audioSource;
         public const string AliasNameNull = "None";
-        [SerializeField] int audioSourcePoolSize = 32; // 32 is a good start
+        [SerializeField] int audioSourcePoolSize = 128; // 32 is a good start
         [Header("Debug")]
         //[SerializeField] Aliases[] TableAliasesLoaded = new Aliases[0];
 

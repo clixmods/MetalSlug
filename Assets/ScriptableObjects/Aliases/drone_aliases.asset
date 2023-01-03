@@ -84,10 +84,10 @@ MonoBehaviour:
     UseDelayLoop: 0
     minDelayLoop: 0
     maxDelayLoop: 0
-    minPitch: 1
-    maxPitch: 1.01
+    minPitch: 0.8251121
+    maxPitch: 1.0772645
     stereoPan: 0
-    spatialBlend: 0.934
+    spatialBlend: 1
     reverbZoneMix: 1
     dopplerLevel: 1
     Spread: 1

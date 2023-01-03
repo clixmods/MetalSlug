@@ -16,15 +16,16 @@ MonoBehaviour:
   _minDistanceToKeepWithTarget: 3
   Health: 1
   attackRange: 20
+  attackRate: 2.69
   angleAim: 0.3
   speed: 1
   primaryWeapon: {fileID: 11400000, guid: 6f4bb4fdd2730ff468bd52493c095a35, type: 2}
   grenadeWeapon: {fileID: 11400000, guid: 4da2e23fc2d360149896fb1eb77176d3, type: 2}
   CanFly: 0
   minY: 3
-  CanLoseTarget: 0
+  CanLoseTarget: 1
   SightRadius: 5
   LoseSightRadius: 10
-  AliasOnDeath: None
-  AliasOnMove: None
+  AliasOnDeath: drone_death
+  AliasOnMove: robot_move
   AliasOnSpawn: None

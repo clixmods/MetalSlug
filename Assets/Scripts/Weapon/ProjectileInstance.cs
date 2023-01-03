@@ -18,6 +18,7 @@ public class ProjectileInstance : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
+        
         if (currentLifeTime > 0)
         {
             currentLifeTime -= Time.deltaTime;

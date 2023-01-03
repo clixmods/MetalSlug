@@ -10,20 +10,62 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9817e14b48e6f754c9c8cbaf0fc1c032, type: 3}
-  m_Name: robot_common_aliases
+  m_Name: grenade_aliases
   m_EditorClassIdentifier: 
   DontLoad: 0
   defaultMixerGroup: {fileID: 0}
   aliases:
-  - name: robot_explosion
+  - name: grenade_explosion
     description: 
     Tag: 
     MixerGroup: {fileID: 0}
     audio:
-    - {fileID: 8300000, guid: 977a2dacbc1308c408173497ea96f4fc, type: 3}
-    - {fileID: 8300000, guid: 3a77c1054daa1fd4486451ffca3900c5, type: 3}
-    - {fileID: 8300000, guid: a86dd7f5c6b2ac045ad83d499e945ef7, type: 3}
-    - {fileID: 8300000, guid: 97b0c13aea890e84582b6112c72e3120, type: 3}
+    - {fileID: 8300000, guid: 30c1175bbe98df14eb43f08c9bc10ee5, type: 3}
+    soundType: 0
+    randomizeClips: 0
+    Secondary: grenade_explosion_dist
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 0.944
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: grenade_explosion_dist
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 9b749fe1c7523b74ebb8a0e8454ba2f1, type: 3}
+    - {fileID: 8300000, guid: e514c0d0392c53c4e8c1c775fb7f6ea7, type: 3}
+    - {fileID: 8300000, guid: c2a7e1a6f3b124d418bbddbae82e4bfa, type: 3}
+    - {fileID: 8300000, guid: 4edb27a92b238e0458053e3dfc0b0159, type: 3}
     soundType: 0
     randomizeClips: 1
     Secondary: 
@@ -43,51 +85,7 @@ MonoBehaviour:
     minPitch: 1
     maxPitch: 1.01
     stereoPan: 0
-    spatialBlend: 1
-    reverbZoneMix: 1
-    dopplerLevel: 1
-    Spread: 1
-    MinDistance: 0
-    MaxDistance: 500
-    CurveType: 0
-    distanceCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 0
-      m_PostInfinity: 0
-      m_RotationOrder: 0
-    Text: 
-    customDuration: 0
-    isInit: 0
-    isPlaceholder: 1
-  - name: robot_move
-    description: 
-    Tag: 
-    MixerGroup: {fileID: 0}
-    audio:
-    - {fileID: 8300000, guid: 40f37efaf07fd4744b0523503d0d7a47, type: 3}
-    - {fileID: 8300000, guid: 802ee12761f17bf42b533a22629010f9, type: 3}
-    - {fileID: 8300000, guid: d9029e9a1ccd6d94a949624950ac4ff8, type: 3}
-    soundType: 0
-    randomizeClips: 1
-    Secondary: 
-    bypassEffects: 0
-    bypassListenerEffects: 0
-    bypassReverbZones: 0
-    priority: 0
-    volume: 0
-    minVolume: 0.8
-    maxVolume: 0.8161435
-    isLooping: 1
-    startAliase: 
-    endAliase: 
-    UseDelayLoop: 0
-    minDelayLoop: 0.2690583
-    maxDelayLoop: 0.941704
-    minPitch: 0.9586097
-    maxPitch: 1.0358742
-    stereoPan: 0
-    spatialBlend: 1
+    spatialBlend: 0.934
     reverbZoneMix: 1
     dopplerLevel: 1
     Spread: 1

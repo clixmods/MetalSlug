@@ -23,6 +23,8 @@ public class AIInstance : MonoBehaviour , IActor
     private GameObject _target;
     private WeaponInstance _currentWeapon;
     private WeaponInstance _grenadeWeapon;
+    private AudioPlayer audioPlayerMove;
+    private float _attackCooldown;
     #endregion
     
     [SerializeField] private AIScriptableObject aiScriptableObject;
@@ -108,10 +110,21 @@ public class AIInstance : MonoBehaviour , IActor
                 newPosition.y = Mathf.Clamp(newPosition.y, aiScriptableObject.minY, 10);
             }
             _rigidbody.MovePosition(newPosition);
+            transform.PlayLoopSound(aiScriptableObject.AliasOnMove, ref audioPlayerMove);
+        }
+        else
+        {
+            AudioManager.StopLoopSound(ref audioPlayerMove);
         }
     }
     private void ThinkAttack()
     {
+        if (_attackCooldown > 0)
+        {
+            _attackCooldown -= Time.deltaTime;
+            return;
+        }
+            
         if (IsInAttackRange())
         {
             _currentWeapon.DoFire(_target);
@@ -120,6 +133,8 @@ public class AIInstance : MonoBehaviour , IActor
         {
             _grenadeWeapon.DoFire(_target);
         }
+
+        _attackCooldown = Random.Range(aiScriptableObject.attackRate, aiScriptableObject.attackRange * 1.5f);
     }
 
 #if UNITY_EDITOR
@@ -191,6 +206,7 @@ public class AIInstance : MonoBehaviour , IActor
     {
         // Do shit before death
         gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
+        AudioManager.StopLoopSound(ref audioPlayerMove);
         Destroy(gameObject);
     }
 

@@ -11,6 +11,8 @@ public class AIScriptableObject : ScriptableObject
     public int Health = 1;
     [Tooltip("Range to allow Attack")]
     public float attackRange = 20;
+
+    public float attackRate = 0.5f;
     public float angleAim;
     public float speed = 1;
     public WeaponScriptableObject primaryWeapon;
