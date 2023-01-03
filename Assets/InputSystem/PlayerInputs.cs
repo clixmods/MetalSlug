@@ -53,6 +53,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot1"",
+                    ""type"": ""Button"",
+                    ""id"": ""17c39f77-9334-44a6-afbb-e85274dc9d59"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,6 +174,28 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""action"": ""JoiningButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3085d66-81b3-4fe7-9c00-7ec82fd3cc38"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Shoot1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7285649-cafe-4cfc-a302-4683f7a31b2f"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Shoot1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -199,6 +230,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Player1_Movement = m_Player1.FindAction("Movement", throwIfNotFound: true);
         m_Player1_Jump = m_Player1.FindAction("Jump", throwIfNotFound: true);
         m_Player1_JoiningButton = m_Player1.FindAction("JoiningButton", throwIfNotFound: true);
+        m_Player1_Shoot1 = m_Player1.FindAction("Shoot1", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -261,6 +293,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_Movement;
     private readonly InputAction m_Player1_Jump;
     private readonly InputAction m_Player1_JoiningButton;
+    private readonly InputAction m_Player1_Shoot1;
     public struct Player1Actions
     {
         private @PlayerInputs m_Wrapper;
@@ -268,6 +301,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player1_Movement;
         public InputAction @Jump => m_Wrapper.m_Player1_Jump;
         public InputAction @JoiningButton => m_Wrapper.m_Player1_JoiningButton;
+        public InputAction @Shoot1 => m_Wrapper.m_Player1_Shoot1;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -286,6 +320,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @JoiningButton.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJoiningButton;
                 @JoiningButton.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJoiningButton;
                 @JoiningButton.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJoiningButton;
+                @Shoot1.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShoot1;
+                @Shoot1.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShoot1;
+                @Shoot1.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShoot1;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -299,6 +336,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @JoiningButton.started += instance.OnJoiningButton;
                 @JoiningButton.performed += instance.OnJoiningButton;
                 @JoiningButton.canceled += instance.OnJoiningButton;
+                @Shoot1.started += instance.OnShoot1;
+                @Shoot1.performed += instance.OnShoot1;
+                @Shoot1.canceled += instance.OnShoot1;
             }
         }
     }
@@ -326,5 +366,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnJoiningButton(InputAction.CallbackContext context);
+        void OnShoot1(InputAction.CallbackContext context);
     }
 }
