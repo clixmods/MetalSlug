@@ -117,7 +117,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 56088fe664b02d44aa4c3e6c9bd23a0c, type: 3}
     soundType: 0
     randomizeClips: 0
-    Secondary: 
+    Secondary: wpn_reverb_pistol
     bypassEffects: 0
     bypassListenerEffects: 0
     bypassReverbZones: 0
