@@ -8,6 +8,10 @@ public class PlayerInstance : MonoBehaviour
     [SerializeField]
     private WeaponInstance weaponInstance;
 
+    // REFS DE GO
+    [SerializeField]
+    private GameObject cameraTarget;
+
     // FLOAT & INT
     [SerializeField]
     private float playerSpeed = 2.0f;

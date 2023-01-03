@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1597966527521666552}
   - component: {fileID: 1597966527521666555}
   - component: {fileID: 1597966527521666553}
+  - component: {fileID: 5500485012778660453}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -115,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponInstance: {fileID: 1023291002497295453}
+  cameraTarget: {fileID: 0}
   playerSpeed: 2
   jumpHeight: 1
   gravityValue: -9.81
@@ -218,6 +220,19 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &5500485012778660453
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597966527521666534}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2203123064619520022
 PrefabInstance:
