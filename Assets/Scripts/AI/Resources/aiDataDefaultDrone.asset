@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c2599f918281c4bb79a4b4cfbe5df6, type: 3}
+  m_Name: aiDataDefaultDrone
+  m_EditorClassIdentifier: 
+  _minDistanceToKeepWithTarget: 3
+  attackRange: 20
+  angleAim: 0.3
+  speed: 1
+  primaryWeapon: {fileID: 11400000, guid: 6f4bb4fdd2730ff468bd52493c095a35, type: 2}
+  grenadeWeapon: {fileID: 11400000, guid: 4da2e23fc2d360149896fb1eb77176d3, type: 2}
+  CanFly: 1
+  minY: 3
