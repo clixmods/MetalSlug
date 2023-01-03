@@ -30,8 +30,21 @@ public class PlayerInstance : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        jumped = context.ReadValue<bool>();
+        switch(context.phase)
+        {
+            case InputActionPhase.Performed:
+                jumped = true;
+                break;
+            case InputActionPhase.Canceled:
+                jumped = false;
+                break;
+            default:
+                break;
+        }
+        /*jumped = context.ReadValue<bool>();
+        Debug.Log(jumped);
         jumped = context.action.triggered;
+        Debug.Log(jumped);*/
     }
 
     void Update()
