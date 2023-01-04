@@ -60,6 +60,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool groundedPlayer;
     private bool jumped = false;
     private bool shooted;
+    private bool isCrouching = false;
 
     // start
     private void Start()
@@ -102,6 +103,16 @@ public class PlayerInstance : MonoBehaviour , IActor
                 // If the player is not moving, reset the current movement input.
                 currentMovementInput = Vector2.zero;
             }
+
+            // Update the crouching state.
+            if (currentMovementInput.y < 0 && controller.isGrounded)
+            {
+                isCrouching = true;
+            }
+            else
+            {
+                isCrouching = false;
+            }
         }
     }
 
@@ -131,7 +142,17 @@ public class PlayerInstance : MonoBehaviour , IActor
                 // Check the direction to shoot based on the player's current movement input and whether they are in the air.
                 if (currentMovementInput.y < 0 && controller.isGrounded)
                 {
-                    // If the player is on the ground and pressing S, don't shoot.
+                    // If the player is on the ground and pressing S, shoot the last direction.
+                    if (lastDirection < 0)
+                    {
+                        // If the player was moving left, shoot left.
+                        weaponInstance.DoFire(Vector2.left);
+                    }
+                    else if (lastDirection > 0)
+                    {
+                        // If the player was moving right, shoot right.
+                        weaponInstance.DoFire(Vector2.right);
+                    }
                     break;
                 }
                 else if (currentMovementInput.y < 0 || aimDir.y < 0)
@@ -144,15 +165,29 @@ public class PlayerInstance : MonoBehaviour , IActor
                     // If the player is pressing W, shoot upwards.
                     weaponInstance.DoFire(Vector2.up);
                 }
-                else if (lastDirection < 0)
+                else if (currentMovementInput.x < 0)
                 {
-                    // If the player's last movement direction was to the left, shoot left.
+                    // If the player is pressing A, shoot left.
                     weaponInstance.DoFire(Vector2.left);
                 }
-                else if (lastDirection > 0)
+                else if (currentMovementInput.x > 0)
                 {
-                    // If the player's last movement direction was to the right, shoot right.
+                    // If the player is pressing D, shoot right.
                     weaponInstance.DoFire(Vector2.right);
+                }
+                else if (currentMovementInput.y == 0 && currentMovementInput.x == 0 && controller.isGrounded)
+                {
+                    // If the player is not moving and on the ground, check the last direction they moved in.
+                    if (lastDirection < 0)
+                    {
+                        // If the player was moving left, shoot left.
+                        weaponInstance.DoFire(Vector2.left);
+                    }
+                    else if (lastDirection > 0)
+                    {
+                        // If the player was moving right, shoot right.
+                        weaponInstance.DoFire(Vector2.right);
+                    }
                 }
                 break;
 
@@ -172,13 +207,17 @@ public class PlayerInstance : MonoBehaviour , IActor
     // update
     void Update()
     {
-
         // check if the player is grounded
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
             // set the velocity to 0
             playerVelocity.y = 0f;
+            // if the player jump and crouch while in the air and arrive on the ground crouched then isCrouching is set to true
+            if (currentMovementInput.y < 0 && controller.isGrounded)
+            {
+                isCrouching = true;
+            }
         }
 
         // move the player
