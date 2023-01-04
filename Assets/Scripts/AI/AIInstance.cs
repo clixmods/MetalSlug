@@ -46,7 +46,15 @@ public class AIInstance : MonoBehaviour , IActor
             Debug.LogWarning("AI Instance doesn't have aiScriptableObject variable assigned, please assign it", gameObject);
         }
 
-        _characterViewmodel = GetComponent<CharacterViewmodelManager>();
+        if (TryGetComponent<CharacterViewmodelManager>(out var component))
+        {
+            _characterViewmodel = component;
+        }
+        else
+        {
+            _characterViewmodel = gameObject.AddComponent<CharacterViewmodelManager>();
+        }
+        
     }
     private void OnValidate()
     {
@@ -84,7 +92,6 @@ public class AIInstance : MonoBehaviour , IActor
     {
         if (_target != null)
         {
-            
             ThinkMovement();
             ThinkAttack();
             ThinkTargetPerception();
@@ -96,6 +103,8 @@ public class AIInstance : MonoBehaviour , IActor
     }
     private void ThinkTargetPerception()
     {
+        if (_target == null) return;
+        
         _characterViewmodel.Direction = _target.transform.position;
         float distanceWithTarget = Vector3.Distance(transform.position, _target.transform.position ) ;
         if (distanceWithTarget > aiScriptableObject.LoseSightRadius)
