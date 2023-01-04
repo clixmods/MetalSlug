@@ -16,7 +16,15 @@ public class AIInstance : MonoBehaviour , IActor
     #endregion
 
     public static List<AIInstance> AIInstances = new List<AIInstance>();
+    
+    #region Events
+    public delegate void CallbackAIDamage(AIInstance aiInstance);
+    public delegate void CallbackAIScore(int score);
+    public static event CallbackAIDamage eventAIDeath;
+    public static event CallbackAIDamage eventAIHit;
 
+    public static event CallbackAIScore eventAIScore;
+    #endregion
     
     #region CachedVariables
     private Rigidbody _rigidbody;
@@ -33,9 +41,11 @@ public class AIInstance : MonoBehaviour , IActor
     #endregion
     
     [SerializeField] private AIScriptableObject aiScriptableObject;
-
+    
     #region Properties
     private float AttackRange => aiScriptableObject.minDistanceToKeepWithTarget;
+    public int ScoreDead => aiScriptableObject.ScoreDead;
+    public int ScoreHit => aiScriptableObject.ScoreHit;
     #endregion
 
     /// <summary>
@@ -224,10 +234,14 @@ public class AIInstance : MonoBehaviour , IActor
     public void DoDamage(int amount)
     {
         _health -= amount;
+        eventAIHit?.Invoke(this);
+        
         if (_health <= 0)
         {
             OnDeath();
+            return;
         }
+        eventAIScore?.Invoke(aiScriptableObject.ScoreHit);
     }
 
     public void OnDeath()
@@ -235,6 +249,8 @@ public class AIInstance : MonoBehaviour , IActor
         // Do shit before death
         gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
         AudioManager.StopLoopSound(ref audioPlayerMove);
+        eventAIDeath?.Invoke(this);
+        eventAIScore?.Invoke(aiScriptableObject.ScoreDead);
         Destroy(gameObject);
     }
 
