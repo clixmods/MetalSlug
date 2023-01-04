@@ -7,7 +7,9 @@ public class WeaponScriptableObject : ScriptableObject
 {
     [Range(0.01f,2)]
     public float fireRate = 0.2f;
+    [Range(0.01f,20)]
     public float projectileSpeed = 5;
+    [Range(0,5)]
     public int damage = 1;
     public bool projectileDestroyOnHit = true;
     public GameObject prefabWeapon;

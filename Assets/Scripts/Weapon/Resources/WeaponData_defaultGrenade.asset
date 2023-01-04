@@ -21,6 +21,7 @@ MonoBehaviour:
   prefabProjectile: {fileID: 3476202047971693012, guid: c48ffc837a1a7c2468629768637eeef1,
     type: 3}
   AliasOnFire: None
+  AliasOnAfterFire: None
   AliasOnImpact: grenade_explosion
   AliasOnDrop: None
   AliasOnEquip: None
