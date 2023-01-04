@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using UnityEditor;
 using UnityEngine;
@@ -15,8 +16,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     public static event CallbackOnDisconnect eventPlayerDisconnect;
 
     #endregion
-    
-    
+
     // REFS DE SCRIPTS
     [SerializeField]
     private WeaponInstance weaponInstance;
@@ -172,6 +172,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     // update
     void Update()
     {
+
         // check if the player is grounded
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)

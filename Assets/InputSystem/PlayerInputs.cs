@@ -46,7 +46,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""JoiningButton"",
+                    ""name"": ""Joining"",
                     ""type"": ""Button"",
                     ""id"": ""173ebb1d-51c6-4388-82cb-3eaedf5f6211"",
                     ""expectedControlType"": ""Button"",
@@ -160,7 +160,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""JoiningButton"",
+                    ""action"": ""Joining"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -171,7 +171,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""JoiningButton"",
+                    ""action"": ""Joining"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -229,7 +229,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Player1 = asset.FindActionMap("Player1", throwIfNotFound: true);
         m_Player1_Movement = m_Player1.FindAction("Movement", throwIfNotFound: true);
         m_Player1_Jump = m_Player1.FindAction("Jump", throwIfNotFound: true);
-        m_Player1_JoiningButton = m_Player1.FindAction("JoiningButton", throwIfNotFound: true);
+        m_Player1_Joining = m_Player1.FindAction("Joining", throwIfNotFound: true);
         m_Player1_Shoot1 = m_Player1.FindAction("Shoot1", throwIfNotFound: true);
     }
 
@@ -292,7 +292,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private IPlayer1Actions m_Player1ActionsCallbackInterface;
     private readonly InputAction m_Player1_Movement;
     private readonly InputAction m_Player1_Jump;
-    private readonly InputAction m_Player1_JoiningButton;
+    private readonly InputAction m_Player1_Joining;
     private readonly InputAction m_Player1_Shoot1;
     public struct Player1Actions
     {
@@ -300,7 +300,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public Player1Actions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player1_Movement;
         public InputAction @Jump => m_Wrapper.m_Player1_Jump;
-        public InputAction @JoiningButton => m_Wrapper.m_Player1_JoiningButton;
+        public InputAction @Joining => m_Wrapper.m_Player1_Joining;
         public InputAction @Shoot1 => m_Wrapper.m_Player1_Shoot1;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
@@ -317,9 +317,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJump;
-                @JoiningButton.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJoiningButton;
-                @JoiningButton.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJoiningButton;
-                @JoiningButton.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJoiningButton;
+                @Joining.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJoining;
+                @Joining.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJoining;
+                @Joining.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJoining;
                 @Shoot1.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShoot1;
                 @Shoot1.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShoot1;
                 @Shoot1.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShoot1;
@@ -333,9 +333,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @JoiningButton.started += instance.OnJoiningButton;
-                @JoiningButton.performed += instance.OnJoiningButton;
-                @JoiningButton.canceled += instance.OnJoiningButton;
+                @Joining.started += instance.OnJoining;
+                @Joining.performed += instance.OnJoining;
+                @Joining.canceled += instance.OnJoining;
                 @Shoot1.started += instance.OnShoot1;
                 @Shoot1.performed += instance.OnShoot1;
                 @Shoot1.canceled += instance.OnShoot1;
@@ -365,7 +365,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnJoiningButton(InputAction.CallbackContext context);
+        void OnJoining(InputAction.CallbackContext context);
         void OnShoot1(InputAction.CallbackContext context);
     }
 }
