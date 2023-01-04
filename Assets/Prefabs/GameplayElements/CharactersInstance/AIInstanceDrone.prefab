@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 6419309596634729332}
   - component: {fileID: 6419309596634729330}
   - component: {fileID: 6419309596634729333}
+  - component: {fileID: 7752715842184455746}
   m_Layer: 6
   m_Name: AIInstanceDrone
   m_TagString: Untagged
@@ -109,6 +110,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aiScriptableObject: {fileID: 11400000, guid: 72175b3b223b3da44b9316c9373ac40f, type: 2}
+--- !u!114 &7752715842184455746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6419309596634729336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4fda59f10675647ae70e51e0d3d95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModel: {fileID: 0}
 --- !u!1001 &7893038462093170286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,6 +134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: viewModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304778531607799475, guid: f020fa6960c7ac4448e392cade08a3d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8650096288155941897, guid: f020fa6960c7ac4448e392cade08a3d3,
         type: 3}

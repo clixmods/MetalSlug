@@ -25,10 +25,10 @@ public class CameraMotor : MonoBehaviour
     {
         // stock the pos of the camera in a vector3
         Vector3 targetPosition = cameraTransform.position;
-
+        
         // clamp the camera position so it doesnt go beyond the left and right limits
         targetPosition.x = Mathf.Clamp(targetPosition.x, leftBoundary, rightBoundary);
-
+            
         transform.position = targetPosition;
     }
 
@@ -43,10 +43,12 @@ public class CameraMotor : MonoBehaviour
             if (transform.position.x < lookAt.position.x)
             {
                 delta.x = dx - boundX;
+                leftBoundary += delta.x;
             }
             else
             {
                 delta.x = dx + boundX;
+               
             }
         }
 
