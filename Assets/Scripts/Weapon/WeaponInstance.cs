@@ -57,15 +57,16 @@ public class WeaponInstance : MonoBehaviour
         if (IsHot) return false;
         
         var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,null);
+        var projectileComponent = projectileInstance.GetComponent<ProjectileInstance>();
+        projectileComponent.fromWeapon = this;
+        projectileComponent.damage = weaponData.damage;
         if (projectileInstance.TryGetComponent<Rigidbody>(out var _rigidbody))
         {
             _rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
             projectileInstance.transform.LookAt(transform.position + direction);
         }
         
-        var projectileComponent = projectileInstance.GetComponent<ProjectileInstance>();
-        projectileComponent.fromWeapon = this;
-        projectileComponent.damage = weaponData.damage;
+
         cooldown = FireRate;
         transform.PlaySoundAtPosition(weaponData.AliasOnFire);
         transform.PlaySoundAtPosition(weaponData.AliasOnAfterFire);

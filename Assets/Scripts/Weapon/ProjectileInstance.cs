@@ -8,6 +8,7 @@ public class ProjectileInstance : MonoBehaviour
 {
     private const int IndexLayerProjectile = 7;
     private float currentLifeTime = 5;
+    private Rigidbody _rigidbody;
     public int damage = 0;
     public WeaponInstance fromWeapon;
     public TeamEnum teamEnum => fromWeapon.Owner.GetComponent<IActor>().Team;
@@ -18,8 +19,16 @@ public class ProjectileInstance : MonoBehaviour
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;
-        gameObject.tag = "MainCamera";
+    
     }
+
+    private void Start()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody.useGravity = fromWeapon.weaponData.projectileUseGravity;
+
+    }
+
     // Update is called once per frame
     public virtual void Update()
     {

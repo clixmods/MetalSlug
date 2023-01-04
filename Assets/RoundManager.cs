@@ -41,12 +41,10 @@ public class RoundManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Spawned struct AI");
             foreach (var VARIABLE in spawnPoint)
             {
                 Instantiate(enemies[Random.Range(0, enemies.Length)], VARIABLE.position,Quaternion.identity ) ;
             }
-
             gameObject.SetActive(false);
         }
         
