@@ -30,8 +30,19 @@ public class LevelManager : MonoBehaviour
     }
 
     #endregion
-    private List<PlayerInstance> players = new List<PlayerInstance>();
 
+    #region Events
+    public delegate void CallbackOnLevelRestartLoop();
+    public static event CallbackOnLevelRestartLoop eventLevelRestartLoop;
+    
+
+    #endregion
+    
+    
+    private List<PlayerInstance> players = new List<PlayerInstance>();
+    [SerializeField] private Transform playerSpawnPoint;
+    private RoundManager[] roundvolumes;
+    
     #region Properties
 
     public static PlayerInstance GetRandomAlivePlayers
@@ -98,10 +109,43 @@ public class LevelManager : MonoBehaviour
             Instance.players.Remove(player);
         }
     }
+
+    private void Awake()
+    {
+        roundvolumes = FindObjectsOfType<RoundManager>();
+    }
+
     private void Start()
     {
         players = FindObjectsOfType<PlayerInstance>().ToList();
         PlayerInstance.eventPlayerJoin += AddPlayer;
         PlayerInstance.eventPlayerDisconnect += RemovePlayer;
+    }
+
+    private void Update()
+    {
+        bool allRoundsClean = true;
+        
+            for (int i = 0; i < roundvolumes.Length; i++)
+            {
+                if (roundvolumes[i].gameObject.activeSelf)
+                {
+                    allRoundsClean = false;
+                }
+            }
+
+            if (allRoundsClean)
+            {
+                foreach (var player in players)
+                {
+                    player.Teleport( playerSpawnPoint.position);
+                }
+
+                for (int i = 0; i < roundvolumes.Length; i++)
+                {
+                    roundvolumes[i].gameObject.SetActive(true);
+                }
+                eventLevelRestartLoop?.Invoke();
+            }
     }
 }
