@@ -23,6 +23,7 @@ public class AIInstance : MonoBehaviour , IActor
     private GameObject _target;
     private WeaponInstance _currentWeapon;
     private WeaponInstance _grenadeWeapon;
+    private CharacterViewmodelManager _characterViewmodel;
     private AudioPlayer audioPlayerMove;
     private float _attackCooldown;
     #endregion
@@ -44,6 +45,8 @@ public class AIInstance : MonoBehaviour , IActor
             aiScriptableObject = (AIScriptableObject)Resources.Load(DataDefaultResources);
             Debug.LogWarning("AI Instance doesn't have aiScriptableObject variable assigned, please assign it", gameObject);
         }
+
+        _characterViewmodel = GetComponent<CharacterViewmodelManager>();
     }
     private void OnValidate()
     {
@@ -81,6 +84,7 @@ public class AIInstance : MonoBehaviour , IActor
     {
         if (_target != null)
         {
+            
             ThinkMovement();
             ThinkAttack();
             ThinkTargetPerception();
@@ -92,6 +96,7 @@ public class AIInstance : MonoBehaviour , IActor
     }
     private void ThinkTargetPerception()
     {
+        _characterViewmodel.Direction = _target.transform.position;
         float distanceWithTarget = Vector3.Distance(transform.position, _target.transform.position ) ;
         if (distanceWithTarget > aiScriptableObject.LoseSightRadius)
         {
@@ -110,6 +115,7 @@ public class AIInstance : MonoBehaviour , IActor
                 newPosition.y = Mathf.Clamp(newPosition.y, aiScriptableObject.minY, 10);
             }
             _rigidbody.MovePosition(newPosition);
+          
             transform.PlayLoopSound(aiScriptableObject.AliasOnMove, ref audioPlayerMove);
         }
         else

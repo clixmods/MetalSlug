@@ -121,6 +121,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: viewModel
       objectReference: {fileID: 0}
+    - target: {fileID: 8304778531607799475, guid: f020fa6960c7ac4448e392cade08a3d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8650096288155941897, guid: f020fa6960c7ac4448e392cade08a3d3,
         type: 3}
       propertyPath: m_RootOrder
