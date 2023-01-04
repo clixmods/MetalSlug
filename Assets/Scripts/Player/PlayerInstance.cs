@@ -208,6 +208,13 @@ public class PlayerInstance : MonoBehaviour , IActor
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
+    public void Teleport(Vector3 position)
+    {
+        controller.enabled = false;
+        transform.position = position;
+        controller.enabled = true;
+    }
+
 
     [SerializeField] private TeamEnum _team;
     public TeamEnum Team => _team;
@@ -225,11 +232,12 @@ public class PlayerInstance : MonoBehaviour , IActor
     {
         throw new NotImplementedException();
     }
+    
     #if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
-        Handles.Label(transform.position, $" WorldToScreenPoint{position }");
-    }
-#endif
+        private void OnDrawGizmos()
+        {
+            Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
+            Handles.Label(transform.position, $" WorldToScreenPoint{position }");
+        }
+    #endif
 }
