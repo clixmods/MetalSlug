@@ -133,6 +133,9 @@ public class LevelManager : MonoBehaviour
                     allRoundsClean = false;
                 }
             }
+            // stay AI on the map
+            if(AIInstance.AIInstances.Count > 0)
+                allRoundsClean = false;
 
             if (allRoundsClean)
             {

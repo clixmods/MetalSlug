@@ -11,7 +11,7 @@ public class ProjectileInstance : MonoBehaviour
     private Rigidbody _rigidbody;
     public int damage = 0;
     public WeaponInstance fromWeapon;
-    public TeamEnum teamEnum => fromWeapon.Owner.GetComponent<IActor>().Team;
+    public TeamEnum teamEnum; 
     
     
     const float WorldToViewportPointValueNegative = -0.5f;
@@ -19,14 +19,15 @@ public class ProjectileInstance : MonoBehaviour
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;
-    
+        
+        
     }
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.useGravity = fromWeapon.weaponData.projectileUseGravity;
-
+        teamEnum = fromWeapon.Owner.GetComponent<IActor>().Team;
     }
 
     // Update is called once per frame

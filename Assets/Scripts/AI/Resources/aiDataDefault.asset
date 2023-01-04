@@ -29,3 +29,4 @@ MonoBehaviour:
   AliasOnDeath: drone_death
   AliasOnMove: robot_move
   AliasOnSpawn: None
+  AliasOnAmbiant: None

@@ -9,9 +9,13 @@ using Random = UnityEngine.Random;
 public class RoundManager : MonoBehaviour
 {
     private Collider _triggerBox;
-    private bool _isSpawned;
+    public bool IsSpawned;
+    [SerializeField] private int numberOfEnemiesToSpawn = 5;
+    [SerializeField] private float delaySpawn = 1;
     [SerializeField] private Transform[] spawnPoint;
     [SerializeField] private GameObject[] enemies;
+    private int _needToSpawnAmount = 0;
+    private float _currentDelaySpawn = 0;
     private void OnValidate()
     {
         _triggerBox = GetComponent<BoxCollider>();
@@ -34,6 +38,25 @@ public class RoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_needToSpawnAmount > 0)
+        {
+            if (_currentDelaySpawn > 0)
+            {
+                _currentDelaySpawn -= Time.deltaTime;
+            }
+            else
+            {
+                var spawnPointRandom = spawnPoint[Random.Range(0, spawnPoint.Length)];
+                Instantiate(enemies[Random.Range(0, enemies.Length)], spawnPointRandom.position,Quaternion.identity ) ;
+                _currentDelaySpawn = delaySpawn;
+                _needToSpawnAmount--;
+                if (_needToSpawnAmount == 0)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+        }
+        
         
     }
 
@@ -41,11 +64,17 @@ public class RoundManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            foreach (var VARIABLE in spawnPoint)
-            {
-                Instantiate(enemies[Random.Range(0, enemies.Length)], VARIABLE.position,Quaternion.identity ) ;
-            }
-            gameObject.SetActive(false);
+            // for (int i = 0; i < numberOfEnemiesToSpawn; i++)
+            // {
+            //     foreach (var VARIABLE in spawnPoint)
+            //     {
+            //         if (i >= numberOfEnemiesToSpawn) break;
+            //         i++;
+            //         Instantiate(enemies[Random.Range(0, enemies.Length)], VARIABLE.position,Quaternion.identity ) ;
+            //     }
+            // }
+            _needToSpawnAmount = numberOfEnemiesToSpawn;
+            
         }
         
     }

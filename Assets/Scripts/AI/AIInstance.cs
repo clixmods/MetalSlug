@@ -15,6 +15,9 @@ public class AIInstance : MonoBehaviour , IActor
     private const int IndexLayerProjectile = 7;
     #endregion
 
+    public static List<AIInstance> AIInstances = new List<AIInstance>();
+
+    
     #region CachedVariables
     private Rigidbody _rigidbody;
     private float _minDistanceToKeepWithTarget;
@@ -25,6 +28,7 @@ public class AIInstance : MonoBehaviour , IActor
     private WeaponInstance _grenadeWeapon;
     private CharacterViewmodelManager _characterViewmodel;
     private AudioPlayer audioPlayerMove;
+    private AudioPlayer LoopAmbiant;
     private float _attackCooldown;
     #endregion
     
@@ -86,7 +90,16 @@ public class AIInstance : MonoBehaviour , IActor
     void Start()
     {
         _health = aiScriptableObject.Health;
+        transform.PlayLoopSound(aiScriptableObject.AliasOnAmbiant, ref LoopAmbiant);
+        AIInstances.Add(this);
     }
+
+    private void OnDestroy()
+    {
+        AudioManager.StopLoopSound(ref LoopAmbiant, StopLoopBehavior.Direct);
+        AIInstances.Remove(this);
+    }
+
     // Update is called once per frame
     void Update()
     {

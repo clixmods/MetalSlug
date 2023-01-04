@@ -35,4 +35,5 @@ public class AIScriptableObject : ScriptableObject
     [Aliase] public string AliasOnDeath;
     [Aliase] public string AliasOnMove;
     [Aliase] public string AliasOnSpawn;
+    [Aliase] public string AliasOnAmbiant;
 }
