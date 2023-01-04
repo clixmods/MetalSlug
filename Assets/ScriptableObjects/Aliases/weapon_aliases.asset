@@ -1,0 +1,323 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9817e14b48e6f754c9c8cbaf0fc1c032, type: 3}
+  m_Name: weapon_aliases
+  m_EditorClassIdentifier: 
+  DontLoad: 0
+  defaultMixerGroup: {fileID: 0}
+  aliases:
+  - name: wpn_pistol_shot
+    description: 
+    Tag: Audio Aliase/Weapon
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 3c2e6ee5e5abdbf42a2bd7feb6e71daa, type: 3}
+    - {fileID: 8300000, guid: 7c3ea16b90143784f971117add6183cb, type: 3}
+    - {fileID: 8300000, guid: 5b42ecd92e4f0ef4ca215f134bf34502, type: 3}
+    - {fileID: 8300000, guid: cdc4d9f73c5e834489b0dc5dc1abc544, type: 3}
+    - {fileID: 8300000, guid: 3d988690df87df5459d62702025122e4, type: 3}
+    - {fileID: 8300000, guid: d62fa7cd24600ba4889e5f2ed5cada81, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: wpn_pistol_mech
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.92152464
+    maxVolume: 0.9461884
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 0.75784755
+    maxPitch: 1.1848879
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: wpn_pistol_mech
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 7cdb84fdf1ccd284ebde950c0db401ae, type: 3}
+    - {fileID: 8300000, guid: a1240d4e20c727a45a7045187b8f1722, type: 3}
+    - {fileID: 8300000, guid: d41d7130c155cf54b8bb766ebccc8ba5, type: 3}
+    - {fileID: 8300000, guid: 00488acfafbffc94bb22ce1a119bffa9, type: 3}
+    - {fileID: 8300000, guid: d3dc95fd53b501d4c8da0576104f9f4c, type: 3}
+    - {fileID: 8300000, guid: 2d368154b5427124d87c741c7eac49a2, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: wpn_pistol_sub
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.7596413
+    maxVolume: 0.8246637
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1.0941703
+    maxPitch: 1.2925112
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: wpn_pistol_sub
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 56088fe664b02d44aa4c3e6c9bd23a0c, type: 3}
+    soundType: 0
+    randomizeClips: 0
+    Secondary: wpn_reverb_pistol
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 1
+    maxVolume: 1
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 0.806
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: wpn_pistol_equip
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: d3ce3c65685a1ad4faba79075cfd32e3, type: 3}
+    soundType: 0
+    randomizeClips: 0
+    Secondary: wpn_pistol_shells_in
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.92825115
+    maxVolume: 1
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 0.932
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: wpn_pistol_shake
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: a919b002b3a3e894f871fb71d75a97d6, type: 3}
+    soundType: 0
+    randomizeClips: 0
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 0.818
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: wpn_pistol_shells_in
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: e6d912af475ebb343aa2ebcb0f30808f, type: 3}
+    soundType: 0
+    randomizeClips: 0
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.9434978
+    maxVolume: 1
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 0.961
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: wpn_pistol_shells_out
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: d06c65e6a849fd4459a8a5729baf8efc, type: 3}
+    - {fileID: 8300000, guid: d77a8fd8b3992084391b748f6d5071aa, type: 3}
+    - {fileID: 8300000, guid: 7e9657592e9362c4ab4da3e466b2e48b, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.28654715
+    maxVolume: 0.3183856
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 0.72991025
+    maxPitch: 1.3318385
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1

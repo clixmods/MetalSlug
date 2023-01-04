@@ -14,7 +14,7 @@ public class GrenadeWeaponInstance : WeaponInstance
     {
         if (IsHot) return false;
         
-        var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,transform);
+        var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,null);
         var targetPosition = Vector3.Slerp(transform.position, target.transform.position, 0.5f);
         var direction = (targetPosition - transform.position).normalized;
         
@@ -23,6 +23,8 @@ public class GrenadeWeaponInstance : WeaponInstance
             _rigidbody.AddForce(direction* ProjectileSpeed, ForceMode.Impulse);
            // grenade.transform.LookAt(target.transform.position);
         }
+        projectileInstance.GetComponent<ProjectileInstance>().fromWeapon = this;
+        projectileInstance.GetComponent<ProjectileInstance>().damage = weaponData.damage;
         cooldown = FireRate;
         return true;
     }

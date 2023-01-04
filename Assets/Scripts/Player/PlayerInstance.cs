@@ -1,9 +1,21 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerInstance : MonoBehaviour
+public class PlayerInstance : MonoBehaviour , IActor
 {
+    #region Events
+    //Event executed when player join
+    public delegate void CallbackOnJoin( PlayerInstance newPlayer);
+    public static event CallbackOnJoin eventPlayerJoin;
+    
+    public delegate void CallbackOnDisconnect( PlayerInstance newPlayer);
+    public static event CallbackOnDisconnect eventPlayerDisconnect;
+
+    #endregion
+    
+    
     // REFS DE SCRIPTS
     [SerializeField]
     private WeaponInstance weaponInstance;
@@ -16,9 +28,12 @@ public class PlayerInstance : MonoBehaviour
     [SerializeField]
     private float playerSpeed = 2.0f;
     [SerializeField]
-    private float jumpHeight = 1.0f;
+    private float jumpHeight = 3.0f;
     [SerializeField]
     private float gravityValue = -9.81f;
+
+    [SerializeField]
+    private int lastDirection;
 
     // RB
     private CharacterController controller;
@@ -27,6 +42,16 @@ public class PlayerInstance : MonoBehaviour
     private Vector3 playerVelocity;
     private Vector2 movementInput = Vector2.zero;
     private Vector2 aimDir;
+ 
+    private int _health;
+
+    #region Properties
+
+    // Todo : need to be implemented
+    public bool IsAlive => true;
+
+
+    #endregion
 
     // BOOL
     private bool groundedPlayer;
@@ -37,6 +62,14 @@ public class PlayerInstance : MonoBehaviour
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
+        eventPlayerJoin?.Invoke(  this);
+        
+        weaponInstance.Owner = gameObject;
+    }
+
+    private void OnDestroy()
+    {
+        eventPlayerDisconnect?.Invoke(this);
     }
 
     // move
@@ -76,18 +109,32 @@ public class PlayerInstance : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                // clamp the direction vector x to 0 if y > 1
-                if (aimDir.y > 0)
-                { aimDir.x = 0; }
-                // shoot
-                weaponInstance.DoFire(aimDir);
+                if (movementInput.x == 0 && lastDirection == 0 && movementInput.y ==0)
+                {
+                    weaponInstance.DoFire(transform.right);
+                }
+                else if (movementInput.x == 0 && lastDirection == 1 && movementInput.y == 0)
+                {
+                    weaponInstance.DoFire(-transform.right);
+                }
+                else
+                {
+                    // clamp the direction vector x to 0 if y > 1
+                    if (aimDir.y > 0)
+                    { aimDir.x = 0; }
+                    // shoot
+                    weaponInstance.DoFire(aimDir);
+                }
                 break;
+
             case InputActionPhase.Performed:
                 shooted = true;
                 break;
+
             case InputActionPhase.Canceled:
                 shooted = false;
                 break;
+
             default:
                 break;
         }
@@ -118,5 +165,34 @@ public class PlayerInstance : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         // motion
         controller.Move(playerVelocity * Time.deltaTime);
+
+        // last direction value
+        
+        if (movementInput.x >= .7f)
+        {
+            lastDirection = 0;
+        }
+        else if (movementInput.x <= -.7f)
+        {
+            lastDirection = 1;
+        }
+    }
+
+
+    [SerializeField] private TeamEnum _team;
+    public TeamEnum Team => _team;
+    public int Health => _health;
+    public void DoDamage(int amount)
+    {  
+        _health -= amount;
+        if (_health <= 0)
+        {
+            OnDeath();
+        }
+    }
+
+    public void OnDeath()
+    {
+        throw new NotImplementedException();
     }
 }

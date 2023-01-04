@@ -1,0 +1,18 @@
+{
+    "name": "AudioAliase.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:dff7bfa6ef7bf7344b0076446195e2b4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_EDITOR"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

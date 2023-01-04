@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using AudioAliase;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -8,15 +10,28 @@ public class WeaponInstance : MonoBehaviour
     public WeaponScriptableObject weaponData;
     public float cooldown;
 
+    private GameObject _owner;
+    public GameObject Owner
+    {
+        get => _owner;
+        set
+        {
+            _owner = value;
+            if (_owner != null)
+            {
+                transform.parent = _owner.transform;
+                transform.position = _owner.transform.position;
+            }
+        }
+    }
     public bool IsHot => cooldown > 0;
-    
     public float FireRate => weaponData.fireRate;
     public GameObject PrefabProjectile => weaponData.prefabProjectile;
     public float ProjectileSpeed => weaponData.projectileSpeed;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
-        
+        transform.PlaySoundAtPosition(weaponData.AliasOnEquip);
     }
 
     // Update is called once per frame
@@ -36,19 +51,28 @@ public class WeaponInstance : MonoBehaviour
         var direction = (target.transform.position - transform.position).normalized;
         return DoFire(direction);
     }
-
+    /// <summary>
+    /// Return true if the fire is a success
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
     public virtual bool DoFire(Vector3 direction)
     {
         if (IsHot) return false;
         
-        var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,transform);
+        var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,null);
         if (projectileInstance.TryGetComponent<Rigidbody>(out var _rigidbody))
         {
             _rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
             projectileInstance.transform.LookAt(transform.position + direction);
         }
-
+        
+        var projectileComponent = projectileInstance.GetComponent<ProjectileInstance>();
+        projectileComponent.fromWeapon = this;
+        projectileComponent.damage = weaponData.damage;
         cooldown = FireRate;
+        transform.PlaySoundAtPosition(weaponData.AliasOnFire);
+        transform.PlaySoundAtPosition(weaponData.AliasOnAfterFire);
         return true;
     }
 }

@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9817e14b48e6f754c9c8cbaf0fc1c032, type: 3}
+  m_Name: reverb_aliases
+  m_EditorClassIdentifier: 
+  DontLoad: 0
+  defaultMixerGroup: {fileID: 0}
+  aliases:
+  - name: wpn_reverb_pistol
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 7a8ab71f5ed41cf4e8b5e8b26e037c15, type: 3}
+    - {fileID: 8300000, guid: 0c9c19de859b7e146a3fb84a12799a3f, type: 3}
+    - {fileID: 8300000, guid: 172dc255f7ebbc7469e639fb82bd1b25, type: 3}
+    - {fileID: 8300000, guid: cdfb137d3db865f4d91b8539f1029076, type: 3}
+    - {fileID: 8300000, guid: 8dd4182baa043a84fa8bb912f9387bce, type: 3}
+    - {fileID: 8300000, guid: fc4be6006c24e994c9b92ea006af64e4, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.91255605
+    maxVolume: 0.93721974
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 0.8375336
+    maxPitch: 1.3318385
+    stereoPan: 0
+    spatialBlend: 0.944
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
