@@ -57,6 +57,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool groundedPlayer;
     private bool jumped = false;
     private bool shooted;
+    private bool isLookingUp = false;
 
     // start
     private void Start()
@@ -79,9 +80,12 @@ public class PlayerInstance : MonoBehaviour , IActor
         movementInput = context.ReadValue<Vector2>();
         if (context.phase == InputActionPhase.Performed)
         {
-            // stock the direction on a direction var
-            aimDir.x = Mathf.CeilToInt(movementInput.x);
-            aimDir.y = Mathf.CeilToInt(movementInput.y);
+            if (!(movementInput.x == 0 && movementInput.y == 0))
+            {
+                // stock the direction on a direction var
+                aimDir.x = Mathf.CeilToInt(movementInput.x);
+                aimDir.y = Mathf.CeilToInt(movementInput.y);
+            }
         }
     }
 
@@ -109,21 +113,89 @@ public class PlayerInstance : MonoBehaviour , IActor
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                if (movementInput.x == 0 && lastDirection == 0 && movementInput.y ==0)
+                // Check if the player is crouching
+                if (controller.isGrounded)
                 {
-                    weaponInstance.DoFire(transform.right);
-                }
-                else if (movementInput.x == 0 && lastDirection == 1 && movementInput.y == 0)
-                {
-                    weaponInstance.DoFire(-transform.right);
+                    // The player is crouching, so fire in the last direction they were looking
+                    weaponInstance.DoFire(aimDir.x > 0 ? Vector2.right : Vector2.left);
                 }
                 else
                 {
-                    // clamp the direction vector x to 0 if y > 1
-                    if (aimDir.y > 0)
-                    { aimDir.x = 0; }
-                    // shoot
-                    weaponInstance.DoFire(aimDir);
+                    // The player is not crouching, so check their current direction
+                    if (aimDir.x > 0)
+                    {
+                        // The player is looking right, so fire to the right
+                        if (aimDir.y > 0)
+                        {
+                            // The player is looking up and moving right, so fire upwards
+                            weaponInstance.DoFire(Vector2.up);
+                        }
+                        else if (aimDir.y < 0)
+                        {
+                            // The player is jumping and looking down, so fire downwards
+                            weaponInstance.DoFire(Vector2.down);
+                        }
+                        else if (controller.velocity.y > 0)
+                        {
+                            // The player is jumping and not looking up or down, so fire downwards
+                            weaponInstance.DoFire(Vector2.down);
+                        }
+                        else
+                        {
+                            // The player is not looking up, down, or left, so fire to the right
+                            weaponInstance.DoFire(Vector2.right);
+                        }
+                    }
+                    else if (aimDir.x < 0)
+                    {
+                        // The player is looking left, so fire to the left
+                        if (aimDir.y > 0)
+                        {
+                            // The player is looking up and moving left, so fire upwards
+                            weaponInstance.DoFire(Vector2.up);
+                        }
+                        else if (aimDir.y < 0)
+                        {
+                            // The player is jumping and looking down, so fire downwards
+                            weaponInstance.DoFire(Vector2.down);
+                        }
+                        else if (controller.velocity.y > 0)
+                        {
+                            // The player is jumping and not looking up or down, so fire downwards
+                            weaponInstance.DoFire(Vector2.down);
+                        }
+                        else
+                        {
+                            // The player is not looking up, down, or right, so fire to the left
+                            weaponInstance.DoFire(Vector2.left);
+                        }
+                    }
+                    else if (aimDir.y > 0)
+                    {
+                        // The player is looking up, so fire upwards
+                        weaponInstance.DoFire(Vector2.up);
+                        isLookingUp = true;
+                    }
+                    else
+                    {
+                        // The player is either looking down or not looking left, right, or up, so check their vertical velocity
+                        if (controller.velocity.y > 0 && aimDir.y < 0)
+                        {
+                            // The player is jumping and looking down, so fire downwards
+                            weaponInstance.DoFire(Vector2.down);
+                        }
+                        else if (isLookingUp)
+                        {
+                            // The player is on the ground and was previously looking up, so fire in the last direction they were looking
+                            weaponInstance.DoFire(aimDir.x > 0 ? Vector2.right : Vector2.left);
+                            isLookingUp = false;
+                        }
+                        else
+                        {
+                            // The player is on the ground and was not previously looking up, so fire in the direction they are currently looking
+                            weaponInstance.DoFire(aimDir.x > 0 ? Vector2.right : Vector2.left);
+                        }
+                    }
                 }
                 break;
 
@@ -143,6 +215,10 @@ public class PlayerInstance : MonoBehaviour , IActor
     // update
     void Update()
     {
+        if (movementInput.y == 0)
+        {
+            aimDir.y = 0;
+        }
         // check if the player is grounded
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
@@ -150,6 +226,11 @@ public class PlayerInstance : MonoBehaviour , IActor
             // set the velocity to 0
             playerVelocity.y = 0f;
         }
+
+        /*if (groundedPlayer && aimDir.y == -1)
+        {
+            aimDir.y = 0f;
+        }*/
 
         // move the player
         Vector3 move = new Vector3(movementInput.x, 0, 0);
@@ -165,17 +246,6 @@ public class PlayerInstance : MonoBehaviour , IActor
         playerVelocity.y += gravityValue * Time.deltaTime;
         // motion
         controller.Move(playerVelocity * Time.deltaTime);
-
-        // last direction value
-        
-        if (movementInput.x >= .7f)
-        {
-            lastDirection = 0;
-        }
-        else if (movementInput.x <= -.7f)
-        {
-            lastDirection = 1;
-        }
     }
 
 
