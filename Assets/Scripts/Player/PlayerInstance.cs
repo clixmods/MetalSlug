@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -234,7 +235,19 @@ public class PlayerInstance : MonoBehaviour , IActor
 
         // move the player
         Vector3 move = new Vector3(movementInput.x, 0, 0);
-        controller.Move(move.normalized * Time.deltaTime * playerSpeed);
+
+        var motion = move.normalized * Time.deltaTime * playerSpeed;
+        // Check if the object is out of the camera
+        Vector3 position = Camera.main.WorldToViewportPoint(transform.position + motion);
+        
+        bool isOutCameraNegative = position.x < 0.1f || position.y < 0.1f;
+        bool isOutCameraPositive =  position.x > 0.9f || position.y > 0.9f;
+        if(!(isOutCameraNegative || isOutCameraPositive) )
+        {
+            controller.Move(motion);
+        }
+        
+        
 
         // Changes the height position of the player..
         if (jumped && groundedPlayer)
@@ -265,4 +278,11 @@ public class PlayerInstance : MonoBehaviour , IActor
     {
         throw new NotImplementedException();
     }
+    #if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
+        Handles.Label(transform.position, $" WorldToScreenPoint{position }");
+    }
+#endif
 }

@@ -51,10 +51,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _Exposure: 1
-    - _Rotation: 137
+    - _Rotation: 230
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Tint: {r: 0.6886792, g: 0.5559881, b: 0.38656995, a: 1}
+    - _Tint: {r: 0.6886792, g: 0.555988, b: 0.38656992, a: 1}
   m_BuildTextureStacks: []
 --- !u!1002 &2100001
 EditorExtensionImpl:
