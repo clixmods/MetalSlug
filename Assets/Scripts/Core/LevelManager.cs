@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 
@@ -42,9 +43,32 @@ public class LevelManager : MonoBehaviour
     public List<PlayerInstance> players = new List<PlayerInstance>();
     [SerializeField] private Transform playerSpawnPoint;
     private RoundManager[] roundvolumes;
-    [SerializeField] private int RespawnAmount;
-    [SerializeField] private int ReviveAmount;
+    [SerializeField] private int respawnAmount;
+    [SerializeField] private int reviveAmount;
 
+    public int RespawnAmount
+    {
+        get => respawnAmount;
+        set
+        {
+            if(value == 0)
+                PlayerInputManager.instance.DisableJoining();
+            else
+            {
+                PlayerInputManager.instance.EnableJoining();
+            }
+            respawnAmount = value;
+            
+        }
+    }
+    public int ReviveAmount
+    {
+        get => reviveAmount;
+        set
+        {
+            respawnAmount = value;
+        }
+    }
     #region Properties
 
     public static PlayerInstance GetRandomAlivePlayers
@@ -126,7 +150,15 @@ public class LevelManager : MonoBehaviour
         players = FindObjectsOfType<PlayerInstance>().ToList();
         PlayerInstance.eventPlayerJoin += AddPlayer;
         PlayerInstance.eventPlayerDisconnect += RemovePlayer;
+        PlayerInstance.eventPlayerRespawn += RemoveRespawnAmount;
+
     }
+
+    private void RemoveRespawnAmount(PlayerInstance newplayer)
+    {
+        RespawnAmount--;
+    }
+
 
     private void Update()
     {

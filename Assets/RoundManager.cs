@@ -24,8 +24,9 @@ public class RoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        _triggerBox.isTrigger = true;
         GetValues();
+        _triggerBox.isTrigger = true;
+   
     }
 
     void GetValues()
@@ -56,7 +57,7 @@ public class RoundManager : MonoBehaviour
                 Instantiate(enemies[Random.Range(0, enemies.Length)], spawnPointRandom.position,Quaternion.identity ) ;
                 _currentDelaySpawn = delaySpawn;
                 _needToSpawnAmount--;
-                if (_needToSpawnAmount == 0)
+                if (_needToSpawnAmount < 0)
                 {
                     gameObject.SetActive(false);
                 }

@@ -132,7 +132,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2457666867710963530}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 4180758100284577546}
   - component: {fileID: 4180758100284577544}
   - component: {fileID: 4205432843617326417}
+  - component: {fileID: 3614490795371125978}
   m_Layer: 6
   m_Name: PlayerInstance
   m_TagString: Player
@@ -310,6 +311,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 17c39f77-9334-44a6-afbb-e85274dc9d59
     m_ActionName: Player1/Shoot1[/Keyboard/shift,/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: be85343e-23a9-494d-8249-4206db582171
+    m_ActionName: Player2/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 23198448-ea8e-47fc-b66c-d50087bd41ba
+    m_ActionName: Player2/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 56ab552c-6407-4548-be19-6d4fe1f52053
+    m_ActionName: Player2/Joining[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9a3969ea-d551-45a6-b0e5-dbd224640850
+    m_ActionName: Player2/Shoot1[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player1
@@ -349,6 +366,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &3614490795371125978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4180758100284577559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4fda59f10675647ae70e51e0d3d95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModel: {fileID: 2527100814504300607}
 --- !u!1001 &7552481385384032106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -423,6 +453,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bb9af94fb5d4754d86d95fb54ca6d12, type: 3}
+--- !u!1 &2527100814504300607 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5466768528133695317, guid: 6bb9af94fb5d4754d86d95fb54ca6d12,
+    type: 3}
+  m_PrefabInstance: {fileID: 7552481385384032106}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2907566560016157317 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4653922312452701679, guid: 6bb9af94fb5d4754d86d95fb54ca6d12,

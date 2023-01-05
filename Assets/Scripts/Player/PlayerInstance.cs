@@ -13,6 +13,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     public static event PlayerEvent eventPlayerJoin;
     public static event PlayerEvent eventPlayerDisconnect;
     public static event PlayerEvent eventPlayerDeath;
+    public static event PlayerEvent eventPlayerRespawn;
     #endregion
 
     // REFS DE SCRIPTS
@@ -62,6 +63,12 @@ public class PlayerInstance : MonoBehaviour , IActor
     
     [SerializeField] private TeamEnum _team;
     private bool isSpawned;
+    private CharacterViewmodelManager _characterViewmodel;
+
+    private void Awake()
+    {
+        _characterViewmodel = GetComponent<CharacterViewmodelManager>();
+    }
 
     // start
     private void Start()
@@ -120,6 +127,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             {
                 isCrouching = false;
             }
+           
         }
     }
 
@@ -251,6 +259,7 @@ public class PlayerInstance : MonoBehaviour , IActor
                 controller.Move(Vector3.left * Time.deltaTime * playerSpeed);
             }
         }
+        _characterViewmodel.Direction = transform.position + motion;
         
         
 

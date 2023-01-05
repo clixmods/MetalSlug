@@ -717,6 +717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelTextJoin: {fileID: 6397192397539677722}
   panelPlayer: {fileID: 1865015093619818640}
+  isHostPanel: 0
 --- !u!1 &4664993617670687759
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,6 +729,7 @@ GameObject:
   - component: {fileID: 5718653192450232120}
   - component: {fileID: 767656222438731691}
   - component: {fileID: 5369449550245807117}
+  - component: {fileID: 2638247705868690791}
   m_Layer: 5
   m_Name: PanelRespawn
   m_TagString: Untagged
@@ -795,6 +797,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2638247705868690791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4664993617670687759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea59b3d66605b64448044f54878af5c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 7797850405510459772}
 --- !u!1 &5746389375879370444
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,6 +1268,7 @@ GameObject:
   - component: {fileID: 6179643239560885343}
   - component: {fileID: 35685764098003049}
   - component: {fileID: 3250633540228665675}
+  - component: {fileID: 115895277840212655}
   m_Layer: 5
   m_Name: PanelRevive
   m_TagString: Untagged
@@ -1320,6 +1336,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &115895277840212655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8376147631999709990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad12206394697bf46b4fde56b113b610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 6394926104127363090}
 --- !u!1 &8387818995300781982
 GameObject:
   m_ObjectHideFlags: 0
@@ -1489,6 +1518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelTextJoin: {fileID: 6842517105363950142}
   panelPlayer: {fileID: 7315364230996231905}
+  isHostPanel: 0
 --- !u!1001 &2615646447007855989
 PrefabInstance:
   m_ObjectHideFlags: 0

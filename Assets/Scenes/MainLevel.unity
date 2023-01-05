@@ -1936,7 +1936,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 435259a588a74ffe917ee39db7fbd551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  players: []
   playerSpawnPoint: {fileID: 1900955690}
+  respawnAmount: 3
+  reviveAmount: 3
 --- !u!1 &1441883685
 GameObject:
   m_ObjectHideFlags: 0
