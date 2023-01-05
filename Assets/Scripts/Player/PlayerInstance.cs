@@ -3,6 +3,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerInstance : MonoBehaviour , IActor
