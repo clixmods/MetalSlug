@@ -73,7 +73,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             controller = gameObject.GetComponent<CharacterController>();
        
-            eventPlayerJoin?.Invoke(  this);
+            eventPlayerJoin?.Invoke(this);
         
             weaponInstance.Owner = gameObject;
             isSpawned = true;
