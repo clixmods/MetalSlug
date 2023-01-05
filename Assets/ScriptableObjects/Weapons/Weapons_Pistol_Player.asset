@@ -26,3 +26,4 @@ MonoBehaviour:
   AliasOnImpact: None
   AliasOnDrop: None
   AliasOnEquip: wpn_pistol_equip
+  FXFire: {fileID: 4437842826240621923, guid: a47e88c3f3e5866478f6772133274c22, type: 3}

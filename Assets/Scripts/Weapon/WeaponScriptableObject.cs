@@ -23,5 +23,6 @@ public class WeaponScriptableObject : ScriptableObject
     [Aliase] public string AliasOnImpact;
     [Aliase] public string AliasOnDrop;
     [Aliase] public string AliasOnEquip;
-    
+    [Header("FX")]
+    public GameObject FXFire;
 }

@@ -30,3 +30,7 @@ MonoBehaviour:
   AliasOnMove: None
   AliasOnSpawn: drone_spawn
   AliasOnAmbiant: drone_turbine_loop
+  ScoreDead: 50
+  ScoreHit: 10
+  FXDeath: {fileID: 265171566773142626, guid: 60a3332fdc97a864ba0f3c84403659d8, type: 3}
+  FXMove: {fileID: 0}

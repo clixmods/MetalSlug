@@ -42,7 +42,8 @@ public class AIInstance : MonoBehaviour , IActor
     #endregion
     
     [SerializeField] private AIScriptableObject aiScriptableObject;
-    
+    private ParticleSystem _fxDeath;
+
     #region Properties
     private float AttackRange => aiScriptableObject.minDistanceToKeepWithTarget;
     public int ScoreDead => aiScriptableObject.ScoreDead;
@@ -82,6 +83,8 @@ public class AIInstance : MonoBehaviour , IActor
         SpawnWeaponInstance();
         _minDistanceToKeepWithTarget = Random.Range( aiScriptableObject.minDistanceToKeepWithTarget, aiScriptableObject.minDistanceToKeepWithTarget * 1.5f);
         _speed = Random.Range( aiScriptableObject.speed, aiScriptableObject.speed * 1.5f);
+        _fxDeath = Instantiate(aiScriptableObject.FXDeath ,transform.position,  Quaternion.identity).GetComponent<ParticleSystem>();
+
     }
 
     private void SpawnWeaponInstance()
@@ -268,6 +271,8 @@ public class AIInstance : MonoBehaviour , IActor
         AudioManager.StopLoopSound(ref audioPlayerMove);
         eventAIDeath?.Invoke(this);
         eventAIScore?.Invoke(aiScriptableObject.ScoreDead);
+        _fxDeath.transform.position = transform.position;
+        _fxDeath.Play();
         Destroy(gameObject);
     }
 

@@ -1,10 +1,12 @@
 using AudioAliase;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponInstance : MonoBehaviour
 {
     public WeaponScriptableObject weaponData;
-    public float cooldown;
+    internal float _cooldown;
+    private ParticleSystem _fxFire;
 
     private GameObject _owner;
     public GameObject Owner
@@ -20,7 +22,7 @@ public class WeaponInstance : MonoBehaviour
             }
         }
     }
-    public bool IsHot => cooldown > 0;
+    public bool IsHot => _cooldown > 0;
     public float FireRate => weaponData.fireRate;
     public GameObject PrefabProjectile => weaponData.prefabProjectile;
     public float ProjectileSpeed => weaponData.projectileSpeed;
@@ -28,13 +30,14 @@ public class WeaponInstance : MonoBehaviour
     private void Start()
     {
         transform.PlaySoundAtPosition(weaponData.AliasOnEquip);
+        _fxFire = Instantiate(weaponData.FXFire ,transform.position,  Quaternion.identity,transform).GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (cooldown > 0)
-            cooldown -= Time.deltaTime;
+        if (_cooldown > 0)
+            _cooldown -= Time.deltaTime;
     }
 
     /// <summary>
@@ -66,8 +69,8 @@ public class WeaponInstance : MonoBehaviour
             projectileInstance.transform.LookAt(transform.position + direction);
         }
         
-
-        cooldown = FireRate;
+        _fxFire.Play();
+        _cooldown = FireRate;
         transform.PlaySoundAtPosition(weaponData.AliasOnFire);
         transform.PlaySoundAtPosition(weaponData.AliasOnAfterFire);
         return true;

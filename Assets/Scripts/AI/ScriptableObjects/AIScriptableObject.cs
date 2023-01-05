@@ -36,7 +36,10 @@ public class AIScriptableObject : ScriptableObject
     [Aliase] public string AliasOnMove;
     [Aliase] public string AliasOnSpawn;
     [Aliase] public string AliasOnAmbiant;
-
+    [Header("Score")]
     public int ScoreDead = 50;
     public int ScoreHit = 10;
+    [Header("FX")] 
+    public GameObject FXDeath;
+    public GameObject FXMove;
 }

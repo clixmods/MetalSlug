@@ -22,7 +22,7 @@ public class GrenadeWeaponInstance : WeaponInstance
         }
         projectileInstance.GetComponent<ProjectileInstance>().fromWeapon = this;
         projectileInstance.GetComponent<ProjectileInstance>().damage = weaponData.damage;
-        cooldown = FireRate;
+        _cooldown = FireRate;
         return true;
     }
 }

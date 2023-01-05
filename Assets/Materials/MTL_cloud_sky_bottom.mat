@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MTL_cloud_sky
+  m_Name: MTL_cloud_sky_bottom
   m_Shader: {fileID: -6465566751694194690, guid: 1d495c6469ccc4a45bed954b6afa5a9f,
     type: 3}
   m_ValidKeywords: []
@@ -109,7 +109,7 @@ Material:
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _CloudAlpha: 1
-    - _CloudPower: 0.11
+    - _CloudPower: 0.14
     - _CloudScale: 192
     - _Cull: 2
     - _Cutoff: 0.5
@@ -151,7 +151,7 @@ Material:
     - _SpeedRefractionAlt: 0.25
     - _SrcBlend: 5
     - _Surface: 1
-    - _VertexIntensity: 8.23
+    - _VertexIntensity: 5.58
     - _VertexOffset: -14.46
     - _WorkflowMode: 1
     - _ZTest: 4
@@ -160,7 +160,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 0, b: 0, a: 1}
     - _CloudColor: {r: 1, g: 0.9455605, b: 0.8726415, a: 1}
-    - _CloudSpeed: {r: 0.01, g: 0, b: 0, a: 0}
+    - _CloudSpeed: {r: 0.001, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _DeepColor: {r: 0.01842292, g: 0.21638793, b: 0.43396223, a: 0.7176471}
     - _DistortSpeed: {r: 0.01, g: 0.01, b: 0, a: 0}
