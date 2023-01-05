@@ -7,7 +7,7 @@ public class JoinAndLeftPlayer : MonoBehaviour
 {
     [SerializeField] CinemachineTargetGroup targetbrain;
 
-    private void Start()
+    private void Awake()
     {
         targetbrain = this.gameObject.GetComponent<CinemachineTargetGroup>();
         PlayerInstance.eventPlayerJoin += AddPlayer;

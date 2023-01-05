@@ -9,13 +9,10 @@ using UnityEngine.InputSystem.Users;
 public class PlayerInstance : MonoBehaviour , IActor
 {
     #region Events
-    //Event executed when player join
-    public delegate void CallbackOnJoin( PlayerInstance newPlayer);
-    public static event CallbackOnJoin eventPlayerJoin;
-    
-    public delegate void CallbackOnDisconnect( PlayerInstance newPlayer);
-    public static event CallbackOnDisconnect eventPlayerDisconnect;
-
+    public delegate void PlayerEvent(PlayerInstance newPlayer);
+    public static event PlayerEvent eventPlayerJoin;
+    public static event PlayerEvent eventPlayerDisconnect;
+    public static event PlayerEvent eventPlayerDeath;
     #endregion
 
     // REFS DE SCRIPTS

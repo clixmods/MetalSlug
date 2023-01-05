@@ -18,6 +18,18 @@ public class RoundManager : MonoBehaviour
     private float _currentDelaySpawn = 0;
     private void OnValidate()
     {
+        GetValues();
+    }
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+        _triggerBox.isTrigger = true;
+        GetValues();
+    }
+
+    void GetValues()
+    {
         _triggerBox = GetComponent<BoxCollider>();
         if (_triggerBox == null)
             _triggerBox = gameObject.AddComponent<BoxCollider>();
@@ -27,12 +39,6 @@ public class RoundManager : MonoBehaviour
         {
             spawnPoint[i] = transform.GetChild(i);
         }
-    }
-
-    // Start is called before the first frame update
-    void Awake()
-    {
-        _triggerBox.isTrigger = true;
     }
 
     // Update is called once per frame

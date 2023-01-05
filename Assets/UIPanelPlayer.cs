@@ -17,15 +17,11 @@ public class UIPanelPlayer : MonoBehaviour
     {
         panelTextJoin.SetActive(true);
         panelPlayer.SetActive(false);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
         PlayerInstance.eventPlayerJoin += PlayerInstanceOneventPlayerJoin;
         PlayerInstance.eventPlayerDisconnect += PlayerInstanceOneventPlayerDisconnect;
     }
+
+   
 
     private void PlayerInstanceOneventPlayerDisconnect(PlayerInstance newplayer)
     {
