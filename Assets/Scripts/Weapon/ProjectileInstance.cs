@@ -9,6 +9,7 @@ public class ProjectileInstance : MonoBehaviour
     private const int IndexLayerProjectile = 7;
     private float currentLifeTime = 5;
     private Rigidbody _rigidbody;
+    private Collider _collider;
     public int damage = 0;
     public WeaponInstance fromWeapon;
     public TeamEnum teamEnum; 
@@ -19,8 +20,9 @@ public class ProjectileInstance : MonoBehaviour
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;
-        
-        
+        _collider = GetComponent<Collider>();
+       
+
     }
 
     private void Start()

@@ -30,3 +30,5 @@ MonoBehaviour:
   AliasOnMove: robot_move
   AliasOnSpawn: None
   AliasOnAmbiant: None
+  ScoreDead: 50
+  ScoreHit: 10

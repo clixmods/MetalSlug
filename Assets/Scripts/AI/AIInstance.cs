@@ -172,7 +172,7 @@ public class AIInstance : MonoBehaviour , IActor
             _grenadeWeapon.DoFire(_target);
         }
 
-        _attackCooldown = Random.Range(aiScriptableObject.attackRate, aiScriptableObject.attackRange * 1.5f);
+        _attackCooldown = Random.Range(aiScriptableObject.attackRate, aiScriptableObject.attackRate * 1.5f);
     }
 
 #if UNITY_EDITOR

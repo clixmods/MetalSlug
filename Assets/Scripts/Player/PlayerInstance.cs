@@ -46,7 +46,7 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     private Vector2 currentMovementInput;
  
-    private int _health;
+    private int _health = 1;
 
     #region Properties
 
@@ -66,6 +66,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
+        controller.detectCollisions = false;
         eventPlayerJoin?.Invoke(  this);
         
         weaponInstance.Owner = gameObject;
@@ -281,7 +282,21 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     public void OnDeath()
     {
-        throw new NotImplementedException();
+        Destroy(gameObject);
+    }
+    private const int IndexLayerProjectile = 7;
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Player hit");
+        if (other.gameObject.layer == IndexLayerProjectile)
+        {
+            var projectile = other.GetComponent<ProjectileInstance>();
+            if (projectile.teamEnum != Team)
+            {
+                DoDamage(projectile.damage);
+                projectile.OnHit();
+            }
+        }
     }
     
     #if UNITY_EDITOR
