@@ -39,10 +39,12 @@ public class LevelManager : MonoBehaviour
     #endregion
     
     
-    private List<PlayerInstance> players = new List<PlayerInstance>();
+    public List<PlayerInstance> players = new List<PlayerInstance>();
     [SerializeField] private Transform playerSpawnPoint;
     private RoundManager[] roundvolumes;
-    
+    [SerializeField] private int RespawnAmount;
+    [SerializeField] private int ReviveAmount;
+
     #region Properties
 
     public static PlayerInstance GetRandomAlivePlayers
@@ -128,6 +130,26 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
+        if (GetAlivePlayers.Count == 0)
+        {
+            foreach (var player in players)
+            {
+                player.gameObject.SetActive(true);
+                player.Teleport( playerSpawnPoint.position);
+            }
+
+            foreach (var ai in  AIInstance.AIInstances)
+            {
+                Destroy(ai.gameObject);
+            }
+           
+            for (int i = 0; i < roundvolumes.Length; i++)
+            {
+                roundvolumes[i].gameObject.SetActive(true);
+            }
+            eventLevelRestartLoop?.Invoke();
+            return;
+        }
         bool allRoundsClean = true;
         
             for (int i = 0; i < roundvolumes.Length; i++)

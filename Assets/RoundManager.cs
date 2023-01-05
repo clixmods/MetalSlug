@@ -74,6 +74,15 @@ public class RoundManager : MonoBehaviour
             //     }
             // }
             _needToSpawnAmount = numberOfEnemiesToSpawn;
+            foreach (var player in LevelManager.Instance.players)
+            {
+                if (!player.gameObject.activeSelf)
+                {
+                    player.gameObject.SetActive(true);
+                    player.Teleport(LevelManager.GetRandomAlivePlayers.transform.position);
+                }
+            }
+          
             
         }
         

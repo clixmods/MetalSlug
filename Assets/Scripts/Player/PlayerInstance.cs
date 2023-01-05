@@ -52,7 +52,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     #region Properties
 
     // Todo : need to be implemented
-    public bool IsAlive => true;
+    public bool IsAlive => gameObject.activeSelf;
 
 
     #endregion
@@ -62,15 +62,23 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool jumped = false;
     private bool shooted;
     private bool isCrouching = false;
+    
+    [SerializeField] private TeamEnum _team;
+    private bool isSpawned;
 
     // start
     private void Start()
     {
-        controller = gameObject.GetComponent<CharacterController>();
-        controller.detectCollisions = false;
-        eventPlayerJoin?.Invoke(  this);
+        if (!isSpawned)
+        {
+            controller = gameObject.GetComponent<CharacterController>();
+       
+            eventPlayerJoin?.Invoke(  this);
         
-        weaponInstance.Owner = gameObject;
+            weaponInstance.Owner = gameObject;
+            isSpawned = true;
+        }
+        
     }
 
     private void OnDestroy()
@@ -269,7 +277,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     }
 
 
-    [SerializeField] private TeamEnum _team;
+ 
     public TeamEnum Team => _team;
     public int Health => _health;
     public void DoDamage(int amount)
@@ -281,9 +289,14 @@ public class PlayerInstance : MonoBehaviour , IActor
         }
     }
 
+    public void OnEnable()
+    {
+        _health = 1;
+    }
+    
     public void OnDeath()
     {
-        Destroy(gameObject);
+        //gameObject.SetActive(false);
     }
     private const int IndexLayerProjectile = 7;
     private void OnTriggerEnter(Collider other)
