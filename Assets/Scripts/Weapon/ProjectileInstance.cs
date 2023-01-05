@@ -18,6 +18,7 @@ public class ProjectileInstance : MonoBehaviour
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;
+        gameObject.tag = "MainCamera";
     }
     // Update is called once per frame
     public virtual void Update()

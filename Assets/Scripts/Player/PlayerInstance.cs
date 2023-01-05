@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,6 +43,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     private Vector3 playerVelocity;
     private Vector2 movementInput = Vector2.zero;
     private Vector2 aimDir;
+
+    private Vector2 currentMovementInput;
  
     private int _health;
 
@@ -79,9 +82,26 @@ public class PlayerInstance : MonoBehaviour , IActor
         movementInput = context.ReadValue<Vector2>();
         if (context.phase == InputActionPhase.Performed)
         {
-            // stock the direction on a direction var
-            aimDir.x = Mathf.CeilToInt(movementInput.x);
-            aimDir.y = Mathf.CeilToInt(movementInput.y);
+            if (!(movementInput.x == 0 && movementInput.y == 0))
+            {
+                // Update the current movement input.
+                currentMovementInput = movementInput;
+
+                // Update the last direction the player moved in.
+                if (currentMovementInput.x < 0)
+                {
+                    lastDirection = -1;
+                }
+                else if (currentMovementInput.x > 0)
+                {
+                    lastDirection = 1;
+                }
+            }
+            else
+            {
+                // If the player is not moving, reset the current movement input.
+                currentMovementInput = Vector2.zero;
+            }
         }
     }
 
@@ -105,25 +125,34 @@ public class PlayerInstance : MonoBehaviour , IActor
     // shoot
     public void OnShoot(InputAction.CallbackContext context)
     {
-        // switch for set true & false the action
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                if (movementInput.x == 0 && lastDirection == 0 && movementInput.y ==0)
+                // Check the direction to shoot based on the player's current movement input and whether they are in the air.
+                if (currentMovementInput.y < 0 && controller.isGrounded)
                 {
-                    weaponInstance.DoFire(transform.right);
+                    // If the player is on the ground and pressing S, don't shoot.
+                    break;
                 }
-                else if (movementInput.x == 0 && lastDirection == 1 && movementInput.y == 0)
+                else if (currentMovementInput.y < 0 || aimDir.y < 0)
                 {
-                    weaponInstance.DoFire(-transform.right);
+                    // If the player is in the air and pressing S, or if they are in the air and aiming downwards, shoot downwards.
+                    weaponInstance.DoFire(Vector2.down);
                 }
-                else
+                else if (currentMovementInput.y > 0)
                 {
-                    // clamp the direction vector x to 0 if y > 1
-                    if (aimDir.y > 0)
-                    { aimDir.x = 0; }
-                    // shoot
-                    weaponInstance.DoFire(aimDir);
+                    // If the player is pressing W, shoot upwards.
+                    weaponInstance.DoFire(Vector2.up);
+                }
+                else if (lastDirection < 0)
+                {
+                    // If the player's last movement direction was to the left, shoot left.
+                    weaponInstance.DoFire(Vector2.left);
+                }
+                else if (lastDirection > 0)
+                {
+                    // If the player's last movement direction was to the right, shoot right.
+                    weaponInstance.DoFire(Vector2.right);
                 }
                 break;
 
@@ -153,7 +182,19 @@ public class PlayerInstance : MonoBehaviour , IActor
 
         // move the player
         Vector3 move = new Vector3(movementInput.x, 0, 0);
-        controller.Move(move.normalized * Time.deltaTime * playerSpeed);
+
+        var motion = move.normalized * Time.deltaTime * playerSpeed;
+        // Check if the object is out of the camera
+        Vector3 position = Camera.main.WorldToViewportPoint(transform.position + motion);
+        
+        bool isOutCameraNegative = position.x < 0.1f || position.y < 0.1f;
+        bool isOutCameraPositive =  position.x > 0.9f || position.y > 0.9f;
+        if(!(isOutCameraNegative || isOutCameraPositive) )
+        {
+            controller.Move(motion);
+        }
+        
+        
 
         // Changes the height position of the player..
         if (jumped && groundedPlayer)
@@ -165,17 +206,6 @@ public class PlayerInstance : MonoBehaviour , IActor
         playerVelocity.y += gravityValue * Time.deltaTime;
         // motion
         controller.Move(playerVelocity * Time.deltaTime);
-
-        // last direction value
-        
-        if (movementInput.x >= .7f)
-        {
-            lastDirection = 0;
-        }
-        else if (movementInput.x <= -.7f)
-        {
-            lastDirection = 1;
-        }
     }
 
 
@@ -195,4 +225,11 @@ public class PlayerInstance : MonoBehaviour , IActor
     {
         throw new NotImplementedException();
     }
+    #if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
+        Handles.Label(transform.position, $" WorldToScreenPoint{position }");
+    }
+#endif
 }
