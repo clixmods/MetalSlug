@@ -1938,8 +1938,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: []
   playerSpawnPoint: {fileID: 1900955690}
-  RespawnAmount: 0
-  ReviveAmount: 0
+  respawnAmount: 0
+  reviveAmount: 0
 --- !u!1 &1441883685
 GameObject:
   m_ObjectHideFlags: 0
@@ -2198,7 +2198,7 @@ PrefabInstance:
     - target: {fileID: 4180758100284577546, guid: 8b20d36c7a48f9147a3e765feffaa70d,
         type: 3}
       propertyPath: m_DefaultControlScheme
-      value: Controller
+      value: Keyboard
       objectReference: {fileID: 0}
     - target: {fileID: 4180758100284577546, guid: 8b20d36c7a48f9147a3e765feffaa70d,
         type: 3}
