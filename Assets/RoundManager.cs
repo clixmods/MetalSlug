@@ -24,8 +24,8 @@ public class RoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        _triggerBox.isTrigger = true;
         GetValues();
+        _triggerBox.isTrigger = true;
     }
 
     void GetValues()
