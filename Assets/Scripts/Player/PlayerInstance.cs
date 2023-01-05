@@ -204,6 +204,20 @@ public class PlayerInstance : MonoBehaviour , IActor
                         weaponInstance.DoFire(Vector2.right);
                     }
                 }
+                else if (currentMovementInput.y == 0 && currentMovementInput.x == 0 && !controller.isGrounded)
+                {
+                    // If the player is not moving and in the air, check the last direction they moved in.
+                    if (lastDirection < 0)
+                    {
+                        // If the player was moving left, shoot left.
+                        weaponInstance.DoFire(Vector2.left);
+                    }
+                    else if (lastDirection > 0)
+                    {
+                        // If the player was moving right, shoot right.
+                        weaponInstance.DoFire(Vector2.right);
+                    }
+                }
                 break;
 
             case InputActionPhase.Performed:

@@ -26,7 +26,6 @@ public class RoundManager : MonoBehaviour
     {
         GetValues();
         _triggerBox.isTrigger = true;
-   
     }
 
     void GetValues()
