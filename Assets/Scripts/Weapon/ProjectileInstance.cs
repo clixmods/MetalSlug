@@ -52,6 +52,12 @@ public class ProjectileInstance : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        OnHit();
     }
 
     public void OnHit()

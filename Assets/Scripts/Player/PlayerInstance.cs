@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-
+[SelectionBase]
 [RequireComponent(typeof(CharacterController))]
 public class PlayerInstance : MonoBehaviour , IActor
 {

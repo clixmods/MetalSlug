@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[SelectionBase]
 [RequireComponent(typeof(Rigidbody))]
 public class AIInstance : MonoBehaviour , IActor
 {
@@ -138,8 +139,9 @@ public class AIInstance : MonoBehaviour , IActor
     private void ThinkMovement()
     {
         var targetPosition = _target.transform.position;
-        float distanceWithTarget = Vector3.Distance(transform.position, targetPosition);
-        if (distanceWithTarget > _minDistanceToKeepWithTarget)
+        
+
+        if (DistanceWithTarget() > _minDistanceToKeepWithTarget)
         {
             var newPosition = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * _speed);
             if (aiScriptableObject.CanFly)
@@ -175,6 +177,21 @@ public class AIInstance : MonoBehaviour , IActor
         _attackCooldown = Random.Range(aiScriptableObject.attackRate, aiScriptableObject.attackRate * 1.5f);
     }
 
+    private float DistanceWithTarget()
+    {
+        float distanceWithTarget;
+        Vector3 transformPosition = transform.position;
+        Vector3 targetPosition = _target.transform.position;
+        if (!aiScriptableObject.CanFly)
+        {
+            transformPosition.y = 0;
+            targetPosition.y = 0;
+        }
+        distanceWithTarget = Vector3.Distance(transformPosition, targetPosition);
+
+        return distanceWithTarget;
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -185,7 +202,7 @@ public class AIInstance : MonoBehaviour , IActor
                 var direction = (_target.transform.position - transform.position).normalized;
                 float angle = Mathf.Abs(direction.y);
                 Handles.Label(transform.position, 
-                    $"Angle {angle }");
+                    $"Angle {angle } // Distance with target {DistanceWithTarget()}");
                 if (IsInAttackRange())
                 {
            
