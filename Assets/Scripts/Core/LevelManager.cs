@@ -100,6 +100,10 @@ public class LevelManager : MonoBehaviour
         if (!Instance.players.Contains(player))
         {
             Instance.players.Add(player);
+            if (Instance.players.Count > 1)
+            {
+                player.Teleport(Instance.players[0].transform.position);
+            }
         }
     }
     public static void RemovePlayer(PlayerInstance player)

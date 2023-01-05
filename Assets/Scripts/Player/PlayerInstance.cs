@@ -233,6 +233,17 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             controller.Move(motion);
         }
+        else
+        {
+            if (isOutCameraNegative)
+            {
+                controller.Move(Vector3.right * Time.deltaTime * playerSpeed);
+            }
+            if (isOutCameraPositive)
+            {
+                controller.Move(Vector3.left * Time.deltaTime * playerSpeed);
+            }
+        }
         
         
 
