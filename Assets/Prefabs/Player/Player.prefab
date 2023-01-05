@@ -281,7 +281,7 @@ MonoBehaviour:
     m_ActionId: 9a3969ea-d551-45a6-b0e5-dbd224640850
     m_ActionName: Player2/Shoot1[/Keyboard/shift,/XInputControllerWindows/rightShoulder,/XInputControllerWindows1/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard
+  m_DefaultControlScheme: Controller
   m_DefaultActionMap: Player2
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
