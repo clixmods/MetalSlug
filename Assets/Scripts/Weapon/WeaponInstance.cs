@@ -10,6 +10,8 @@ public class WeaponInstance : MonoBehaviour
     private FXManager _fxFire;
 
     private GameObject _owner;
+    private int _currentAmmo = -1;
+
     public GameObject Owner
     {
         get => _owner;
@@ -27,11 +29,12 @@ public class WeaponInstance : MonoBehaviour
     public float FireRate => weaponData.fireRate;
     public GameObject PrefabProjectile => weaponData.prefabProjectile;
     public float ProjectileSpeed => weaponData.projectileSpeed;
-    
+    public int CurrentAmmo => _currentAmmo;
     private void Start()
     {
         _fxFire = FXManager.InitFX(weaponData.FXFire, transform.position, gameObject);
         transform.PlaySoundAtPosition(weaponData.AliasOnEquip);
+        _currentAmmo = weaponData.startAmmo;
     }
 
     // Update is called once per frame
@@ -59,6 +62,11 @@ public class WeaponInstance : MonoBehaviour
     public virtual bool DoFire(Vector3 direction)
     {
         if (IsHot) return false;
+
+        if (_currentAmmo == 0)
+        {
+            return false;
+        }
         
         var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,null);
         var projectileComponent = projectileInstance.GetComponent<ProjectileInstance>();
@@ -69,11 +77,15 @@ public class WeaponInstance : MonoBehaviour
             _rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
             projectileInstance.transform.LookAt(transform.position + direction);
         }
+        if(_fxFire != null)
+            _fxFire.Play(transform.position);
         
-        _fxFire.Play(transform.position);
         _cooldown = FireRate;
         transform.PlaySoundAtPosition(weaponData.AliasOnFire);
         transform.PlaySoundAtPosition(weaponData.AliasOnAfterFire);
+        
+        if( _currentAmmo != -1)
+            _currentAmmo--;
         return true;
     }
 }

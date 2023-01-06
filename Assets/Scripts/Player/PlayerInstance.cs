@@ -10,17 +10,19 @@ public class PlayerInstance : MonoBehaviour , IActor
 {
     #region Events
     public delegate void PlayerEvent(PlayerInstance newPlayer);
+    
     public static event PlayerEvent eventPlayerJoin;
     public static event PlayerEvent eventPlayerDisconnect;
     public static event PlayerEvent eventPlayerDeath;
     public static event PlayerEvent eventPlayerRespawn;
+    public static event PlayerEvent eventPlayerFire;
     #endregion
 
     // REFS DE SCRIPTS
     [SerializeField] private WeaponScriptableObject primaryWeapon;
     [SerializeField] private WeaponScriptableObject grenadeWeapon;
-    private WeaponInstance weaponInstance;
-    private WeaponInstance grenadeInstance;
+    public WeaponInstance weaponInstance;
+    public WeaponInstance grenadeInstance;
 
     // REFS DE GO
     [SerializeField]
@@ -159,9 +161,11 @@ public class PlayerInstance : MonoBehaviour , IActor
     // shoot
     public void OnShoot(InputAction.CallbackContext context)
     {
+        eventPlayerFire?.Invoke(this);
         switch (context.phase)
         {
             case InputActionPhase.Started:
+                
                 // Check the direction to shoot based on the player's current movement input and whether they are in the air.
                 if (currentMovementInput.y < 0 && controller.isGrounded)
                 {
@@ -243,6 +247,7 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     public void OnShootGrenade(InputAction.CallbackContext context)
     {
+        eventPlayerFire?.Invoke(this);
         switch (context.phase)
         {
             case InputActionPhase.Started:

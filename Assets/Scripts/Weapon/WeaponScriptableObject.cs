@@ -9,7 +9,8 @@ public class WeaponScriptableObject : ScriptableObject
 {
     [Range(0.01f,2)]
     public float fireRate = 0.2f;
-    
+
+    public int startAmmo = -1; 
     [Range(0,5)]
     public int damage = 1;
     [Range(0.01f,20)]

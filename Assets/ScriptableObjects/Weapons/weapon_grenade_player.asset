@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: weapon_grenade_player
   m_EditorClassIdentifier: 
   fireRate: 2
+  startAmmo: 10
   damage: 1
   projectileSpeed: 10.47
   projectileUseGravity: 1
   projectileDestroyOnHit: 1
-  prefabWeapon: {fileID: 3879117375123579610, guid: b42fb40297393aa4a9e0173877a3eaa9,
+  prefabMeshWeapon: {fileID: 3879117375123579610, guid: b42fb40297393aa4a9e0173877a3eaa9,
     type: 3}
   prefabProjectile: {fileID: 3476202047971693012, guid: 2f187e1be13601c45bff6649394a7bab,
     type: 3}

@@ -8,20 +8,30 @@ public class UIPanelPlayer : MonoBehaviour
     private static List<PlayerInstance> _playerInstancesLinked = new List<PlayerInstance>();
     private PlayerInstance _playerInstance;
 
+    [SerializeField] private UIPlayerAmmo _uiPlayerAmmo;
+
     [SerializeField] private GameObject panelTextJoin;
     [SerializeField] private GameObject panelPlayer;
-
-    [SerializeField]
-    private bool isHostPanel;
+    [SerializeField] private bool isHostPanel;
     private void Awake()
     {
         panelTextJoin.SetActive(true);
         panelPlayer.SetActive(false);
+        _uiPlayerAmmo ??= GetComponentInChildren<UIPlayerAmmo>();
         PlayerInstance.eventPlayerJoin += PlayerInstanceOneventPlayerJoin;
         PlayerInstance.eventPlayerDisconnect += PlayerInstanceOneventPlayerDisconnect;
+        PlayerInstance.eventPlayerFire += PlayerInstanceOneventPlayerFire;
     }
 
-   
+    private void PlayerInstanceOneventPlayerFire(PlayerInstance newplayer)
+    {
+        if (_playerInstance == newplayer  && _playerInstancesLinked.Contains(newplayer))
+        {
+            _uiPlayerAmmo.SetAmmo(_playerInstance.weaponInstance.CurrentAmmo);
+            _uiPlayerAmmo.SetGrenade(_playerInstance.grenadeInstance.CurrentAmmo);
+
+        }
+    }
 
     private void PlayerInstanceOneventPlayerDisconnect(PlayerInstance newplayer)
     {
