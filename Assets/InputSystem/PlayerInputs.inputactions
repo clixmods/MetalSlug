@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ShootGrenade",
+                    "type": "Button",
+                    "id": "1a8fa7fb-4d57-486a-8715-29937e13077b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -174,6 +183,28 @@
                     "action": "Shoot1",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2f23692-8c36-43ba-9554-0dd99358cbc1",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ShootGrenade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a81323c7-1a20-4c01-9a91-651718b28cbe",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "ShootGrenade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -212,6 +243,15 @@
                     "name": "Shoot1",
                     "type": "Button",
                     "id": "9a3969ea-d551-45a6-b0e5-dbd224640850",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ShootGrenade",
+                    "type": "Button",
+                    "id": "fb22a4f6-c98a-4931-9706-93ca86750eb6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -348,6 +388,28 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "Shoot1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "73e0009a-63aa-466e-8cfa-33ae598d5bf8",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ShootGrenade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2fa9b94-2b3b-4258-ab78-9cd44b045626",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "ShootGrenade",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

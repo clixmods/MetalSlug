@@ -19,6 +19,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     // REFS DE SCRIPTS
     [SerializeField]
     private WeaponInstance weaponInstance;
+    [SerializeField]
+    private WeaponInstance grenadeInstance;
 
     // REFS DE GO
     [SerializeField]
@@ -42,6 +44,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private Vector3 playerVelocity;
     private Vector2 movementInput = Vector2.zero;
     private Vector2 aimDir;
+    private Vector2 aimDirGrenade = Vector2.zero;
 
     private Vector2 currentMovementInput;
  
@@ -59,6 +62,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool groundedPlayer;
     private bool jumped = false;
     private bool shooted;
+    private bool shootedGrenade;
     private bool isCrouching = false;
     
     [SerializeField] private TeamEnum _team;
@@ -229,6 +233,33 @@ public class PlayerInstance : MonoBehaviour , IActor
                 break;
 
             default:
+                break;
+        }
+    }
+
+    public void OnShootGrenade(InputAction.CallbackContext context)
+    {
+        switch (context.phase)
+        {
+            case InputActionPhase.Started:
+                if (lastDirection < 0)
+                {
+                    // If the player was moving left, shoot the grenade left.
+                    aimDirGrenade = new Vector2(-1, 1);
+                    weaponInstance.DoFire(aimDirGrenade);
+                }
+                else if (lastDirection > 0)
+                {
+                    // If the player was moving right, shoot the grenade right.
+                    aimDirGrenade = new Vector2(1, 1);
+                    weaponInstance.DoFire(aimDirGrenade);
+                }
+                break;
+            case InputActionPhase.Performed:
+                shootedGrenade = true;
+                break;
+            case InputActionPhase.Canceled:
+                shootedGrenade = true;
                 break;
         }
     }
