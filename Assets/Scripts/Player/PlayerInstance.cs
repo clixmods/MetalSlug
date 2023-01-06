@@ -1,5 +1,6 @@
 using Cinemachine;
 using System;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -335,8 +336,6 @@ public class PlayerInstance : MonoBehaviour , IActor
         transform.position = position;
         controller.enabled = true;
     }
-
-
  
     public TeamEnum Team => _team;
     public int Health => _health;
