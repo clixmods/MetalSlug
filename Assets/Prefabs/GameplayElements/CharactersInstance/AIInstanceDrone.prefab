@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c5032b7ad93df4da1e5a85acd467b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiScriptableObject: {fileID: 11400000, guid: 72175b3b223b3da44b9316c9373ac40f, type: 2}
+  aiScriptableObject: {fileID: 11400000, guid: 735db67668bfbc64ca894e4e2b7a5a18, type: 2}
 --- !u!114 &7752715842184455746
 MonoBehaviour:
   m_ObjectHideFlags: 0

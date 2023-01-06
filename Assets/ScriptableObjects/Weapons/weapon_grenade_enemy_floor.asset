@@ -10,20 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7509bfbe866eb0478e84dcbc907553c, type: 3}
-  m_Name: WeaponData_defaultGrenade
+  m_Name: weapon_grenade_enemy_floor
   m_EditorClassIdentifier: 
   fireRate: 2
   damage: 1
-  projectileSpeed: 10.47
-  projectileUseGravity: 1
+  projectileSpeed: 1.9
+  projectileUseGravity: 0
   projectileDestroyOnHit: 1
-  prefabWeapon: {fileID: 3879117375123579610, guid: b42fb40297393aa4a9e0173877a3eaa9,
-    type: 3}
-  prefabProjectile: {fileID: 3476202047971693012, guid: 2f187e1be13601c45bff6649394a7bab,
+  prefabMeshWeapon: {fileID: 0}
+  prefabProjectile: {fileID: 3476202047971693012, guid: c48ffc837a1a7c2468629768637eeef1,
     type: 3}
   AliasOnFire: wpn_pistol_shot
   AliasOnAfterFire: wpn_pistol_shells_out
   AliasOnImpact: None
   AliasOnDrop: None
   AliasOnEquip: wpn_pistol_equip
-  FXFire: {fileID: 0}
+  FXFire: {fileID: 4437842826240621923, guid: a47e88c3f3e5866478f6772133274c22, type: 3}

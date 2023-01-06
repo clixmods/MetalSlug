@@ -108,7 +108,7 @@ Material:
     - _CastShadows: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _CloudAlpha: 1
+    - _CloudAlpha: 0.845
     - _CloudPower: 0.11
     - _CloudScale: 192
     - _Cull: 2

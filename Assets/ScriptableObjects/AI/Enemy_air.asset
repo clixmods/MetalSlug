@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23c2599f918281c4bb79a4b4cfbe5df6, type: 3}
-  m_Name: aiDataDefault
+  m_Name: Enemy_air
   m_EditorClassIdentifier: 
   team: 2
   _minDistanceToKeepWithTarget: 3
   Health: 1
   attackRange: 20
-  attackRate: 2.69
+  attackRate: 2.78
   angleAim: 0.3
   speed: 1
-  primaryWeapon: {fileID: 11400000, guid: 9ad448ac9b506e54c816b63a613aeca6, type: 2}
-  grenadeWeapon: {fileID: 11400000, guid: bf58af6a044e9e54aad8148c9649d495, type: 2}
-  CanFly: 0
+  primaryWeapon: {fileID: 11400000, guid: f87defbb07da19f40aa890e2e1c62480, type: 2}
+  grenadeWeapon: {fileID: 0}
+  CanFly: 1
   minY: 3
-  CanLoseTarget: 1
+  CanLoseTarget: 0
   SightRadius: 5
   LoseSightRadius: 10
   AliasOnDeath: drone_death

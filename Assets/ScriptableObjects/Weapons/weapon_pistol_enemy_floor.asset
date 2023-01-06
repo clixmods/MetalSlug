@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7509bfbe866eb0478e84dcbc907553c, type: 3}
-  m_Name: Weapons_Pistol_Player
+  m_Name: weapon_pistol_enemy_floor
   m_EditorClassIdentifier: 
-  fireRate: 0.035
+  fireRate: 0.63
   damage: 1
-  projectileSpeed: 20
+  projectileSpeed: 25
   projectileUseGravity: 0
   projectileDestroyOnHit: 1
-  prefabWeapon: {fileID: 1198069101019903048, guid: 3a45366a65f6d574fbdbb1a67878e5dd,
-    type: 3}
+  prefabMeshWeapon: {fileID: 0}
   prefabProjectile: {fileID: 3476202047971693012, guid: c48ffc837a1a7c2468629768637eeef1,
     type: 3}
   AliasOnFire: wpn_pistol_shot

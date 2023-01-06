@@ -17,8 +17,10 @@ public class PlayerInstance : MonoBehaviour , IActor
     #endregion
 
     // REFS DE SCRIPTS
-    [SerializeField]
+    [SerializeField] private WeaponScriptableObject primaryWeapon;
+    [SerializeField] private WeaponScriptableObject grenadeWeapon;
     private WeaponInstance weaponInstance;
+    private WeaponInstance grenadeInstance;
 
     // REFS DE GO
     [SerializeField]
@@ -42,6 +44,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private Vector3 playerVelocity;
     private Vector2 movementInput = Vector2.zero;
     private Vector2 aimDir;
+    private Vector2 aimDirGrenade = Vector2.zero;
 
     private Vector2 currentMovementInput;
  
@@ -59,6 +62,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool groundedPlayer;
     private bool jumped = false;
     private bool shooted;
+    private bool shootedGrenade;
     private bool isCrouching = false;
     
     [SerializeField] private TeamEnum _team;
@@ -68,6 +72,12 @@ public class PlayerInstance : MonoBehaviour , IActor
     private void Awake()
     {
         _characterViewmodel = GetComponent<CharacterViewmodelManager>();
+        SpawnWeaponInstance();
+    }
+    private void SpawnWeaponInstance()
+    {
+        weaponInstance = primaryWeapon.CreateWeaponInstance(gameObject);
+        grenadeInstance = grenadeWeapon.CreateWeaponInstance(gameObject);
     }
 
     // start
@@ -78,8 +88,6 @@ public class PlayerInstance : MonoBehaviour , IActor
             controller = gameObject.GetComponent<CharacterController>();
        
             eventPlayerJoin?.Invoke(this);
-        
-            weaponInstance.Owner = gameObject;
             isSpawned = true;
         }
         
@@ -229,6 +237,33 @@ public class PlayerInstance : MonoBehaviour , IActor
                 break;
 
             default:
+                break;
+        }
+    }
+
+    public void OnShootGrenade(InputAction.CallbackContext context)
+    {
+        switch (context.phase)
+        {
+            case InputActionPhase.Started:
+                if (lastDirection < 0)
+                {
+                    // If the player was moving left, shoot the grenade left.
+                    aimDirGrenade = new Vector2(-1+(0.5f*movementInput.x), 1.25f);
+                    grenadeInstance.DoFire(aimDirGrenade);
+                }
+                else if (lastDirection > 0)
+                {
+                    // If the player was moving right, shoot the grenade right.
+                    aimDirGrenade = new Vector2(1+(0.5f*movementInput.x), 1.25f);
+                    grenadeInstance.DoFire(aimDirGrenade);
+                }
+                break;
+            case InputActionPhase.Performed:
+                shootedGrenade = true;
+                break;
+            case InputActionPhase.Canceled:
+                shootedGrenade = true;
                 break;
         }
     }

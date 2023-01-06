@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using AudioAliase;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 [CreateAssetMenu(order = 0,fileName = "Weapon Data", menuName = "MetalSlug/Weapon")]
 public class WeaponScriptableObject : ScriptableObject
 {
@@ -15,7 +17,8 @@ public class WeaponScriptableObject : ScriptableObject
 
     public bool projectileUseGravity = false;
     public bool projectileDestroyOnHit = true;
-    public GameObject prefabWeapon;
+    
+    [FormerlySerializedAs("prefabWeapon")] public GameObject prefabMeshWeapon;
     public GameObject prefabProjectile;
     [Header("Aliases")] 
     [Aliase] public string AliasOnFire;
@@ -25,4 +28,24 @@ public class WeaponScriptableObject : ScriptableObject
     [Aliase] public string AliasOnEquip;
     [Header("FX")]
     public GameObject FXFire;
+
+    public WeaponInstance CreateWeaponInstance(GameObject Owner)
+    {
+        GameObject weaponObject = new GameObject();
+        weaponObject.transform.parent = Owner.transform;
+        WeaponInstance weaponInstance =  weaponObject.AddComponent<WeaponInstance>();
+        GameObject viewModel = null;
+        if (prefabMeshWeapon != null)
+        {
+            Instantiate(prefabMeshWeapon, Owner.transform.position, Quaternion.identity, weaponObject.transform);
+        }
+        else
+        {
+            //viewModel = new GameObject();
+        }
+        
+        weaponInstance.weaponData = this;
+        weaponInstance.Owner = Owner;
+        return weaponInstance;
+    }
 }

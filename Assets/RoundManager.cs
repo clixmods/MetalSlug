@@ -56,7 +56,7 @@ public class RoundManager : MonoBehaviour
                 Instantiate(enemies[Random.Range(0, enemies.Length)], spawnPointRandom.position,Quaternion.identity ) ;
                 _currentDelaySpawn = delaySpawn;
                 _needToSpawnAmount--;
-                if (_needToSpawnAmount < 0)
+                if (_needToSpawnAmount <= 0)
                 {
                     gameObject.SetActive(false);
                 }

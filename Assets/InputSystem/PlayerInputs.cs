@@ -62,6 +62,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShootGrenade"",
+                    ""type"": ""Button"",
+                    ""id"": ""1a8fa7fb-4d57-486a-8715-29937e13077b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +205,28 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Shoot1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2f23692-8c36-43ba-9554-0dd99358cbc1"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ShootGrenade"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a81323c7-1a20-4c01-9a91-651718b28cbe"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""ShootGrenade"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -234,6 +265,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""name"": ""Shoot1"",
                     ""type"": ""Button"",
                     ""id"": ""9a3969ea-d551-45a6-b0e5-dbd224640850"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShootGrenade"",
+                    ""type"": ""Button"",
+                    ""id"": ""fb22a4f6-c98a-4931-9706-93ca86750eb6"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -372,6 +412,28 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Shoot1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""73e0009a-63aa-466e-8cfa-33ae598d5bf8"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ShootGrenade"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2fa9b94-2b3b-4258-ab78-9cd44b045626"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""ShootGrenade"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -407,12 +469,14 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Player1_Jump = m_Player1.FindAction("Jump", throwIfNotFound: true);
         m_Player1_Joining = m_Player1.FindAction("Joining", throwIfNotFound: true);
         m_Player1_Shoot1 = m_Player1.FindAction("Shoot1", throwIfNotFound: true);
+        m_Player1_ShootGrenade = m_Player1.FindAction("ShootGrenade", throwIfNotFound: true);
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_Movement = m_Player2.FindAction("Movement", throwIfNotFound: true);
         m_Player2_Jump = m_Player2.FindAction("Jump", throwIfNotFound: true);
         m_Player2_Joining = m_Player2.FindAction("Joining", throwIfNotFound: true);
         m_Player2_Shoot1 = m_Player2.FindAction("Shoot1", throwIfNotFound: true);
+        m_Player2_ShootGrenade = m_Player2.FindAction("ShootGrenade", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -476,6 +540,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_Jump;
     private readonly InputAction m_Player1_Joining;
     private readonly InputAction m_Player1_Shoot1;
+    private readonly InputAction m_Player1_ShootGrenade;
     public struct Player1Actions
     {
         private @PlayerInputs m_Wrapper;
@@ -484,6 +549,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player1_Jump;
         public InputAction @Joining => m_Wrapper.m_Player1_Joining;
         public InputAction @Shoot1 => m_Wrapper.m_Player1_Shoot1;
+        public InputAction @ShootGrenade => m_Wrapper.m_Player1_ShootGrenade;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -505,6 +571,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Shoot1.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShoot1;
                 @Shoot1.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShoot1;
                 @Shoot1.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShoot1;
+                @ShootGrenade.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShootGrenade;
+                @ShootGrenade.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShootGrenade;
+                @ShootGrenade.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShootGrenade;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -521,6 +590,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Shoot1.started += instance.OnShoot1;
                 @Shoot1.performed += instance.OnShoot1;
                 @Shoot1.canceled += instance.OnShoot1;
+                @ShootGrenade.started += instance.OnShootGrenade;
+                @ShootGrenade.performed += instance.OnShootGrenade;
+                @ShootGrenade.canceled += instance.OnShootGrenade;
             }
         }
     }
@@ -533,6 +605,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player2_Jump;
     private readonly InputAction m_Player2_Joining;
     private readonly InputAction m_Player2_Shoot1;
+    private readonly InputAction m_Player2_ShootGrenade;
     public struct Player2Actions
     {
         private @PlayerInputs m_Wrapper;
@@ -541,6 +614,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player2_Jump;
         public InputAction @Joining => m_Wrapper.m_Player2_Joining;
         public InputAction @Shoot1 => m_Wrapper.m_Player2_Shoot1;
+        public InputAction @ShootGrenade => m_Wrapper.m_Player2_ShootGrenade;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -562,6 +636,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Shoot1.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnShoot1;
                 @Shoot1.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnShoot1;
                 @Shoot1.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnShoot1;
+                @ShootGrenade.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnShootGrenade;
+                @ShootGrenade.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnShootGrenade;
+                @ShootGrenade.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnShootGrenade;
             }
             m_Wrapper.m_Player2ActionsCallbackInterface = instance;
             if (instance != null)
@@ -578,6 +655,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Shoot1.started += instance.OnShoot1;
                 @Shoot1.performed += instance.OnShoot1;
                 @Shoot1.canceled += instance.OnShoot1;
+                @ShootGrenade.started += instance.OnShootGrenade;
+                @ShootGrenade.performed += instance.OnShootGrenade;
+                @ShootGrenade.canceled += instance.OnShootGrenade;
             }
         }
     }
@@ -606,6 +686,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnJoining(InputAction.CallbackContext context);
         void OnShoot1(InputAction.CallbackContext context);
+        void OnShootGrenade(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
@@ -613,5 +694,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnJoining(InputAction.CallbackContext context);
         void OnShoot1(InputAction.CallbackContext context);
+        void OnShootGrenade(InputAction.CallbackContext context);
     }
 }

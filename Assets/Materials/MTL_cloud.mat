@@ -158,7 +158,7 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 0, b: 0, a: 1}
-    - _CloudColor: {r: 1, g: 0.9665403, b: 0.8443396, a: 1}
+    - _CloudColor: {r: 1, g: 0.8726415, b: 0.9217974, a: 1}
     - _CloudSpeed: {r: 0.001, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _DeepColor: {r: 0.01842292, g: 0.21638793, b: 0.43396223, a: 0.7176471}
