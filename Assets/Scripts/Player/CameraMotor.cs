@@ -29,7 +29,6 @@ public class CameraMotor : MonoBehaviour
         LevelManager.eventLevelRestartLoop += ResetCamera;
     }
 
-  
     private void Update()
     {
         // stock the pos of the camera in a vector3
