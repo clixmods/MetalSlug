@@ -1,6 +1,6 @@
 using Cinemachine;
 using System;
-using Unity.VisualScripting;
+using AudioAliase;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -336,6 +336,8 @@ public class PlayerInstance : MonoBehaviour , IActor
         transform.position = position;
         controller.enabled = true;
     }
+
+
  
     public TeamEnum Team => _team;
     public int Health => _health;
@@ -355,6 +357,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     
     public void OnDeath()
     {
+        AudioManager.PlaySoundAtPosition("announcer_player_down", Vector3.zero);
         //gameObject.SetActive(false);
     }
     private const int IndexLayerProjectile = 7;
