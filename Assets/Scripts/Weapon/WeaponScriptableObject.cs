@@ -13,9 +13,14 @@ public class WeaponScriptableObject : ScriptableObject
     public int startAmmo = -1; 
     [Range(0,5)]
     public int damage = 1;
+    [Header("Burst Options")]
+    public bool burst = false;
+    public int bulletPerBurst = 3;
+    public float delayBurstedBullet = 0.5f;
+    [Header("Projectile Options")]
     [Range(0.01f,20)]
     public float projectileSpeed = 5;
-
+    
     public bool projectileUseGravity = false;
     public bool projectileDestroyOnHit = true;
     

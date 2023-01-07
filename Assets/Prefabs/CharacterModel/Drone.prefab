@@ -114,12 +114,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 59d04d5ba0d5a7e4f8ed53c208155b23,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 59d04d5ba0d5a7e4f8ed53c208155b23,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 59d04d5ba0d5a7e4f8ed53c208155b23,
         type: 3}
@@ -134,7 +134,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 59d04d5ba0d5a7e4f8ed53c208155b23,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 59d04d5ba0d5a7e4f8ed53c208155b23,
         type: 3}
@@ -151,6 +151,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mesh_Drone
       objectReference: {fileID: 0}
+    - target: {fileID: 7219568734432449786, guid: 59d04d5ba0d5a7e4f8ed53c208155b23,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 926cb46c640cda84591e04e88c20d8e9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59d04d5ba0d5a7e4f8ed53c208155b23, type: 3}
 --- !u!4 &8296625459693724163 stripped
