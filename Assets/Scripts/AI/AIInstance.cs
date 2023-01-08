@@ -83,25 +83,13 @@ public class AIInstance : MonoBehaviour , IActor
         SpawnWeaponInstance();
         _minDistanceToKeepWithTarget = Random.Range( aiScriptableObject.minDistanceToKeepWithTarget, aiScriptableObject.minDistanceToKeepWithTarget * 1.5f);
         _speed = Random.Range( aiScriptableObject.speed, aiScriptableObject.speed * 1.5f);
-        //_fxDeath = Instantiate(aiScriptableObject.FXDeath ,transform.position,  Quaternion.identity).GetComponent<ParticleSystem>();
         _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position);
     }
 
     private void SpawnWeaponInstance()
     {
-        
         _currentWeapon = aiScriptableObject.primaryWeapon.CreateWeaponInstance(gameObject);
         _grenadeWeapon = aiScriptableObject.grenadeWeapon.CreateWeaponInstance(gameObject);
-        // _currentWeapon = Instantiate(aiScriptableObject.primaryWeapon.prefabMeshWeapon, transform.position, Quaternion.identity,
-        //     transform).GetComponent<WeaponInstance>();
-        // _currentWeapon.Owner = gameObject;
-        // _grenadeWeapon = Instantiate(aiScriptableObject.grenadeWeapon.prefabMeshWeapon, transform.position, Quaternion.identity,
-        //     transform).GetComponent<WeaponInstance>();
-        // _grenadeWeapon.Owner = gameObject;
-        // _currentWeapon.transform.parent = transform;
-        // _currentWeapon.transform.position = transform.position;
-        // _grenadeWeapon.transform.parent = transform;
-        // _grenadeWeapon.transform.position = transform.position;
     }
     // Start is called before the first frame update
     void Start()
@@ -276,6 +264,7 @@ public class AIInstance : MonoBehaviour , IActor
         eventAIScore?.Invoke(aiScriptableObject.ScoreDead);
        
         _fxDeath.Play(transform.position,BehaviorAfterPlay.DestroyAfterPlay);
+        UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position , ScoreDead);
         Destroy(gameObject);
     }
 

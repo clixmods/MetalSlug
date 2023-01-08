@@ -41,5 +41,6 @@ public class AIScriptableObject : ScriptableObject
     public int ScoreHit = 10;
     [Header("FX")] 
     public GameObject FXDeath;
+    public GameObject FXLowHealth;
     public GameObject FXMove;
 }

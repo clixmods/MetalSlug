@@ -1439,18 +1439,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6419309596634729332, guid: c63aebe5514d5d84f93b38e0801d9f2c,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419309596634729332, guid: c63aebe5514d5d84f93b38e0801d9f2c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419309596634729332, guid: c63aebe5514d5d84f93b38e0801d9f2c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419309596634729332, guid: c63aebe5514d5d84f93b38e0801d9f2c,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.37
+      value: -5.92
       objectReference: {fileID: 0}
     - target: {fileID: 6419309596634729332, guid: c63aebe5514d5d84f93b38e0801d9f2c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.65
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 6419309596634729332, guid: c63aebe5514d5d84f93b38e0801d9f2c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 7.6
       objectReference: {fileID: 0}
     - target: {fileID: 6419309596634729332, guid: c63aebe5514d5d84f93b38e0801d9f2c,
         type: 3}
@@ -1804,6 +1819,7 @@ MonoBehaviour:
   playerSpawnPoint: {fileID: 1900955690}
   respawnAmount: 3
   reviveAmount: 3
+  _currentRound: 0
 --- !u!1 &1433108293
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,6 +2680,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isHostPanel
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8660171746098141150, guid: e4d0df7c069d6d140bbabf9a8b5c1c96,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000061035156
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4d0df7c069d6d140bbabf9a8b5c1c96, type: 3}
