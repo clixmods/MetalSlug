@@ -94,10 +94,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5488596582690538935, guid: 59d04d5ba0d5a7e4f8ed53c208155b23,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 59d04d5ba0d5a7e4f8ed53c208155b23,
         type: 3}
       propertyPath: m_Name
       value: Mesh_Drone
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123821242415710549, guid: 59d04d5ba0d5a7e4f8ed53c208155b23,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7219568734432449786, guid: 59d04d5ba0d5a7e4f8ed53c208155b23,
         type: 3}

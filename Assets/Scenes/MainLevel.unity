@@ -1440,12 +1440,12 @@ PrefabInstance:
     - target: {fileID: 6419309596634729332, guid: c63aebe5514d5d84f93b38e0801d9f2c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3
+      value: -12.37
       objectReference: {fileID: 0}
     - target: {fileID: 6419309596634729332, guid: c63aebe5514d5d84f93b38e0801d9f2c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.46
+      value: 10.65
       objectReference: {fileID: 0}
     - target: {fileID: 6419309596634729332, guid: c63aebe5514d5d84f93b38e0801d9f2c,
         type: 3}
@@ -1802,8 +1802,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: []
   playerSpawnPoint: {fileID: 1900955690}
-  respawnAmount: 0
-  reviveAmount: 0
+  respawnAmount: 3
+  reviveAmount: 3
 --- !u!1 &1433108293
 GameObject:
   m_ObjectHideFlags: 0

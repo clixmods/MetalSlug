@@ -33,8 +33,11 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region Events
-    public delegate void CallbackOnLevelRestartLoop();
-    public static event CallbackOnLevelRestartLoop eventLevelRestartLoop;
+    public delegate void EventHandler();
+    public delegate void EventHandlerRound(int newRound);
+    public static event EventHandler eventLevelRestartLoop;
+    public static event EventHandlerRound CallbackOnRoundChange;
+
     
 
     #endregion
@@ -45,6 +48,18 @@ public class LevelManager : MonoBehaviour
     private RoundManager[] roundvolumes;
     [SerializeField] private int respawnAmount;
     [SerializeField] private int reviveAmount;
+    [SerializeField] private int _currentRound = 0;
+    
+    public int CurrentRound
+    {
+        get => _currentRound;
+       private set
+        {
+            _currentRound = value;
+            CallbackOnRoundChange?.Invoke(_currentRound);
+        }
+        
+    }
 
     public int RespawnAmount
     {
@@ -207,6 +222,8 @@ public class LevelManager : MonoBehaviour
                     roundvolumes[i].gameObject.SetActive(true);
                 }
                 eventLevelRestartLoop?.Invoke();
+                CurrentRound++;
+         
             }
     }
 }
