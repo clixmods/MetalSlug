@@ -321,7 +321,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             return;
         }
-        ctxCached = context.ReadValue<float>();
+        ctxCached = (float)context.time;
         switch (context.phase)
         {
             case InputActionPhase.Started:
