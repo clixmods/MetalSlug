@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 
@@ -30,8 +31,59 @@ public class LevelManager : MonoBehaviour
     }
 
     #endregion
-    private List<PlayerInstance> players = new List<PlayerInstance>();
 
+    #region Events
+    public delegate void EventHandler();
+    public delegate void EventHandlerRound(int newRound);
+    public static event EventHandler eventLevelRestartLoop;
+    public static event EventHandlerRound CallbackOnRoundChange;
+
+    
+
+    #endregion
+    
+    
+    public List<PlayerInstance> players = new List<PlayerInstance>();
+    [SerializeField] private Transform playerSpawnPoint;
+    private RoundManager[] roundvolumes;
+    [SerializeField] private int respawnAmount;
+    [SerializeField] private int reviveAmount;
+    [SerializeField] private int _currentRound = 0;
+    
+    public int CurrentRound
+    {
+        get => _currentRound;
+       private set
+        {
+            _currentRound = value;
+            CallbackOnRoundChange?.Invoke(_currentRound);
+        }
+        
+    }
+
+    public int RespawnAmount
+    {
+        get => respawnAmount;
+        set
+        {
+            if(value == 0)
+                PlayerInputManager.instance.DisableJoining();
+            else
+            {
+                PlayerInputManager.instance.EnableJoining();
+            }
+            respawnAmount = value;
+            
+        }
+    }
+    public int ReviveAmount
+    {
+        get => reviveAmount;
+        set
+        {
+            respawnAmount = value;
+        }
+    }
     #region Properties
 
     public static PlayerInstance GetRandomAlivePlayers
@@ -89,6 +141,10 @@ public class LevelManager : MonoBehaviour
         if (!Instance.players.Contains(player))
         {
             Instance.players.Add(player);
+            if (Instance.players.Count > 1)
+            {
+                player.Teleport(Instance.players[0].transform.position);
+            }
         }
     }
     public static void RemovePlayer(PlayerInstance player)
@@ -98,10 +154,76 @@ public class LevelManager : MonoBehaviour
             Instance.players.Remove(player);
         }
     }
+
+    private void Awake()
+    {
+        roundvolumes = FindObjectsOfType<RoundManager>();
+    }
+
     private void Start()
     {
         players = FindObjectsOfType<PlayerInstance>().ToList();
         PlayerInstance.eventPlayerJoin += AddPlayer;
         PlayerInstance.eventPlayerDisconnect += RemovePlayer;
+        PlayerInstance.eventPlayerRespawn += RemoveRespawnAmount;
+
+    }
+
+    private void RemoveRespawnAmount(PlayerInstance newplayer)
+    {
+        RespawnAmount--;
+    }
+
+
+    private void Update()
+    {
+        if (GetAlivePlayers.Count == 0)
+        {
+            foreach (var player in players)
+            {
+                player.gameObject.SetActive(true);
+                player.Teleport( playerSpawnPoint.position);
+            }
+
+            foreach (var ai in  AIInstance.AIInstances)
+            {
+                Destroy(ai.gameObject);
+            }
+           
+            for (int i = 0; i < roundvolumes.Length; i++)
+            {
+                roundvolumes[i].gameObject.SetActive(true);
+            }
+            eventLevelRestartLoop?.Invoke();
+            return;
+        }
+        bool allRoundsClean = true;
+        
+            for (int i = 0; i < roundvolumes.Length; i++)
+            {
+                if (roundvolumes[i].gameObject.activeSelf)
+                {
+                    allRoundsClean = false;
+                }
+            }
+            // stay AI on the map
+            if(AIInstance.AIInstances.Count > 0)
+                allRoundsClean = false;
+
+            if (allRoundsClean)
+            {
+                foreach (var player in players)
+                {
+                    player.Teleport( playerSpawnPoint.position);
+                }
+
+                for (int i = 0; i < roundvolumes.Length; i++)
+                {
+                    roundvolumes[i].gameObject.SetActive(true);
+                }
+                eventLevelRestartLoop?.Invoke();
+                CurrentRound++;
+         
+            }
     }
 }

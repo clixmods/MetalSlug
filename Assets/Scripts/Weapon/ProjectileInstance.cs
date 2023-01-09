@@ -8,9 +8,11 @@ public class ProjectileInstance : MonoBehaviour
 {
     private const int IndexLayerProjectile = 7;
     private float currentLifeTime = 5;
+    private Rigidbody _rigidbody;
+    private Collider _collider;
     public int damage = 0;
     public WeaponInstance fromWeapon;
-    public TeamEnum teamEnum => fromWeapon.Owner.GetComponent<IActor>().Team;
+    public TeamEnum teamEnum; 
     
     
     const float WorldToViewportPointValueNegative = -0.5f;
@@ -18,8 +20,18 @@ public class ProjectileInstance : MonoBehaviour
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;
-        gameObject.tag = "MainCamera";
+        _collider = GetComponent<Collider>();
+       
+
     }
+
+    private void Start()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody.useGravity = fromWeapon.weaponData.projectileUseGravity;
+        teamEnum = fromWeapon.Owner.GetComponent<IActor>().Team;
+    }
+
     // Update is called once per frame
     public virtual void Update()
     {
@@ -40,6 +52,14 @@ public class ProjectileInstance : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        
+        
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        OnHit();
     }
 
     public void OnHit()

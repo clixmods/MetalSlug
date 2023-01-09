@@ -1,25 +1,29 @@
+using Cinemachine;
 using System;
+using AudioAliase;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.InputSystem.Users;
+[SelectionBase]
 [RequireComponent(typeof(CharacterController))]
 public class PlayerInstance : MonoBehaviour , IActor
 {
     #region Events
-    //Event executed when player join
-    public delegate void CallbackOnJoin( PlayerInstance newPlayer);
-    public static event CallbackOnJoin eventPlayerJoin;
+    public delegate void PlayerEvent(PlayerInstance newPlayer);
     
-    public delegate void CallbackOnDisconnect( PlayerInstance newPlayer);
-    public static event CallbackOnDisconnect eventPlayerDisconnect;
-
+    public static event PlayerEvent eventPlayerJoin;
+    public static event PlayerEvent eventPlayerDisconnect;
+    public static event PlayerEvent eventPlayerDeath;
+    public static event PlayerEvent eventPlayerRespawn;
+    public static event PlayerEvent eventPlayerFire;
     #endregion
-    
-    
+
     // REFS DE SCRIPTS
-    [SerializeField]
-    private WeaponInstance weaponInstance;
+    [SerializeField] private WeaponScriptableObject primaryWeapon;
+    [SerializeField] private WeaponScriptableObject grenadeWeapon;
+    public WeaponInstance weaponInstance;
+    public WeaponInstance grenadeInstance;
 
     // REFS DE GO
     [SerializeField]
@@ -43,15 +47,16 @@ public class PlayerInstance : MonoBehaviour , IActor
     private Vector3 playerVelocity;
     private Vector2 movementInput = Vector2.zero;
     private Vector2 aimDir;
+    private Vector2 aimDirGrenade = Vector2.zero;
 
     private Vector2 currentMovementInput;
  
-    private int _health;
+    private int _health = 1;
 
     #region Properties
 
     // Todo : need to be implemented
-    public bool IsAlive => true;
+    public bool IsAlive => gameObject.activeSelf;
 
 
     #endregion
@@ -60,14 +65,35 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool groundedPlayer;
     private bool jumped = false;
     private bool shooted;
+    private bool shootedGrenade;
+    private bool isCrouching = false;
+    
+    [SerializeField] private TeamEnum _team;
+    private bool isSpawned;
+    private CharacterViewmodelManager _characterViewmodel;
+
+    private void Awake()
+    {
+        _characterViewmodel = GetComponent<CharacterViewmodelManager>();
+        SpawnWeaponInstance();
+    }
+    private void SpawnWeaponInstance()
+    {
+        weaponInstance = primaryWeapon.CreateWeaponInstance(gameObject);
+        grenadeInstance = grenadeWeapon.CreateWeaponInstance(gameObject);
+    }
 
     // start
     private void Start()
     {
-        controller = gameObject.GetComponent<CharacterController>();
-        eventPlayerJoin?.Invoke(  this);
+        if (!isSpawned)
+        {
+            controller = gameObject.GetComponent<CharacterController>();
+       
+            eventPlayerJoin?.Invoke(this);
+            isSpawned = true;
+        }
         
-        weaponInstance.Owner = gameObject;
     }
 
     private void OnDestroy()
@@ -102,6 +128,17 @@ public class PlayerInstance : MonoBehaviour , IActor
                 // If the player is not moving, reset the current movement input.
                 currentMovementInput = Vector2.zero;
             }
+
+            // Update the crouching state.
+            if (currentMovementInput.y < 0 && controller.isGrounded)
+            {
+                isCrouching = true;
+            }
+            else
+            {
+                isCrouching = false;
+            }
+           
         }
     }
 
@@ -125,13 +162,25 @@ public class PlayerInstance : MonoBehaviour , IActor
     // shoot
     public void OnShoot(InputAction.CallbackContext context)
     {
+        eventPlayerFire?.Invoke(this);
         switch (context.phase)
         {
             case InputActionPhase.Started:
+                
                 // Check the direction to shoot based on the player's current movement input and whether they are in the air.
                 if (currentMovementInput.y < 0 && controller.isGrounded)
                 {
-                    // If the player is on the ground and pressing S, don't shoot.
+                    // If the player is on the ground and pressing S, shoot the last direction.
+                    if (lastDirection < 0)
+                    {
+                        // If the player was moving left, shoot left.
+                        weaponInstance.DoFire(Vector2.left);
+                    }
+                    else if (lastDirection > 0)
+                    {
+                        // If the player was moving right, shoot right.
+                        weaponInstance.DoFire(Vector2.right);
+                    }
                     break;
                 }
                 else if (currentMovementInput.y < 0 || aimDir.y < 0)
@@ -144,15 +193,43 @@ public class PlayerInstance : MonoBehaviour , IActor
                     // If the player is pressing W, shoot upwards.
                     weaponInstance.DoFire(Vector2.up);
                 }
-                else if (lastDirection < 0)
+                else if (currentMovementInput.x < 0)
                 {
-                    // If the player's last movement direction was to the left, shoot left.
+                    // If the player is pressing A, shoot left.
                     weaponInstance.DoFire(Vector2.left);
                 }
-                else if (lastDirection > 0)
+                else if (currentMovementInput.x > 0)
                 {
-                    // If the player's last movement direction was to the right, shoot right.
+                    // If the player is pressing D, shoot right.
                     weaponInstance.DoFire(Vector2.right);
+                }
+                else if (currentMovementInput.y == 0 && currentMovementInput.x == 0 && controller.isGrounded)
+                {
+                    // If the player is not moving and on the ground, check the last direction they moved in.
+                    if (lastDirection < 0)
+                    {
+                        // If the player was moving left, shoot left.
+                        weaponInstance.DoFire(Vector2.left);
+                    }
+                    else if (lastDirection > 0)
+                    {
+                        // If the player was moving right, shoot right.
+                        weaponInstance.DoFire(Vector2.right);
+                    }
+                }
+                else if (currentMovementInput.y == 0 && currentMovementInput.x == 0 && !controller.isGrounded)
+                {
+                    // If the player is not moving and in the air, check the last direction they moved in.
+                    if (lastDirection < 0)
+                    {
+                        // If the player was moving left, shoot left.
+                        weaponInstance.DoFire(Vector2.left);
+                    }
+                    else if (lastDirection > 0)
+                    {
+                        // If the player was moving right, shoot right.
+                        weaponInstance.DoFire(Vector2.right);
+                    }
                 }
                 break;
 
@@ -169,6 +246,34 @@ public class PlayerInstance : MonoBehaviour , IActor
         }
     }
 
+    public void OnShootGrenade(InputAction.CallbackContext context)
+    {
+        eventPlayerFire?.Invoke(this);
+        switch (context.phase)
+        {
+            case InputActionPhase.Started:
+                if (lastDirection < 0)
+                {
+                    // If the player was moving left, shoot the grenade left.
+                    aimDirGrenade = new Vector2(-1+(0.5f*movementInput.x), 1.25f);
+                    grenadeInstance.DoFire(aimDirGrenade);
+                }
+                else if (lastDirection > 0)
+                {
+                    // If the player was moving right, shoot the grenade right.
+                    aimDirGrenade = new Vector2(1+(0.5f*movementInput.x), 1.25f);
+                    grenadeInstance.DoFire(aimDirGrenade);
+                }
+                break;
+            case InputActionPhase.Performed:
+                shootedGrenade = true;
+                break;
+            case InputActionPhase.Canceled:
+                shootedGrenade = true;
+                break;
+        }
+    }
+
     // update
     void Update()
     {
@@ -178,6 +283,11 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             // set the velocity to 0
             playerVelocity.y = 0f;
+            // if the player jump and crouch while in the air and arrive on the ground crouched then isCrouching is set to true
+            if (currentMovementInput.y < 0 && controller.isGrounded)
+            {
+                isCrouching = true;
+            }
         }
 
         // move the player
@@ -193,6 +303,18 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             controller.Move(motion);
         }
+        else
+        {
+            if (isOutCameraNegative)
+            {
+                controller.Move(Vector3.right * Time.deltaTime * playerSpeed);
+            }
+            if (isOutCameraPositive)
+            {
+                controller.Move(Vector3.left * Time.deltaTime * playerSpeed);
+            }
+        }
+        _characterViewmodel.Direction = transform.position + motion;
         
         
 
@@ -208,8 +330,15 @@ public class PlayerInstance : MonoBehaviour , IActor
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
+    public void Teleport(Vector3 position)
+    {
+        controller.enabled = false;
+        transform.position = position;
+        controller.enabled = true;
+    }
 
-    [SerializeField] private TeamEnum _team;
+
+ 
     public TeamEnum Team => _team;
     public int Health => _health;
     public void DoDamage(int amount)
@@ -221,15 +350,36 @@ public class PlayerInstance : MonoBehaviour , IActor
         }
     }
 
+    public void OnEnable()
+    {
+        _health = 1;
+    }
+    
     public void OnDeath()
     {
-        throw new NotImplementedException();
+        AudioManager.PlaySoundAtPosition("announcer_player_down", Vector3.zero);
+        //gameObject.SetActive(false);
     }
-    #if UNITY_EDITOR
-    private void OnDrawGizmos()
+    private const int IndexLayerProjectile = 7;
+    private void OnTriggerEnter(Collider other)
     {
-        Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
-        Handles.Label(transform.position, $" WorldToScreenPoint{position }");
+        Debug.Log("Player hit");
+        if (other.gameObject.layer == IndexLayerProjectile)
+        {
+            var projectile = other.GetComponent<ProjectileInstance>();
+            if (projectile.teamEnum != Team)
+            {
+                DoDamage(projectile.damage);
+                projectile.OnHit();
+            }
+        }
     }
-#endif
+    
+    #if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
+            Handles.Label(transform.position, $" WorldToScreenPoint{position }");
+        }
+    #endif
 }

@@ -16,6 +16,7 @@ MonoBehaviour:
   _minDistanceToKeepWithTarget: 3
   Health: 1
   attackRange: 20
+  attackRate: 0.5
   angleAim: 0.3
   speed: 1
   primaryWeapon: {fileID: 11400000, guid: 6f4bb4fdd2730ff468bd52493c095a35, type: 2}
@@ -27,4 +28,9 @@ MonoBehaviour:
   LoseSightRadius: 10
   AliasOnDeath: drone_death
   AliasOnMove: None
-  AliasOnSpawn: None
+  AliasOnSpawn: drone_spawn
+  AliasOnAmbiant: drone_turbine_loop
+  ScoreDead: 50
+  ScoreHit: 10
+  FXDeath: {fileID: 265171566773142626, guid: 60a3332fdc97a864ba0f3c84403659d8, type: 3}
+  FXMove: {fileID: 0}

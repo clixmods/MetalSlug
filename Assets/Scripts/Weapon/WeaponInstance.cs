@@ -1,16 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using AudioAliase;
-using UnityEditor.Experimental.GraphView;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponInstance : MonoBehaviour
 {
     public WeaponScriptableObject weaponData;
-    public float cooldown;
+    internal float _cooldown;
+    private FXManager _fxFire;
 
     private GameObject _owner;
+    private int _currentAmmo = -1;
+
     public GameObject Owner
     {
         get => _owner;
@@ -24,21 +25,23 @@ public class WeaponInstance : MonoBehaviour
             }
         }
     }
-    public bool IsHot => cooldown > 0;
+    public bool IsHot => _cooldown > 0;
     public float FireRate => weaponData.fireRate;
     public GameObject PrefabProjectile => weaponData.prefabProjectile;
     public float ProjectileSpeed => weaponData.projectileSpeed;
-
+    public int CurrentAmmo => _currentAmmo;
     private void Start()
     {
+        _fxFire = FXManager.InitFX(weaponData.FXFire, transform.position, gameObject);
         transform.PlaySoundAtPosition(weaponData.AliasOnEquip);
+        _currentAmmo = weaponData.startAmmo;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (cooldown > 0)
-            cooldown -= Time.deltaTime;
+        if (_cooldown > 0)
+            _cooldown -= Time.deltaTime;
     }
 
     /// <summary>
@@ -59,20 +62,30 @@ public class WeaponInstance : MonoBehaviour
     public virtual bool DoFire(Vector3 direction)
     {
         if (IsHot) return false;
+
+        if (_currentAmmo == 0)
+        {
+            return false;
+        }
         
         var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,null);
+        var projectileComponent = projectileInstance.GetComponent<ProjectileInstance>();
+        projectileComponent.fromWeapon = this;
+        projectileComponent.damage = weaponData.damage;
         if (projectileInstance.TryGetComponent<Rigidbody>(out var _rigidbody))
         {
             _rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
             projectileInstance.transform.LookAt(transform.position + direction);
         }
+        if(_fxFire != null)
+            _fxFire.Play(transform.position);
         
-        var projectileComponent = projectileInstance.GetComponent<ProjectileInstance>();
-        projectileComponent.fromWeapon = this;
-        projectileComponent.damage = weaponData.damage;
-        cooldown = FireRate;
+        _cooldown = FireRate;
         transform.PlaySoundAtPosition(weaponData.AliasOnFire);
         transform.PlaySoundAtPosition(weaponData.AliasOnAfterFire);
+        
+        if( _currentAmmo != -1)
+            _currentAmmo--;
         return true;
     }
 }

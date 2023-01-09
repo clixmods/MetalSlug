@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c5032b7ad93df4da1e5a85acd467b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiScriptableObject: {fileID: 11400000, guid: a2f4b7e08d439fe43b037eab2d402895, type: 2}
+  aiScriptableObject: {fileID: 11400000, guid: 735db67668bfbc64ca894e4e2b7a5a18, type: 2}
 --- !u!114 &3374736622135880444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 744952831003756337}
   - component: {fileID: 744952831003756350}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

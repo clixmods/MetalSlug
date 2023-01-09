@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,9 +18,16 @@ public class CameraMotor : MonoBehaviour
     // the transform of the camera
     public Transform cameraTransform;
     // the left limit
+    private float _leftBoundaryInitial;
     public float leftBoundary;
     // the right limit
     public float rightBoundary;
+
+    private void Awake()
+    {
+        _leftBoundaryInitial = leftBoundary;
+        LevelManager.eventLevelRestartLoop += ResetCamera;
+    }
 
     private void Update()
     {
@@ -69,5 +77,10 @@ public class CameraMotor : MonoBehaviour
         // Move the camera
         desiredPosition = transform.position + delta;
         transform.position = Vector3.Lerp(transform.position, desiredPosition, speed);
+    }
+    public void ResetCamera()
+    {
+        
+        leftBoundary = _leftBoundaryInitial;
     }
 }

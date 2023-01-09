@@ -14,8 +14,8 @@ TagManager:
   - UI
   - Actor
   - Projectile
-  - 
-  - 
+  - Hitbox
+  - volume
   - 
   - 
   - 
