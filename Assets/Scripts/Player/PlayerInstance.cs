@@ -58,7 +58,8 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     private Vector2 currentMovementInput;
  
-    private int _health = 1;
+    [SerializeField] private int startHealth = 900;
+    [SerializeField] private int _health = 1;
 
     #region Properties
 
@@ -86,6 +87,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     {
         _characterViewmodel = GetComponent<CharacterViewmodelManager>();
         SpawnWeaponInstance();
+        _health = startHealth;
     }
     private void SpawnWeaponInstance()
     {
@@ -96,7 +98,6 @@ public class PlayerInstance : MonoBehaviour , IActor
     // start
     private void Start()
     {
-        _health = 900;
         if (!isSpawned)
         {
             controller = gameObject.GetComponent<CharacterController>();
@@ -132,7 +133,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             inRange = true;
             Debug.Log("Player stays in trigger");
-            var playerInstanceCached = other.GetComponent<PlayerInstance>();
+            var playerInstanceCached = other.transform.parent.GetComponent<PlayerInstance>();
             if (playerInstanceCached.isDead == true)
             {
                 playerInstanceRevivedCache = playerInstanceCached;
@@ -404,7 +405,8 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     public void Revive()
     {
-
+        isDead = false;
+        _health = startHealth;
     }
  
     public TeamEnum Team => _team;
@@ -416,11 +418,6 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             OnDeath();
         }
-    }
-
-    public void OnEnable()
-    {
-        _health = 1;
     }
     
     public void OnDeath()
