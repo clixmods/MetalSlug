@@ -5,6 +5,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using Unity.VisualScripting;
+
 [SelectionBase]
 [RequireComponent(typeof(CharacterController))]
 public class PlayerInstance : MonoBehaviour , IActor
@@ -26,6 +28,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     public WeaponInstance weaponInstance;
     public WeaponInstance grenadeInstance;
 
+    private PlayerInstance playerInstanceRevivedCache;
+
     // REFS DE GO
     [SerializeField]
     private GameObject cameraTarget;
@@ -37,6 +41,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     private float jumpHeight = 3.0f;
     [SerializeField]
     private float gravityValue = -9.81f;
+    [SerializeField]
+    public float ctxCached { get; private set; }
 
     [SerializeField]
     private int lastDirection;
@@ -68,7 +74,10 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool shooted;
     private bool shootedGrenade;
     private bool isCrouching = false;
-    
+    private bool inRange = false;
+    private bool isDead = false;
+    private bool isReviving = false;
+
     [SerializeField] private TeamEnum _team;
     private bool isSpawned;
     private CharacterViewmodelManager _characterViewmodel;
@@ -87,6 +96,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     // start
     private void Start()
     {
+        _health = 900;
         if (!isSpawned)
         {
             controller = gameObject.GetComponent<CharacterController>();
@@ -94,12 +104,41 @@ public class PlayerInstance : MonoBehaviour , IActor
             eventPlayerJoin?.Invoke(this);
             isSpawned = true;
         }
-        
     }
 
+    // OnDestroy
     private void OnDestroy()
     {
         eventPlayerDisconnect?.Invoke(this);
+    }
+
+    // OnTriggerEnter 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == IndexLayerProjectile)
+        {
+            var projectile = other.GetComponent<ProjectileInstance>();
+            if (projectile.teamEnum != Team)
+            {
+                DoDamage(projectile.damage);
+                projectile.OnHit();
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.transform.parent.tag == "Player")
+        {
+            inRange = true;
+            Debug.Log("Player stays in trigger");
+            var playerInstanceCached = other.GetComponent<PlayerInstance>();
+            if (playerInstanceCached.isDead == true)
+            {
+                playerInstanceRevivedCache = playerInstanceCached;
+            }
+            //todo UI active
+        }
     }
 
     // move
@@ -275,9 +314,34 @@ public class PlayerInstance : MonoBehaviour , IActor
         }
     }
 
+    public void OnInteraction(InputAction.CallbackContext context)
+    {
+        if(!inRange && !isDead)
+        {
+            return;
+        }
+        ctxCached = context.ReadValue<float>();
+        switch (context.phase)
+        {
+            case InputActionPhase.Started:
+                isReviving = true;
+                break;
+            case InputActionPhase.Performed:
+                if (playerInstanceRevivedCache != null)
+                {
+                    playerInstanceRevivedCache.Revive();
+                }
+                isReviving = false;
+                break;
+            case InputActionPhase.Canceled:
+                isReviving = false;
+                break;
+        }
+    }
+
     // update
     void Update()
-    {
+    { 
         // check if the player is grounded
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
@@ -338,7 +402,10 @@ public class PlayerInstance : MonoBehaviour , IActor
         controller.enabled = true;
     }
 
+    public void Revive()
+    {
 
+    }
  
     public TeamEnum Team => _team;
     public int Health => _health;
@@ -359,22 +426,10 @@ public class PlayerInstance : MonoBehaviour , IActor
     public void OnDeath()
     {
         AudioManager.PlaySoundAtPosition("announcer_player_down", Vector3.zero);
+        isDead = true;
         //gameObject.SetActive(false);
     }
     private const int IndexLayerProjectile = 7;
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Player hit");
-        if (other.gameObject.layer == IndexLayerProjectile)
-        {
-            var projectile = other.GetComponent<ProjectileInstance>();
-            if (projectile.teamEnum != Team)
-            {
-                DoDamage(projectile.damage);
-                projectile.OnHit();
-            }
-        }
-    }
     
     #if UNITY_EDITOR
         private void OnDrawGizmos()

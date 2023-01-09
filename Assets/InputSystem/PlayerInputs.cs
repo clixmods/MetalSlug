@@ -71,6 +71,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Revive"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1b99f9d-0d71-4b3b-a653-7414a145dbb2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -227,6 +236,28 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""action"": ""ShootGrenade"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e08ad41e-c1a8-4a57-8ace-42c8a80bc00f"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": ""Hold(duration=3)"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Revive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65c523b7-902e-41dd-912a-9df91c728de0"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": ""Hold(duration=3)"",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Revive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -274,6 +305,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""name"": ""ShootGrenade"",
                     ""type"": ""Button"",
                     ""id"": ""fb22a4f6-c98a-4931-9706-93ca86750eb6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Revive"",
+                    ""type"": ""Button"",
+                    ""id"": ""473e4483-81b7-47c3-a814-6dbb6bc80869"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -434,6 +474,28 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""action"": ""ShootGrenade"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81055a80-d195-44bb-8a53-634c2d3a3e1a"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": ""Hold(duration=3)"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Revive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cae5b7e3-bd4f-4dd9-b89c-d4f849900559"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": ""Hold(duration=3)"",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Revive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -470,6 +532,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Player1_Joining = m_Player1.FindAction("Joining", throwIfNotFound: true);
         m_Player1_Shoot1 = m_Player1.FindAction("Shoot1", throwIfNotFound: true);
         m_Player1_ShootGrenade = m_Player1.FindAction("ShootGrenade", throwIfNotFound: true);
+        m_Player1_Revive = m_Player1.FindAction("Revive", throwIfNotFound: true);
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_Movement = m_Player2.FindAction("Movement", throwIfNotFound: true);
@@ -477,6 +540,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Player2_Joining = m_Player2.FindAction("Joining", throwIfNotFound: true);
         m_Player2_Shoot1 = m_Player2.FindAction("Shoot1", throwIfNotFound: true);
         m_Player2_ShootGrenade = m_Player2.FindAction("ShootGrenade", throwIfNotFound: true);
+        m_Player2_Revive = m_Player2.FindAction("Revive", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -541,6 +605,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_Joining;
     private readonly InputAction m_Player1_Shoot1;
     private readonly InputAction m_Player1_ShootGrenade;
+    private readonly InputAction m_Player1_Revive;
     public struct Player1Actions
     {
         private @PlayerInputs m_Wrapper;
@@ -550,6 +615,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public InputAction @Joining => m_Wrapper.m_Player1_Joining;
         public InputAction @Shoot1 => m_Wrapper.m_Player1_Shoot1;
         public InputAction @ShootGrenade => m_Wrapper.m_Player1_ShootGrenade;
+        public InputAction @Revive => m_Wrapper.m_Player1_Revive;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -574,6 +640,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @ShootGrenade.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShootGrenade;
                 @ShootGrenade.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShootGrenade;
                 @ShootGrenade.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnShootGrenade;
+                @Revive.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnRevive;
+                @Revive.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnRevive;
+                @Revive.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnRevive;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -593,6 +662,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @ShootGrenade.started += instance.OnShootGrenade;
                 @ShootGrenade.performed += instance.OnShootGrenade;
                 @ShootGrenade.canceled += instance.OnShootGrenade;
+                @Revive.started += instance.OnRevive;
+                @Revive.performed += instance.OnRevive;
+                @Revive.canceled += instance.OnRevive;
             }
         }
     }
@@ -606,6 +678,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player2_Joining;
     private readonly InputAction m_Player2_Shoot1;
     private readonly InputAction m_Player2_ShootGrenade;
+    private readonly InputAction m_Player2_Revive;
     public struct Player2Actions
     {
         private @PlayerInputs m_Wrapper;
@@ -615,6 +688,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public InputAction @Joining => m_Wrapper.m_Player2_Joining;
         public InputAction @Shoot1 => m_Wrapper.m_Player2_Shoot1;
         public InputAction @ShootGrenade => m_Wrapper.m_Player2_ShootGrenade;
+        public InputAction @Revive => m_Wrapper.m_Player2_Revive;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -639,6 +713,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @ShootGrenade.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnShootGrenade;
                 @ShootGrenade.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnShootGrenade;
                 @ShootGrenade.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnShootGrenade;
+                @Revive.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRevive;
+                @Revive.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRevive;
+                @Revive.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRevive;
             }
             m_Wrapper.m_Player2ActionsCallbackInterface = instance;
             if (instance != null)
@@ -658,6 +735,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @ShootGrenade.started += instance.OnShootGrenade;
                 @ShootGrenade.performed += instance.OnShootGrenade;
                 @ShootGrenade.canceled += instance.OnShootGrenade;
+                @Revive.started += instance.OnRevive;
+                @Revive.performed += instance.OnRevive;
+                @Revive.canceled += instance.OnRevive;
             }
         }
     }
@@ -687,6 +767,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnJoining(InputAction.CallbackContext context);
         void OnShoot1(InputAction.CallbackContext context);
         void OnShootGrenade(InputAction.CallbackContext context);
+        void OnRevive(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
@@ -695,5 +776,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnJoining(InputAction.CallbackContext context);
         void OnShoot1(InputAction.CallbackContext context);
         void OnShootGrenade(InputAction.CallbackContext context);
+        void OnRevive(InputAction.CallbackContext context);
     }
 }

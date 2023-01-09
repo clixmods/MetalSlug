@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Revive",
+                    "type": "Button",
+                    "id": "e1b99f9d-0d71-4b3b-a653-7414a145dbb2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -205,6 +214,28 @@
                     "action": "ShootGrenade",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e08ad41e-c1a8-4a57-8ace-42c8a80bc00f",
+                    "path": "<Keyboard>/c",
+                    "interactions": "Hold(duration=3)",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Revive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65c523b7-902e-41dd-912a-9df91c728de0",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "Hold(duration=3)",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Revive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -252,6 +283,15 @@
                     "name": "ShootGrenade",
                     "type": "Button",
                     "id": "fb22a4f6-c98a-4931-9706-93ca86750eb6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Revive",
+                    "type": "Button",
+                    "id": "473e4483-81b7-47c3-a814-6dbb6bc80869",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -410,6 +450,28 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "ShootGrenade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "81055a80-d195-44bb-8a53-634c2d3a3e1a",
+                    "path": "<Keyboard>/c",
+                    "interactions": "Hold(duration=3)",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Revive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cae5b7e3-bd4f-4dd9-b89c-d4f849900559",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "Hold(duration=3)",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Revive",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
