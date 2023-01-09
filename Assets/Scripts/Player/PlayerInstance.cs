@@ -28,38 +28,33 @@ public class PlayerInstance : MonoBehaviour , IActor
     public WeaponInstance weaponInstance;
     public WeaponInstance grenadeInstance;
 
-    private PlayerInstance playerInstanceRevivedCache;
+    private PlayerInstance _playerInstanceRevivedCache;
 
     // REFS DE GO
-    [SerializeField]
-    private GameObject cameraTarget;
+    [SerializeField] private GameObject _cameraTarget;
 
     // FLOAT & INT
-    [SerializeField]
-    private float playerSpeed = 2.0f;
-    [SerializeField]
-    private float jumpHeight = 3.0f;
-    [SerializeField]
-    private float gravityValue = -9.81f;
-    [SerializeField]
-    public float ctxCached { get; private set; }
+    [SerializeField] private float _playerSpeed = 2.0f;
+    [SerializeField] private float _jumpHeight = 3.0f;
+    [SerializeField] private float _gravityValue = -9.81f;
+    [SerializeField] private float _timerDeath;
+    private float _timerDeathCache;
+    [SerializeField] public float ctxCached { get; private set; }
 
-    [SerializeField]
-    private int lastDirection;
+    [SerializeField] private int _lastDirection;
+    [SerializeField] private int _startHealth = 900;
+    [SerializeField] private int _health = 1;
 
     // RB
     private CharacterController controller;
 
     // VECTOR
-    private Vector3 playerVelocity;
-    private Vector2 movementInput = Vector2.zero;
-    private Vector2 aimDir;
-    private Vector2 aimDirGrenade = Vector2.zero;
-
-    private Vector2 currentMovementInput;
- 
-    [SerializeField] private int startHealth = 900;
-    [SerializeField] private int _health = 1;
+    private Vector3 _playerVelocity;
+    private Vector3 _playerTransform;
+    private Vector2 _movementInput = Vector2.zero;
+    private Vector2 _aimDir;
+    private Vector2 _aimDirGrenade = Vector2.zero;
+    private Vector2 _currentMovementInput;
 
     #region Properties
 
@@ -70,25 +65,27 @@ public class PlayerInstance : MonoBehaviour , IActor
     #endregion
 
     // BOOL
-    private bool groundedPlayer;
-    private bool jumped = false;
-    private bool shooted;
-    private bool shootedGrenade;
-    private bool isCrouching = false;
-    private bool inRange = false;
-    private bool isDead = false;
-    private bool isReviving = false;
-    public bool IsReviving => isReviving;
+    private bool _groundedPlayer;
+    private bool _jumped = false;
+    private bool _shooted;
+    private bool _shootedGrenade;
+    private bool _isCrouching = false;
+    private bool _inRange = false;
+    private bool _isReviving = false;
+    private bool _isHealing = false;
+    private bool _isLastStand = false;
+    private bool _isSpawned;
+    public bool IsReviving => _isReviving;
 
     [SerializeField] private TeamEnum _team;
-    private bool isSpawned;
     private CharacterViewmodelManager _characterViewmodel;
 
     private void Awake()
     {
         _characterViewmodel = GetComponent<CharacterViewmodelManager>();
         SpawnWeaponInstance();
-        _health = startHealth;
+        _health = _startHealth;
+        _timerDeath = 15f;
     }
     private void SpawnWeaponInstance()
     {
@@ -99,12 +96,12 @@ public class PlayerInstance : MonoBehaviour , IActor
     // start
     private void Start()
     {
-        if (!isSpawned)
+        if (!_isSpawned)
         {
             controller = gameObject.GetComponent<CharacterController>();
        
             eventPlayerJoin?.Invoke(this);
-            isSpawned = true;
+            _isSpawned = true;
         }
     }
 
@@ -132,69 +129,88 @@ public class PlayerInstance : MonoBehaviour , IActor
     {
         if (other.transform.parent != null && other.transform.parent.CompareTag("Player"))
         {
-            inRange = true;
-            Debug.Log("Player stays in trigger");
+            _inRange = true;
             var playerInstanceCached = other.transform.parent.GetComponent<PlayerInstance>();
-            if (playerInstanceCached.isDead == true)
+            if (playerInstanceCached._isLastStand == true)
             {
-                playerInstanceRevivedCache = playerInstanceCached;
+                _playerInstanceRevivedCache = playerInstanceCached;
+                playerInstanceCached._isHealing = _isReviving;
             }
             //todo UI active
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var playerInstanceCached = other.transform.parent.GetComponent<PlayerInstance>();
+        if (playerInstanceCached._isLastStand == true)
+        {
+            _playerInstanceRevivedCache = null;
+            playerInstanceCached._isHealing = false;
         }
     }
 
     // move
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (_isReviving || _isLastStand)
+        {
+            return;
+        }
+
         // readValue via InputSystem
-        movementInput = context.ReadValue<Vector2>();
+        _movementInput = context.ReadValue<Vector2>();
         if (context.phase == InputActionPhase.Performed)
         {
-            if (!(movementInput.x == 0 && movementInput.y == 0))
+            if (!(_movementInput.x == 0 && _movementInput.y == 0))
             {
                 // Update the current movement input.
-                currentMovementInput = movementInput;
+                _currentMovementInput = _movementInput;
 
                 // Update the last direction the player moved in.
-                if (currentMovementInput.x < 0)
+                if (_currentMovementInput.x < 0)
                 {
-                    lastDirection = -1;
+                    _lastDirection = -1;
                 }
-                else if (currentMovementInput.x > 0)
+                else if (_currentMovementInput.x > 0)
                 {
-                    lastDirection = 1;
+                    _lastDirection = 1;
                 }
             }
             else
             {
                 // If the player is not moving, reset the current movement input.
-                currentMovementInput = Vector2.zero;
+                _currentMovementInput = Vector2.zero;
             }
 
             // Update the crouching state.
-            if (currentMovementInput.y < 0 && controller.isGrounded)
+            if (_currentMovementInput.y < 0 && controller.isGrounded)
             {
-                isCrouching = true;
+                _isCrouching = true;
             }
             else
             {
-                isCrouching = false;
+                _isCrouching = false;
             }
-           
         }
     }
 
     // jump
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (_isReviving || _isLastStand)
+        {
+            return;
+        }
+
         // switch for set true & false the action
-        switch(context.phase)
+        switch (context.phase)
         {
             case InputActionPhase.Performed:
-                jumped = true;
+                _jumped = true;
                 break;
             case InputActionPhase.Canceled:
-                jumped = false;
+                _jumped = false;
                 break;
             default:
                 break;
@@ -204,70 +220,75 @@ public class PlayerInstance : MonoBehaviour , IActor
     // shoot
     public void OnShoot(InputAction.CallbackContext context)
     {
+        if (_isReviving || _isLastStand)
+        {
+            return;
+        }
+
         eventPlayerFire?.Invoke(this);
         switch (context.phase)
         {
             case InputActionPhase.Started:
                 
                 // Check the direction to shoot based on the player's current movement input and whether they are in the air.
-                if (currentMovementInput.y < 0 && controller.isGrounded)
+                if (_currentMovementInput.y < 0 && controller.isGrounded)
                 {
                     // If the player is on the ground and pressing S, shoot the last direction.
-                    if (lastDirection < 0)
+                    if (_lastDirection < 0)
                     {
                         // If the player was moving left, shoot left.
                         weaponInstance.DoFire(Vector2.left);
                     }
-                    else if (lastDirection > 0)
+                    else if (_lastDirection > 0)
                     {
                         // If the player was moving right, shoot right.
                         weaponInstance.DoFire(Vector2.right);
                     }
                     break;
                 }
-                else if (currentMovementInput.y < 0 || aimDir.y < 0)
+                else if (_currentMovementInput.y < 0 || _aimDir.y < 0)
                 {
                     // If the player is in the air and pressing S, or if they are in the air and aiming downwards, shoot downwards.
                     weaponInstance.DoFire(Vector2.down);
                 }
-                else if (currentMovementInput.y > 0)
+                else if (_currentMovementInput.y > 0)
                 {
                     // If the player is pressing W, shoot upwards.
                     weaponInstance.DoFire(Vector2.up);
                 }
-                else if (currentMovementInput.x < 0)
+                else if (_currentMovementInput.x < 0)
                 {
                     // If the player is pressing A, shoot left.
                     weaponInstance.DoFire(Vector2.left);
                 }
-                else if (currentMovementInput.x > 0)
+                else if (_currentMovementInput.x > 0)
                 {
                     // If the player is pressing D, shoot right.
                     weaponInstance.DoFire(Vector2.right);
                 }
-                else if (currentMovementInput.y == 0 && currentMovementInput.x == 0 && controller.isGrounded)
+                else if (_currentMovementInput.y == 0 && _currentMovementInput.x == 0 && controller.isGrounded)
                 {
                     // If the player is not moving and on the ground, check the last direction they moved in.
-                    if (lastDirection < 0)
+                    if (_lastDirection < 0)
                     {
                         // If the player was moving left, shoot left.
                         weaponInstance.DoFire(Vector2.left);
                     }
-                    else if (lastDirection > 0)
+                    else if (_lastDirection > 0)
                     {
                         // If the player was moving right, shoot right.
                         weaponInstance.DoFire(Vector2.right);
                     }
                 }
-                else if (currentMovementInput.y == 0 && currentMovementInput.x == 0 && !controller.isGrounded)
+                else if (_currentMovementInput.y == 0 && _currentMovementInput.x == 0 && !controller.isGrounded)
                 {
                     // If the player is not moving and in the air, check the last direction they moved in.
-                    if (lastDirection < 0)
+                    if (_lastDirection < 0)
                     {
                         // If the player was moving left, shoot left.
                         weaponInstance.DoFire(Vector2.left);
                     }
-                    else if (lastDirection > 0)
+                    else if (_lastDirection > 0)
                     {
                         // If the player was moving right, shoot right.
                         weaponInstance.DoFire(Vector2.right);
@@ -276,96 +297,113 @@ public class PlayerInstance : MonoBehaviour , IActor
                 break;
 
             case InputActionPhase.Performed:
-                shooted = true;
+                _shooted = true;
                 break;
 
             case InputActionPhase.Canceled:
-                shooted = false;
-                break;
-
-            default:
+                _shooted = false;
                 break;
         }
     }
 
     public void OnShootGrenade(InputAction.CallbackContext context)
     {
+        if (_isReviving || _isLastStand)
+        {
+            return;
+        }
+
         eventPlayerFire?.Invoke(this);
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                if (lastDirection < 0)
+                if (_lastDirection < 0)
                 {
                     // If the player was moving left, shoot the grenade left.
-                    aimDirGrenade = new Vector2(-1+(0.5f*movementInput.x), 1.25f);
-                    grenadeInstance.DoFire(aimDirGrenade);
+                    _aimDirGrenade = new Vector2(-1+(0.5f*_movementInput.x), 1.25f);
+                    grenadeInstance.DoFire(_aimDirGrenade);
                 }
-                else if (lastDirection > 0)
+                else if (_lastDirection > 0)
                 {
                     // If the player was moving right, shoot the grenade right.
-                    aimDirGrenade = new Vector2(1+(0.5f*movementInput.x), 1.25f);
-                    grenadeInstance.DoFire(aimDirGrenade);
+                    _aimDirGrenade = new Vector2(1+(0.5f*_movementInput.x), 1.25f);
+                    grenadeInstance.DoFire(_aimDirGrenade);
                 }
                 break;
             case InputActionPhase.Performed:
-                shootedGrenade = true;
+                _shootedGrenade = true;
                 break;
             case InputActionPhase.Canceled:
-                shootedGrenade = true;
+                _shootedGrenade = true;
                 break;
         }
     }
 
     public void OnInteraction(InputAction.CallbackContext context)
     {
-        if(!inRange && !isDead)
+        if (_isLastStand || _playerInstanceRevivedCache == null)
         {
             return;
         }
-        ctxCached = (float)context.time - (float)context.startTime ;
+
+        ctxCached = (float)context.time - (float)context.startTime;
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                isReviving = true;
+                _movementInput = new Vector2(0, 0);
+                _isReviving = true;
                 break;
             case InputActionPhase.Performed:
-                if (playerInstanceRevivedCache != null)
+                if (_playerInstanceRevivedCache != null)
                 {
-                    playerInstanceRevivedCache.Revive();
+                    _playerInstanceRevivedCache.Revive();
+                    _isReviving = false;
+                    _playerInstanceRevivedCache = null;
                 }
-                isReviving = false;
                 break;
             case InputActionPhase.Canceled:
-                isReviving = false;
+                _isReviving = false;
                 break;
         }
     }
 
     // update
     void Update()
-    { 
+    {
+        if (_isLastStand && !_isHealing)
+        {
+            _timerDeath -= Time.deltaTime;
+        }
+
+        if (_timerDeath <= 0)
+        {
+            Destroy(gameObject);
+        }
+
         // check if the player is grounded
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
+        _groundedPlayer = controller.isGrounded;
+        if (_groundedPlayer && _playerVelocity.y < 0)
         {
             // set the velocity to 0
-            playerVelocity.y = 0f;
+            _playerVelocity.y = 0f;
             // if the player jump and crouch while in the air and arrive on the ground crouched then isCrouching is set to true
-            if (currentMovementInput.y < 0 && controller.isGrounded)
+            if (_currentMovementInput.y < 0 && controller.isGrounded)
             {
-                isCrouching = true;
+                _isCrouching = true;
             }
         }
 
         // move the player
-        Vector3 move = new Vector3(movementInput.x, 0, 0);
+        Vector3 move = new Vector3(_movementInput.x, 0, 0);
 
-        var motion = move.normalized * Time.deltaTime * playerSpeed;
+        var motion = move.normalized * Time.deltaTime * _playerSpeed;
+
         // Check if the object is out of the camera
         Vector3 position = Camera.main.WorldToViewportPoint(transform.position + motion);
         
         bool isOutCameraNegative = position.x < 0.1f || position.y < 0.1f;
         bool isOutCameraPositive =  position.x > 0.9f || position.y > 0.9f;
+
         if(!(isOutCameraNegative || isOutCameraPositive) )
         {
             controller.Move(motion);
@@ -374,11 +412,11 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             if (isOutCameraNegative)
             {
-                controller.Move(Vector3.right * Time.deltaTime * playerSpeed);
+                controller.Move(Vector3.right * Time.deltaTime * _playerSpeed);
             }
             if (isOutCameraPositive)
             {
-                controller.Move(Vector3.left * Time.deltaTime * playerSpeed);
+                controller.Move(Vector3.left * Time.deltaTime * _playerSpeed);
             }
         }
         _characterViewmodel.Direction = transform.position + motion;
@@ -386,15 +424,15 @@ public class PlayerInstance : MonoBehaviour , IActor
         
 
         // Changes the height position of the player..
-        if (jumped && groundedPlayer)
+        if (_jumped && _groundedPlayer)
         {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
         }
 
         // add gravity to the player
-        playerVelocity.y += gravityValue * Time.deltaTime;
+        _playerVelocity.y += _gravityValue * Time.deltaTime;
         // motion
-        controller.Move(playerVelocity * Time.deltaTime);
+        controller.Move(_playerVelocity * Time.deltaTime);
     }
 
     public void Teleport(Vector3 position)
@@ -406,8 +444,8 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     public void Revive()
     {
-        isDead = false;
-        _health = startHealth;
+        _isLastStand = false;
+        _health = _startHealth;
     }
  
     public TeamEnum Team => _team;
@@ -417,16 +455,21 @@ public class PlayerInstance : MonoBehaviour , IActor
         _health -= amount;
         if (_health <= 0)
         {
-            OnDeath();
+            OnDown();
         }
     }
     
-    public void OnDeath()
+    public void OnDown()
     {
         AudioManager.PlaySoundAtPosition("announcer_player_down", Vector3.zero);
-        isDead = true;
-        //gameObject.SetActive(false);
+        _isLastStand = true;
     }
+
+    public void OnDeath()
+    {
+        AudioManager.PlaySoundAtPosition("announcer_player_death", Vector3.zero);
+    }
+
     private const int IndexLayerProjectile = 7;
     
     #if UNITY_EDITOR

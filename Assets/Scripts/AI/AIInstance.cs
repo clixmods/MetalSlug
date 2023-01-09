@@ -267,13 +267,13 @@ public class AIInstance : MonoBehaviour , IActor
         
         if (_health <= 0)
         {
-            OnDeath();
+            OnDown();
             return;
         }
         eventAIScore?.Invoke(aiScriptableObject.ScoreHit);
     }
 
-    public void OnDeath()
+    public void OnDown()
     {
         // Do shit before death
         gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
