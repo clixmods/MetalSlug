@@ -9,6 +9,7 @@ public class UIRevivePlayerPanel : MonoBehaviour
     private CanvasGroup _canvasGroup;
     [SerializeField] private Image _image;
     private float _amountFiled = 0;
+    private Vector3 _offset = new Vector3(0,1.5f,0);
     public PlayerInstance PlayerInstance
     {
         get => _playerInstance;
@@ -23,12 +24,19 @@ public class UIRevivePlayerPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (_playerInstance != null && _playerInstance.IsLastStand)
         {
-            transform.position = Camera.main.WorldToScreenPoint(PlayerInstance.transform.position);
+            transform.position = Camera.main.WorldToScreenPoint(PlayerInstance.transform.position + _offset ) ;
+            
             _canvasGroup.alpha = 1;
-            _image.fillAmount = _amountFiled;
-            _amountFiled += Time.deltaTime/3f;
+            if(_playerInstance.IsReviving)
+            {
+                _image.fillAmount = _amountFiled;
+                _amountFiled += Time.deltaTime/3f;
+            }
+                
+            
         }
         else
         {

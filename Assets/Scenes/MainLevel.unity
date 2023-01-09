@@ -1955,6 +1955,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4180758100284577545, guid: 8b20d36c7a48f9147a3e765feffaa70d,
         type: 3}
+      propertyPath: startHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180758100284577545, guid: 8b20d36c7a48f9147a3e765feffaa70d,
+        type: 3}
       propertyPath: aimDirGrenade.x
       value: 1
       objectReference: {fileID: 0}
@@ -2577,6 +2582,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948747762407344675, guid: e4d0df7c069d6d140bbabf9a8b5c1c96,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878240830174223875, guid: e4d0df7c069d6d140bbabf9a8b5c1c96,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6529181396529942426, guid: e4d0df7c069d6d140bbabf9a8b5c1c96,
         type: 3}
