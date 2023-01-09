@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 6f4bb4fdd2730ff468bd52493c095a35, type: 2}
-  cooldown: 0.56
 --- !u!1 &2457666867710963530
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +178,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cc160a175afb8d4e9672dbd7b67e99c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  primaryWeapon: {fileID: 0}
+  grenadeWeapon: {fileID: 0}
   weaponInstance: {fileID: 2457666867156502188}
+  grenadeInstance: {fileID: 0}
   cameraTarget: {fileID: 0}
   playerSpeed: 4
   jumpHeight: 2
@@ -311,7 +313,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4180758100284577559}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
