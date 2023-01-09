@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -11,7 +12,7 @@ public enum BehaviorAfterPlay
 public class FXManager : MonoBehaviour
 {
     private ParticleSystem _particleSystem;
-    public MeshRenderer _meshRenderer;
+    public SkinnedMeshRenderer skinnedMeshRenderer;
     private BehaviorAfterPlay _behaviorAfterPlay;
     public static FXManager InitFX(GameObject prefab,  Vector3 position, GameObject owner  = null)
     {
@@ -27,8 +28,8 @@ public class FXManager : MonoBehaviour
         if (owner != null)
         {
             parent = owner.transform;
-            if ( fxManager != null && parent.TryGetComponent<MeshRenderer>(out var meshRenderer))
-                fxManager._meshRenderer = meshRenderer;
+            if ( fxManager != null && parent.TryGetComponent<CharacterViewmodelManager>(out var characterViewmodelManager))
+                fxManager.skinnedMeshRenderer = characterViewmodelManager.skinnedMeshRenderer;
 
         }
         return fxManager;
@@ -40,11 +41,16 @@ public class FXManager : MonoBehaviour
     void Awake()
     {
         _particleSystem = GetComponent<ParticleSystem>();
+     
+
+    }
+
+    private void Start()
+    {
         _particleSystem = GetComponent<ParticleSystem>();
         var shapeParameters = _particleSystem.shape;
         shapeParameters.shapeType = ParticleSystemShapeType.SkinnedMeshRenderer;
-        shapeParameters.meshRenderer = _meshRenderer;
-
+        shapeParameters.skinnedMeshRenderer = skinnedMeshRenderer;
     }
 
     public void Play(Vector3 position, BehaviorAfterPlay behaviorAfterPlay = BehaviorAfterPlay.Nothing)

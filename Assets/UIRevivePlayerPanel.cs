@@ -23,7 +23,7 @@ public class UIRevivePlayerPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_playerInstance != null && _playerInstance.IsReviving)
+        if (_playerInstance != null && _playerInstance.IsLastStand)
         {
             transform.position = Camera.main.WorldToScreenPoint(PlayerInstance.transform.position);
             _canvasGroup.alpha = 1;

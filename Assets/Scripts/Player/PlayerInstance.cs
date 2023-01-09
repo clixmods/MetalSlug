@@ -78,7 +78,9 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool inRange = false;
     private bool isDead = false;
     private bool isReviving = false;
+    public bool isLastStand = false;
     public bool IsReviving => isReviving;
+    public bool IsLastStand => isLastStand;
 
     [SerializeField] private TeamEnum _team;
     private bool isSpawned;

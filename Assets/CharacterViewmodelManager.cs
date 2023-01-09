@@ -7,6 +7,8 @@ public class CharacterViewmodelManager : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     [SerializeField] private GameObject viewModel;
+    public SkinnedMeshRenderer skinnedMeshRenderer;
+    
 
     public Vector3 Direction
     {
@@ -22,6 +24,7 @@ public class CharacterViewmodelManager : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
     }
 
     // Start is called before the first frame update
