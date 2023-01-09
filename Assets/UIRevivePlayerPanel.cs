@@ -30,7 +30,7 @@ public class UIRevivePlayerPanel : MonoBehaviour
             transform.position = Camera.main.WorldToScreenPoint(PlayerInstance.transform.position + _offset ) ;
             
             _canvasGroup.alpha = 1;
-            if(_playerInstance.IsReviving)
+            if(_playerInstance.IsHealing)
             {
                 _image.fillAmount = _amountFiled;
                 _amountFiled += Time.deltaTime/3f;
