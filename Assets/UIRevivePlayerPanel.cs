@@ -8,7 +8,7 @@ public class UIRevivePlayerPanel : MonoBehaviour
     private PlayerInstance _playerInstance;
     private CanvasGroup _canvasGroup;
     [SerializeField] private Image _image;
-
+    private float _amountFiled = 0;
     public PlayerInstance PlayerInstance
     {
         get => _playerInstance;
@@ -18,21 +18,22 @@ public class UIRevivePlayerPanel : MonoBehaviour
     void Awake()
     {
         _canvasGroup = GetComponent<CanvasGroup>();
-        _image = GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_playerInstance.ctxCached > 0)
+        if (_playerInstance != null && _playerInstance.IsReviving)
         {
             transform.position = Camera.main.WorldToScreenPoint(PlayerInstance.transform.position);
             _canvasGroup.alpha = 1;
-            _image.fillAmount = _playerInstance.ctxCached / 3f;
+            _image.fillAmount = _amountFiled;
+            _amountFiled += Time.deltaTime/3f;
         }
         else
         {
             _canvasGroup.alpha = 0;
+            _amountFiled = 0;
         }
         
     }

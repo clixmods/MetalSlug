@@ -78,6 +78,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool inRange = false;
     private bool isDead = false;
     private bool isReviving = false;
+    public bool IsReviving => isReviving;
 
     [SerializeField] private TeamEnum _team;
     private bool isSpawned;
@@ -129,7 +130,7 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.transform.parent.tag == "Player")
+        if (other.transform.parent != null && other.transform.parent.CompareTag("Player"))
         {
             inRange = true;
             Debug.Log("Player stays in trigger");
@@ -321,7 +322,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             return;
         }
-        ctxCached = (float)context.time;
+        ctxCached = (float)context.time - (float)context.startTime ;
         switch (context.phase)
         {
             case InputActionPhase.Started:
