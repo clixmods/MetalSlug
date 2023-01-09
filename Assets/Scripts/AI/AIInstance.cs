@@ -39,10 +39,17 @@ public class AIInstance : MonoBehaviour , IActor
     private AudioPlayer audioPlayerMove;
     private AudioPlayer LoopAmbiant;
     private float _attackCooldown;
+    
+    private FXManager _fxDeath;
+    private FXManager _fxAmbiant;
+    private FXManager _fxHit;
+    private FXManager _fxDamaged;
+    private FXManager _fxLowHealth;
+    private FXManager _fxMove;
     #endregion
     
     [SerializeField] private AIScriptableObject aiScriptableObject;
-    private FXManager _fxDeath;
+    
 
     #region Properties
     private float AttackRange => aiScriptableObject.minDistanceToKeepWithTarget;
@@ -83,13 +90,23 @@ public class AIInstance : MonoBehaviour , IActor
         SpawnWeaponInstance();
         _minDistanceToKeepWithTarget = Random.Range( aiScriptableObject.minDistanceToKeepWithTarget, aiScriptableObject.minDistanceToKeepWithTarget * 1.5f);
         _speed = Random.Range( aiScriptableObject.speed, aiScriptableObject.speed * 1.5f);
-        _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position);
+        InitFXInstance();
     }
 
     private void SpawnWeaponInstance()
     {
         _currentWeapon = aiScriptableObject.primaryWeapon.CreateWeaponInstance(gameObject);
         _grenadeWeapon = aiScriptableObject.grenadeWeapon.CreateWeaponInstance(gameObject);
+    }
+
+    private void InitFXInstance()
+    {
+        _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position,gameObject);
+        _fxAmbiant= FXManager.InitFX(aiScriptableObject.FXLoopAmbiant,transform.position);
+        _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject);
+        _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject);
+        _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject);
+        _fxMove= FXManager.InitFX(aiScriptableObject.FXMove,transform.position);
     }
     // Start is called before the first frame update
     void Start()
@@ -246,6 +263,7 @@ public class AIInstance : MonoBehaviour , IActor
     {
         _health -= amount;
         eventAIHit?.Invoke(this);
+        _fxHit.Play(transform.position,BehaviorAfterPlay.Nothing);
         
         if (_health <= 0)
         {

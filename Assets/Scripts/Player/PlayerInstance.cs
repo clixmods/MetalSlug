@@ -17,6 +17,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     public static event PlayerEvent eventPlayerDeath;
     public static event PlayerEvent eventPlayerRespawn;
     public static event PlayerEvent eventPlayerFire;
+    public static event PlayerEvent eventIsReviving;
     #endregion
 
     // REFS DE SCRIPTS

@@ -6,6 +6,7 @@ using UnityEngine;
 public class UIRevivePanel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textComponent;
+ 
     
     // Start is called before the first frame update
     void Start()
