@@ -150,7 +150,7 @@ public class AIInstance : MonoBehaviour , IActor
     private void ThinkMovement()
     {
         var targetPosition = _target.transform.position;
-        
+     
 
         if (DistanceWithTarget() > _minDistanceToKeepWithTarget)
         {
@@ -160,11 +160,12 @@ public class AIInstance : MonoBehaviour , IActor
                 newPosition.y = Mathf.Clamp(newPosition.y, aiScriptableObject.minY, 10);
             }
             _rigidbody.MovePosition(newPosition);
-          
+            _characterViewmodel.Play(AnimState.Move);
             transform.PlayLoopSound(aiScriptableObject.AliasOnMove, ref audioPlayerMove);
         }
         else
         {
+            _characterViewmodel.Play(AnimState.Idle);
             AudioManager.StopLoopSound(ref audioPlayerMove);
         }
     }
@@ -176,13 +177,21 @@ public class AIInstance : MonoBehaviour , IActor
             return;
         }
             
+        
         if (IsInAttackRange())
         {
-            _currentWeapon.DoFire(_target);
+            if (_currentWeapon.DoFire(_target))
+            {
+                _characterViewmodel.Play(AnimState.Fire);
+            }
+           
         }
         else
         {
-            _grenadeWeapon.DoFire(_target);
+            if (_grenadeWeapon.DoFire(_target))
+            {
+                _characterViewmodel.Play(AnimState.Grenade);
+            }
         }
 
         _attackCooldown = Random.Range(aiScriptableObject.attackRate, aiScriptableObject.attackRate * 1.5f);
@@ -264,7 +273,7 @@ public class AIInstance : MonoBehaviour , IActor
         _health -= amount;
         eventAIHit?.Invoke(this);
         _fxHit.Play(transform.position,BehaviorAfterPlay.Nothing);
-        
+        _characterViewmodel.Play(AnimState.Damaged);
         if (_health <= 0)
         {
             OnDown();
