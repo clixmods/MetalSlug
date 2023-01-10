@@ -33,6 +33,7 @@ public class WeaponInstance : MonoBehaviour
     private void Start()
     {
         _fxFire = FXManager.InitFX(weaponData.FXFire, transform.position, gameObject);
+        _fxFire.transform.parent = gameObject.transform;
         transform.PlaySoundAtPosition(weaponData.AliasOnEquip);
         _currentAmmo = weaponData.startAmmo;
     }

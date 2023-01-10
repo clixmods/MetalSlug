@@ -28,7 +28,7 @@ AvatarMask:
   - m_Path: Hips/leg_right/Bone002/Bone003
     m_Weight: 1
   - m_Path: Hips/Torso
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Hips/Torso/Arm_left
     m_Weight: 1
   - m_Path: Hips/Torso/Arm_left/forearm_left

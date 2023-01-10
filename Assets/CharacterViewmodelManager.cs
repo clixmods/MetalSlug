@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum AnimState
@@ -17,6 +18,10 @@ public class CharacterViewmodelManager : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     [SerializeField] private GameObject viewModel;
+    public GameObject leftHand;
+    public GameObject rightHand;
+
+
     public SkinnedMeshRenderer skinnedMeshRenderer;
     private Animator _animator;
 
@@ -39,7 +44,8 @@ public class CharacterViewmodelManager : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         _animator ??= GetComponentInChildren<Animator>();
-        
+        leftHand ??= gameObject;
+        rightHand ??= gameObject;
 
     }
 

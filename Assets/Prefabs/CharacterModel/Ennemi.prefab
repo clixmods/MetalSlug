@@ -104,6 +104,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: mesh_Ennemi
       objectReference: {fileID: 0}
+    - target: {fileID: 1608540994953043292, guid: ba1ca384f676ded4abe49d449b54ce6e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ab1828f7bc62c44dbedba3cfc13dbc9, type: 2}
     - target: {fileID: 3534693626616065727, guid: ba1ca384f676ded4abe49d449b54ce6e,
         type: 3}
       propertyPath: m_Name
