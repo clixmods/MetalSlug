@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3724958136527463560}
   - component: {fileID: 1465150892754554946}
   m_Layer: 0
-  m_Name: Dirigeable
+  m_Name: prop_Dirigeable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
