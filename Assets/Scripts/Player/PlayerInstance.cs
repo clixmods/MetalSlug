@@ -468,6 +468,19 @@ public class PlayerInstance : MonoBehaviour , IActor
         controller.enabled = true;
     }
 
+    public void SetSleep(bool value)
+    {
+        if (value)
+        {
+            controller.enabled = false;
+        }
+        else
+        {
+            controller.enabled = true;
+        }
+    }
+  
+
     public void Revive()
     {
         _isLastStand = false;
