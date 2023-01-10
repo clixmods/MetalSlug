@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[SelectionBase]
 [RequireComponent(typeof(Rigidbody))]
 public class AIInstance : MonoBehaviour , IActor
 {
@@ -15,6 +16,17 @@ public class AIInstance : MonoBehaviour , IActor
     private const int IndexLayerProjectile = 7;
     #endregion
 
+    public static List<AIInstance> AIInstances = new List<AIInstance>();
+    
+    #region Events
+    public delegate void CallbackAIDamage(AIInstance aiInstance);
+    public delegate void CallbackAIScore(int score);
+    public static event CallbackAIDamage eventAIDeath;
+    public static event CallbackAIDamage eventAIHit;
+
+    public static event CallbackAIScore eventAIScore;
+    #endregion
+    
     #region CachedVariables
     private Rigidbody _rigidbody;
     private float _minDistanceToKeepWithTarget;
@@ -25,13 +37,24 @@ public class AIInstance : MonoBehaviour , IActor
     private WeaponInstance _grenadeWeapon;
     private CharacterViewmodelManager _characterViewmodel;
     private AudioPlayer audioPlayerMove;
+    private AudioPlayer LoopAmbiant;
     private float _attackCooldown;
+    
+    private FXManager _fxDeath;
+    private FXManager _fxAmbiant;
+    private FXManager _fxHit;
+    private FXManager _fxDamaged;
+    private FXManager _fxLowHealth;
+    private FXManager _fxMove;
     #endregion
     
     [SerializeField] private AIScriptableObject aiScriptableObject;
+    
 
     #region Properties
     private float AttackRange => aiScriptableObject.minDistanceToKeepWithTarget;
+    public int ScoreDead => aiScriptableObject.ScoreDead;
+    public int ScoreHit => aiScriptableObject.ScoreHit;
     #endregion
 
     /// <summary>
@@ -67,26 +90,38 @@ public class AIInstance : MonoBehaviour , IActor
         SpawnWeaponInstance();
         _minDistanceToKeepWithTarget = Random.Range( aiScriptableObject.minDistanceToKeepWithTarget, aiScriptableObject.minDistanceToKeepWithTarget * 1.5f);
         _speed = Random.Range( aiScriptableObject.speed, aiScriptableObject.speed * 1.5f);
+        InitFXInstance();
     }
 
     private void SpawnWeaponInstance()
     {
-        _currentWeapon = Instantiate(aiScriptableObject.primaryWeapon.prefabWeapon, transform.position, Quaternion.identity,
-            transform).GetComponent<WeaponInstance>();
-        _currentWeapon.Owner = gameObject;
-        _grenadeWeapon = Instantiate(aiScriptableObject.grenadeWeapon.prefabWeapon, transform.position, Quaternion.identity,
-            transform).GetComponent<WeaponInstance>();
-        _grenadeWeapon.Owner = gameObject;
-        _currentWeapon.transform.parent = transform;
-        _currentWeapon.transform.position = transform.position;
-        _grenadeWeapon.transform.parent = transform;
-        _grenadeWeapon.transform.position = transform.position;
+        _currentWeapon = aiScriptableObject.primaryWeapon.CreateWeaponInstance(gameObject);
+        _grenadeWeapon = aiScriptableObject.grenadeWeapon.CreateWeaponInstance(gameObject);
+    }
+
+    private void InitFXInstance()
+    {
+        _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position,gameObject);
+        _fxAmbiant= FXManager.InitFX(aiScriptableObject.FXLoopAmbiant,transform.position);
+        _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject);
+        _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject);
+        _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject);
+        _fxMove= FXManager.InitFX(aiScriptableObject.FXMove,transform.position);
     }
     // Start is called before the first frame update
     void Start()
     {
         _health = aiScriptableObject.Health;
+        transform.PlayLoopSound(aiScriptableObject.AliasOnAmbiant, ref LoopAmbiant);
+        AIInstances.Add(this);
     }
+
+    private void OnDestroy()
+    {
+        AudioManager.StopLoopSound(ref LoopAmbiant, StopLoopBehavior.Direct);
+        AIInstances.Remove(this);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -115,8 +150,9 @@ public class AIInstance : MonoBehaviour , IActor
     private void ThinkMovement()
     {
         var targetPosition = _target.transform.position;
-        float distanceWithTarget = Vector3.Distance(transform.position, targetPosition);
-        if (distanceWithTarget > _minDistanceToKeepWithTarget)
+        
+
+        if (DistanceWithTarget() > _minDistanceToKeepWithTarget)
         {
             var newPosition = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * _speed);
             if (aiScriptableObject.CanFly)
@@ -149,7 +185,22 @@ public class AIInstance : MonoBehaviour , IActor
             _grenadeWeapon.DoFire(_target);
         }
 
-        _attackCooldown = Random.Range(aiScriptableObject.attackRate, aiScriptableObject.attackRange * 1.5f);
+        _attackCooldown = Random.Range(aiScriptableObject.attackRate, aiScriptableObject.attackRate * 1.5f);
+    }
+
+    private float DistanceWithTarget()
+    {
+        float distanceWithTarget;
+        Vector3 transformPosition = transform.position;
+        Vector3 targetPosition = _target.transform.position;
+        if (!aiScriptableObject.CanFly)
+        {
+            transformPosition.y = 0;
+            targetPosition.y = 0;
+        }
+        distanceWithTarget = Vector3.Distance(transformPosition, targetPosition);
+
+        return distanceWithTarget;
     }
 
 #if UNITY_EDITOR
@@ -162,7 +213,7 @@ public class AIInstance : MonoBehaviour , IActor
                 var direction = (_target.transform.position - transform.position).normalized;
                 float angle = Mathf.Abs(direction.y);
                 Handles.Label(transform.position, 
-                    $"Angle {angle }");
+                    $"Angle {angle } // Distance with target {DistanceWithTarget()}");
                 if (IsInAttackRange())
                 {
            
@@ -211,17 +262,27 @@ public class AIInstance : MonoBehaviour , IActor
     public void DoDamage(int amount)
     {
         _health -= amount;
+        eventAIHit?.Invoke(this);
+        _fxHit.Play(transform.position,BehaviorAfterPlay.Nothing);
+        
         if (_health <= 0)
         {
-            OnDeath();
+            OnDown();
+            return;
         }
+        eventAIScore?.Invoke(aiScriptableObject.ScoreHit);
     }
 
-    public void OnDeath()
+    public void OnDown()
     {
         // Do shit before death
         gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
         AudioManager.StopLoopSound(ref audioPlayerMove);
+        eventAIDeath?.Invoke(this);
+        eventAIScore?.Invoke(aiScriptableObject.ScoreDead);
+       
+        _fxDeath.Play(transform.position,BehaviorAfterPlay.DestroyAfterPlay);
+        UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position , ScoreDead);
         Destroy(gameObject);
     }
 

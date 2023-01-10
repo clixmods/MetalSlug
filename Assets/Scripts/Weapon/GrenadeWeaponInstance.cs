@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class GrenadeWeaponInstance : WeaponInstance
@@ -25,7 +22,7 @@ public class GrenadeWeaponInstance : WeaponInstance
         }
         projectileInstance.GetComponent<ProjectileInstance>().fromWeapon = this;
         projectileInstance.GetComponent<ProjectileInstance>().damage = weaponData.damage;
-        cooldown = FireRate;
+        _cooldown = FireRate;
         return true;
     }
 }

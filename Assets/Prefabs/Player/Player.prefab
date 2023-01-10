@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 6f4bb4fdd2730ff468bd52493c095a35, type: 2}
-  cooldown: 0.56
 --- !u!1 &2457666867710963530
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,8 +143,8 @@ GameObject:
   - component: {fileID: 4180758100284577544}
   - component: {fileID: 6952909910583546004}
   m_Layer: 6
-  m_Name: PlayerInstance
-  m_TagString: Untagged
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,7 +178,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cc160a175afb8d4e9672dbd7b67e99c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  primaryWeapon: {fileID: 0}
+  grenadeWeapon: {fileID: 0}
   weaponInstance: {fileID: 2457666867156502188}
+  grenadeInstance: {fileID: 0}
   cameraTarget: {fileID: 0}
   playerSpeed: 4
   jumpHeight: 2
@@ -264,9 +266,25 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 17c39f77-9334-44a6-afbb-e85274dc9d59
     m_ActionName: Player1/Shoot1[/Keyboard/shift,/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: be85343e-23a9-494d-8249-4206db582171
+    m_ActionName: Player2/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/dpad,/XInputControllerWindows1/dpad]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 23198448-ea8e-47fc-b66c-d50087bd41ba
+    m_ActionName: Player2/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 56ab552c-6407-4548-be19-6d4fe1f52053
+    m_ActionName: Player2/Joining[/XInputControllerWindows/start,/XInputControllerWindows1/start,/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9a3969ea-d551-45a6-b0e5-dbd224640850
+    m_ActionName: Player2/Shoot1[/Keyboard/shift,/XInputControllerWindows/rightShoulder,/XInputControllerWindows1/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard
-  m_DefaultActionMap: Player1
+  m_DefaultControlScheme: Controller
+  m_DefaultActionMap: Player2
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!143 &4180758100284577544
@@ -295,7 +313,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4180758100284577559}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
