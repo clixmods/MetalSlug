@@ -13,10 +13,11 @@ public class TriggerEndgame : MonoBehaviour
 
     [SerializeField] private Transform _transformDestination;
 
-    [SerializeField] private float durationToGoToDestination = 10f;
-
+    [SerializeField] private float EndgameDuration = 3;
+    private float _currentTimer;
     [SerializeField] private GameObject particleSystemCameraTransition;
 
+    private bool endgameIsRunning;
     public bool EndgameIsCompleted;
     
     // Start is called before the first frame update
@@ -42,22 +43,41 @@ public class TriggerEndgame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (AllPlayersAreInEndgameTrigger())
+        if (AllPlayersAreInEndgameTrigger() && !EndgameIsCompleted)
         {
+            LevelManager.Instance.State = State.Intermission;
             Debug.Log("Players are in endgameTrigger");
             foreach (var player in LevelManager.Instance.players)
             {
                 player.transform.parent = transform;
+                player.SetSleep(true);
             }
 
-            transform.LeanMove(_transformDestination.position , durationToGoToDestination);
+            transform.Translate(Vector3.right * Time.deltaTime * 5);
             particleSystemCameraTransition.GetComponent<ParticleSystem>().Play();
+            if (!endgameIsRunning)
+            {
+                foreach (var ai in AIInstance.AIInstances)
+                {
+                    Destroy(ai.gameObject);
+                }
+                _currentTimer = EndgameDuration;
+
+            }
+            endgameIsRunning = true;
         }
 
-        if (Vector3.Distance(transform.position, _transformDestination.position) < 1)
+        if (endgameIsRunning && !EndgameIsCompleted)
         {
-            EndgameIsCompleted = true;
+            if (_currentTimer < 0 )
+            {
+                EndgameIsCompleted = true;
+            }
+
+            if (_currentTimer >= 0  )
+                _currentTimer -= Time.deltaTime;
         }
+    
     }
 
     private void AddPlayerToList(Collider other)
@@ -95,10 +115,13 @@ public class TriggerEndgame : MonoBehaviour
     {
         foreach (var player in playersInTrigger)
         {
+            player.SetSleep(false);
+            player.transform.parent = null;
             playersInTrigger.Remove(player);
         }
-
         transform.position = triggerInitialPosition;
         particleSystemCameraTransition.GetComponent<ParticleSystem>().Stop();
+        EndgameIsCompleted = false;
+        endgameIsRunning = false;
     }
 }
