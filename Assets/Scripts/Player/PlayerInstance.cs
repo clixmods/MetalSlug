@@ -32,6 +32,7 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     // REFS DE GO
     [SerializeField] private GameObject _cameraTarget;
+    [SerializeField] private GameObject _parachute;
 
     // FLOAT & INT
     [SerializeField] private float _playerSpeed = 2.0f;
@@ -75,6 +76,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool _isHealing = false;
     private bool _isLastStand = false;
     private bool _isSpawned;
+    private bool _firstSpawn = true;
     public bool IsReviving => _isReviving;
     public bool IsLastStand => _isLastStand;
     public bool IsHealing => _isHealing;
@@ -104,6 +106,7 @@ public class PlayerInstance : MonoBehaviour , IActor
        
             eventPlayerJoin?.Invoke(this);
             _isSpawned = true;
+            Parachute();
         }
     }
 
@@ -144,11 +147,14 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     private void OnTriggerExit(Collider other)
     {
-        var playerInstanceCached = other.transform.parent.GetComponent<PlayerInstance>();
-        if (playerInstanceCached._isLastStand == true)
+        if (other.transform.parent != null && other.transform.parent.CompareTag("Player"))
         {
-            _playerInstanceRevivedCache = null;
-            playerInstanceCached._isHealing = false;
+            var playerInstanceCached = other.transform.parent.GetComponent<PlayerInstance>();
+            if (playerInstanceCached._isLastStand == true)
+            {
+                _playerInstanceRevivedCache = null;
+                playerInstanceCached._isHealing = false;
+            }
         }
     }
 
@@ -369,9 +375,22 @@ public class PlayerInstance : MonoBehaviour , IActor
         }
     }
 
+    public void Parachute()
+    {
+        Teleport(new Vector3(_playerTransform.x, 10f, 0f));
+        _gravityValue = -2f;
+        _parachute.SetActive(true);
+        _firstSpawn = false;
+    }
+
     // update
     void Update()
     {
+        if (_firstSpawn)
+        {
+            Parachute();
+        }
+
         if (_isLastStand && !_isHealing)
         {
             _timerDeath -= Time.deltaTime;
@@ -386,8 +405,13 @@ public class PlayerInstance : MonoBehaviour , IActor
         _groundedPlayer = controller.isGrounded;
         if (_groundedPlayer && _playerVelocity.y < 0)
         {
+            _parachute.SetActive(false);
             // set the velocity to 0
             _playerVelocity.y = 0f;
+            if(_gravityValue != -20f)
+            {
+                _gravityValue = -20f;
+            }
             // if the player jump and crouch while in the air and arrive on the ground crouched then isCrouching is set to true
             if (_currentMovementInput.y < 0 && controller.isGrounded)
             {
@@ -402,11 +426,11 @@ public class PlayerInstance : MonoBehaviour , IActor
 
         // Check if the object is out of the camera
         Vector3 position = Camera.main.WorldToViewportPoint(transform.position + motion);
-        
-        bool isOutCameraNegative = position.x < 0.1f || position.y < 0.1f;
-        bool isOutCameraPositive =  position.x > 0.9f || position.y > 0.9f;
 
-        if(!(isOutCameraNegative || isOutCameraPositive) )
+        bool isOutCameraNegative = position.x < 0.1f || position.y < 0.1f;
+        bool isOutCameraPositive = position.x > 0.9f || position.y > 0.9f;
+
+        if (!(isOutCameraNegative || isOutCameraPositive) )
         {
             controller.Move(motion);
         }

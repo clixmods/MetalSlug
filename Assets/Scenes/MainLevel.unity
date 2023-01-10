@@ -1953,6 +1953,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 630850915}
     m_Modifications:
+    - target: {fileID: 2988935401260611425, guid: 8b20d36c7a48f9147a3e765feffaa70d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4180758100284577545, guid: 8b20d36c7a48f9147a3e765feffaa70d,
         type: 3}
       propertyPath: startHealth
