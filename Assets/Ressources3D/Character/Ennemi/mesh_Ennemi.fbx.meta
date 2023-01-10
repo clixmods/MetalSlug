@@ -63,8 +63,38 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
-      transformMask: []
-      maskType: 3
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Dummy003
+        weight: 1
+      - path: Dummy003/Bone001
+        weight: 1
+      - path: Dummy003/Bone001/Bone002
+        weight: 1
+      - path: Dummy003/Bone001/Bone002/Bone003
+        weight: 1
+      - path: Dummy003/Bone004
+        weight: 1
+      - path: Dummy003/Bone004/Bone005
+        weight: 1
+      - path: Dummy003/Bone004/Bone005/Bone006
+        weight: 1
+      - path: Dummy003/Dummy002
+        weight: 1
+      - path: Dummy003/Dummy002/Bone007
+        weight: 1
+      - path: Dummy003/Dummy002/Bone007/Bone008
+        weight: 1
+      - path: Dummy003/Dummy002/Bone009
+        weight: 1
+      - path: Dummy003/Dummy002/Bone009/Bone010
+        weight: 1
+      - path: Dummy003/Dummy002/Dummy001
+        weight: 1
+      - path: Ennemi
+        weight: 1
+      maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
@@ -92,8 +122,38 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
-      transformMask: []
-      maskType: 3
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Dummy003
+        weight: 1
+      - path: Dummy003/Bone001
+        weight: 1
+      - path: Dummy003/Bone001/Bone002
+        weight: 1
+      - path: Dummy003/Bone001/Bone002/Bone003
+        weight: 1
+      - path: Dummy003/Bone004
+        weight: 1
+      - path: Dummy003/Bone004/Bone005
+        weight: 1
+      - path: Dummy003/Bone004/Bone005/Bone006
+        weight: 1
+      - path: Dummy003/Dummy002
+        weight: 1
+      - path: Dummy003/Dummy002/Bone007
+        weight: 1
+      - path: Dummy003/Dummy002/Bone007/Bone008
+        weight: 1
+      - path: Dummy003/Dummy002/Bone009
+        weight: 1
+      - path: Dummy003/Dummy002/Bone009/Bone010
+        weight: 1
+      - path: Dummy003/Dummy002/Dummy001
+        weight: 1
+      - path: Ennemi
+        weight: 1
+      maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     isReadable: 0
@@ -161,7 +221,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
