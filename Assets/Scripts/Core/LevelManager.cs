@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int respawnAmount;
     [SerializeField] private int reviveAmount;
     [SerializeField] private int _currentRound = 0;
-    
+    private TriggerEndgame _triggerEndgame;
     public int CurrentRound
     {
         get => _currentRound;
@@ -158,6 +158,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         roundvolumes = FindObjectsOfType<RoundManager>();
+        _triggerEndgame = FindObjectOfType<TriggerEndgame>();
     }
 
     private void Start()
@@ -210,20 +211,25 @@ public class LevelManager : MonoBehaviour
             if(AIInstance.AIInstances.Count > 0)
                 allRoundsClean = false;
 
-            if (allRoundsClean)
+            if (allRoundsClean && _triggerEndgame.EndgameIsCompleted)
             {
-                foreach (var player in players)
-                {
-                    player.Teleport( playerSpawnPoint.position);
-                }
-
-                for (int i = 0; i < roundvolumes.Length; i++)
-                {
-                    roundvolumes[i].gameObject.SetActive(true);
-                }
-                eventLevelRestartLoop?.Invoke();
-                CurrentRound++;
-         
+               StartNewRound();
+               _triggerEndgame.ResetTrigger();
             }
+    }
+
+    private void StartNewRound()
+    {
+        foreach (var player in players)
+        {
+            player.Teleport( playerSpawnPoint.position);
+        }
+
+        for (int i = 0; i < roundvolumes.Length; i++)
+        {
+            roundvolumes[i].gameObject.SetActive(true);
+        }
+        eventLevelRestartLoop?.Invoke();
+        CurrentRound++;
     }
 }
