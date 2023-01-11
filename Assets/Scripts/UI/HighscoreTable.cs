@@ -1,20 +1,9 @@
-﻿/* 
-    ------------------- Code Monkey -------------------
-
-    Thank you for downloading this package
-    I hope you find it useful in your projects
-    If you have any questions let me know
-    Cheers!
-
-               unitycodemonkey.com
-    --------------------------------------------------
- */
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CodeMonkey.Utils;
+using UnityEngine.InputSystem;
 
 public class HighscoreTable : MonoBehaviour {
 
@@ -33,13 +22,7 @@ public class HighscoreTable : MonoBehaviour {
 
         if (highscores == null) {
             // There's no stored table, initialize
-            Debug.Log("Initializing table with default values...");
-            AddHighscoreEntry(1000000, "CMK");
-            AddHighscoreEntry(897621, "JOE");
-            AddHighscoreEntry(872931, "DAV");
-            AddHighscoreEntry(785123, "CAT");
-            AddHighscoreEntry(542024, "MAX");
-            AddHighscoreEntry(68245, "AAA");
+
             // Reload
             jsonString = PlayerPrefs.GetString("highscoreTable");
             highscores = JsonUtility.FromJson<Highscores>(jsonString);
@@ -54,6 +37,14 @@ public class HighscoreTable : MonoBehaviour {
                     highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
                     highscores.highscoreEntryList[j] = tmp;
                 }
+            }
+        }
+
+        if (highscores.highscoreEntryList.Count > 10)
+        {
+            for (int h = highscores.highscoreEntryList.Count; h > 10; h--)
+            {
+                highscores.highscoreEntryList.RemoveAt(10);
             }
         }
 
@@ -114,13 +105,12 @@ public class HighscoreTable : MonoBehaviour {
         case 3:
             entryTransform.Find("trophy").GetComponent<Image>().color = UtilsClass.GetColorFromString("B76F56");
             break;
-
         }
-
         transformList.Add(entryTransform);
     }
 
-    private void AddHighscoreEntry(int score, string name) {
+    public void AddHighscoreEntry(int score, string name) {
+
         // Create HighscoreEntry
         HighscoreEntry highscoreEntry = new HighscoreEntry { score = score, name = name };
         
@@ -140,6 +130,15 @@ public class HighscoreTable : MonoBehaviour {
 
         // Save updated Highscores
         string json = JsonUtility.ToJson(highscores);
+
+        if (highscores.highscoreEntryList.Count > 10)
+        {
+            for (int h = highscores.highscoreEntryList.Count; h > 10; h--)
+            {
+                highscores.highscoreEntryList.RemoveAt(10);
+            }
+        }
+
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
     }

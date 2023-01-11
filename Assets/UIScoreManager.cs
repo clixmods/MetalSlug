@@ -9,22 +9,16 @@ public class UIScoreManager : MonoBehaviour
 
     
     private int _currentScore = 0;
+    public int CurrentScore => _currentScore;
     // Start is called before the first frame update
     void Start()
     {
         AIInstance.eventAIScore += AddScore;
-        
     }
 
     private void AddScore(int amount)
     {
         _currentScore += amount;
         textComponentScore.text = "Score : " + _currentScore;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
