@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class WeaponInstance : MonoBehaviour
 {
+    public delegate void WeaponEvent();
+    public event WeaponEvent eventWeaponFire;
+    
     public WeaponScriptableObject weaponData;
     internal float _cooldown;
     private FXManager _fxFire;
@@ -94,6 +97,7 @@ public class WeaponInstance : MonoBehaviour
         {
             return false;
         }
+        eventWeaponFire?.Invoke();
 
         _directionCached = direction;
         // Apply burst behavior 

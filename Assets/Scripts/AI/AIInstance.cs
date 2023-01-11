@@ -98,6 +98,11 @@ public class AIInstance : MonoBehaviour , IActor
         _currentWeapon = aiScriptableObject.primaryWeapon.CreateWeaponInstance(gameObject);
         if(_characterViewmodel.rightHand != null)
             _currentWeapon.transform.parent = _characterViewmodel.rightHand.transform;
+
+        _currentWeapon.eventWeaponFire += () =>
+        {
+            _characterViewmodel.Play(AnimState.Fire);
+        };
         
         _currentWeapon.transform.localPosition = Vector3.zero;
         _grenadeWeapon = aiScriptableObject.grenadeWeapon.CreateWeaponInstance(gameObject);
@@ -105,6 +110,11 @@ public class AIInstance : MonoBehaviour , IActor
             _grenadeWeapon.transform.parent = _characterViewmodel.leftHand.transform;
         
         _grenadeWeapon.transform.localPosition = Vector3.zero;
+
+        _grenadeWeapon.eventWeaponFire += () =>
+        {
+            _characterViewmodel.Play(AnimState.Grenade);
+        };
     }
 
     private void InitFXInstance()
@@ -199,7 +209,7 @@ public class AIInstance : MonoBehaviour , IActor
         {
             if (_currentWeapon.DoFire(_target))
             {
-                _characterViewmodel.Play(AnimState.Fire);
+                //_characterViewmodel.Play(AnimState.Fire);
             }
            
         }
@@ -207,7 +217,7 @@ public class AIInstance : MonoBehaviour , IActor
         {
             if (_grenadeWeapon.DoFire(_target))
             {
-                _characterViewmodel.Play(AnimState.Grenade);
+               // _characterViewmodel.Play(AnimState.Grenade);
             }
         }
 
