@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AudioAliase;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
@@ -8,6 +9,9 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(BoxCollider))]
 public class RoundManager : MonoBehaviour
 {
+    public delegate void CallbackRoundTriggered(RoundManager roundManager);
+    public event CallbackRoundTriggered eventRoundTriggered;
+    
     private Collider _triggerBox;
     public bool IsSpawned;
     [SerializeField] private int numberOfEnemiesToSpawn = 5;
@@ -19,8 +23,10 @@ public class RoundManager : MonoBehaviour
     
     private int _needToSpawnAmount = 0;
     private float _currentDelaySpawn = 0;
+    private bool _volumeTriggered;
     public bool IsRoundBoss;
     private bool _noSpawn ;
+   
     
     private void OnValidate()
     {
@@ -33,15 +39,16 @@ public class RoundManager : MonoBehaviour
         GetValues();
         roundBlocker.SetActive(false);
         _triggerBox.isTrigger = true;
-        LevelManager.eventPreLevelRestart += PostLevelManagerOneventPostLevelRestart;
+        LevelManager.eventPreLevelRestart += ResetVolume;
     }
 
-    private void PostLevelManagerOneventPostLevelRestart()
+    private void ResetVolume()
     {
         _noSpawn = false;
         IsRoundBoss = false;
         roundBlocker.SetActive(false);
         IsSpawned = false;
+        _volumeTriggered = false;
     }
 
     void GetValues()
@@ -121,8 +128,10 @@ public class RoundManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!_volumeTriggered && other.CompareTag("Player"))
         {
+            _volumeTriggered = true;
+            eventRoundTriggered?.Invoke(this);
             _needToSpawnAmount = numberOfEnemiesToSpawn;
             foreach (var player in LevelManager.Instance.players)
             {

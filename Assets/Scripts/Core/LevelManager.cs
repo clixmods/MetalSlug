@@ -62,8 +62,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField][Aliase] private string RoundIntro;
     [SerializeField][Aliase] private string RoundStart;
     [SerializeField][Aliase] private string RoundEnd;
-    [SerializeField][Aliase] private string RoundBossStart;
-    [SerializeField][Aliase] private string RoundBossEnd;
+
     [SerializeField][Aliase] private string Gameover;
     public State State { get; set; }
     public int CurrentRound

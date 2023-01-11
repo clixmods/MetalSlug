@@ -23,12 +23,13 @@ public class PlayerInstance : MonoBehaviour , IActor
     #endregion
 
     // REFS DE SCRIPTS
+    [Header("Weapon")]
     [SerializeField] private WeaponScriptableObject primaryWeapon;
     [SerializeField] private WeaponScriptableObject grenadeWeapon;
     public WeaponInstance weaponInstance;
     public WeaponInstance grenadeInstance;
     public HighscoreTable highscoreTable;
-
+    
     private PlayerInstance _playerInstanceRevivedCache;
 
     // REFS DE GO
@@ -36,6 +37,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     [SerializeField] private GameObject _parachute;
 
     // FLOAT & INT
+    [Header("Settings")]
     [SerializeField] private float _playerSpeed = 2.0f;
     [SerializeField] private float _jumpHeight = 3.0f;
     [SerializeField] private float _gravityValue = -9.81f;

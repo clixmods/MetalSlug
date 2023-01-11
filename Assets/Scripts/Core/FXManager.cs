@@ -36,7 +36,7 @@ public class FXManager : MonoBehaviour
                      fxManager.skinnedMeshRenderer = skinnedMeshRenderer;
                  }
                 
-                 //fxManager.transform.parent = owner.transform;
+                 fxManager.transform.parent = owner.transform;
              }
             
            

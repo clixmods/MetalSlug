@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c5032b7ad93df4da1e5a85acd467b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiScriptableObject: {fileID: 11400000, guid: 735db67668bfbc64ca894e4e2b7a5a18, type: 2}
+  aiScriptableObject: {fileID: 11400000, guid: 36c3d818ff9891948bf7aa48fd43110d, type: 2}
 --- !u!114 &7752715842184455746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +124,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewModel: {fileID: 0}
+  leftHand: {fileID: 0}
+  rightHand: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!1 &6559013725505088492
 GameObject:
   m_ObjectHideFlags: 0

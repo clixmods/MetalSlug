@@ -121,7 +121,7 @@ public class AIInstance : MonoBehaviour , IActor
 
     private void InitFXInstance()
     {
-        _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position,gameObject);
+        _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position);
         _fxAmbiant= FXManager.InitFX(aiScriptableObject.FXLoopAmbiant,transform.position);
         if (_characterViewmodel.skinnedMeshRenderer != null)
         {
