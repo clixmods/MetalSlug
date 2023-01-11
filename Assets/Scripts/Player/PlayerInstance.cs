@@ -274,7 +274,7 @@ public class PlayerInstance : MonoBehaviour , IActor
                     // If the player is pressing W, shoot upwards.
                     if (weaponInstance.DoFire(Vector2.up))
                     {
-                        _characterViewmodel.Play(AnimState.Fire);
+                        _characterViewmodel.Play(AnimState.FireUp);
                     }
                 }
                 else if (_currentMovementInput.x < 0)

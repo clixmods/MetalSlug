@@ -24,14 +24,16 @@ public class FXManager : MonoBehaviour
         if (owner != null)
         {
             parent = owner.transform; 
-             if (fxManager != null &&
-                 parent.TryGetComponent<CharacterViewmodelManager>(out var characterViewmodelManager))
+             if (fxManager != null)
              {
-                 if (skinnedMeshRenderer != null)
+                 if (parent.TryGetComponent<CharacterViewmodelManager>(out var characterViewmodelManager))
                  {
-                     fxManager.skinnedMeshRenderer = skinnedMeshRenderer;
+                     if (skinnedMeshRenderer != null)
+                     {
+                         fxManager.skinnedMeshRenderer = skinnedMeshRenderer;
+                     }
                  }
-                
+
                  fxManager.transform.parent = owner.transform;
              }
             
@@ -43,7 +45,7 @@ public class FXManager : MonoBehaviour
         
     }
 
-    public static FXManager PlayFX(FXManager fxManager, Vector3 position, BehaviorAfterPlay behaviorAfterPlay = BehaviorAfterPlay.Nothing)
+    public static FXManager PlayFX(FXManager fxManager, Vector3 position = default, BehaviorAfterPlay behaviorAfterPlay = BehaviorAfterPlay.Nothing)
     {
         if (fxManager == null)
         {
@@ -74,7 +76,9 @@ public class FXManager : MonoBehaviour
             return null;
         }
         _behaviorAfterPlay = behaviorAfterPlay;
-        _particleSystem.transform.position = position;
+        if(position != default)
+            _particleSystem.transform.position = position;
+        
         _particleSystem.Play();
         return this;
     }

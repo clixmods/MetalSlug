@@ -9,6 +9,7 @@ public enum AnimState
     Idle, 
     Move,
     Fire,
+    FireUp,
     Grenade,
     Damaged,
     Falling
@@ -77,6 +78,10 @@ public class CharacterViewmodelManager : MonoBehaviour
                 break;
             case AnimState.Fire:
                 _animator.SetTrigger("Shooting");
+                //_animator.Play("Shooting", UPPERBODY );
+                break;
+            case AnimState.FireUp:
+                _animator.SetTrigger("ShootingUp");
                 //_animator.Play("Shooting", UPPERBODY );
                 break;
             case AnimState.Damaged:
