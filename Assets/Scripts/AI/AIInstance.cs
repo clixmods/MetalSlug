@@ -96,7 +96,15 @@ public class AIInstance : MonoBehaviour , IActor
     private void SpawnWeaponInstance()
     {
         _currentWeapon = aiScriptableObject.primaryWeapon.CreateWeaponInstance(gameObject);
+        if(_characterViewmodel.rightHand != null)
+            _currentWeapon.transform.parent = _characterViewmodel.rightHand.transform;
+        
+        _currentWeapon.transform.localPosition = Vector3.zero;
         _grenadeWeapon = aiScriptableObject.grenadeWeapon.CreateWeaponInstance(gameObject);
+        if(_characterViewmodel.leftHand != null)
+            _grenadeWeapon.transform.parent = _characterViewmodel.leftHand.transform;
+        
+        _grenadeWeapon.transform.localPosition = Vector3.zero;
     }
 
     private void InitFXInstance()
@@ -150,7 +158,7 @@ public class AIInstance : MonoBehaviour , IActor
     private void ThinkMovement()
     {
         var targetPosition = _target.transform.position;
-        
+     
 
         if (DistanceWithTarget() > _minDistanceToKeepWithTarget)
         {
@@ -160,11 +168,12 @@ public class AIInstance : MonoBehaviour , IActor
                 newPosition.y = Mathf.Clamp(newPosition.y, aiScriptableObject.minY, 10);
             }
             _rigidbody.MovePosition(newPosition);
-          
+            _characterViewmodel.Play(AnimState.Move);
             transform.PlayLoopSound(aiScriptableObject.AliasOnMove, ref audioPlayerMove);
         }
         else
         {
+            _characterViewmodel.Play(AnimState.Idle);
             AudioManager.StopLoopSound(ref audioPlayerMove);
         }
     }
@@ -176,13 +185,21 @@ public class AIInstance : MonoBehaviour , IActor
             return;
         }
             
+        
         if (IsInAttackRange())
         {
-            _currentWeapon.DoFire(_target);
+            if (_currentWeapon.DoFire(_target))
+            {
+                _characterViewmodel.Play(AnimState.Fire);
+            }
+           
         }
         else
         {
-            _grenadeWeapon.DoFire(_target);
+            if (_grenadeWeapon.DoFire(_target))
+            {
+                _characterViewmodel.Play(AnimState.Grenade);
+            }
         }
 
         _attackCooldown = Random.Range(aiScriptableObject.attackRate, aiScriptableObject.attackRate * 1.5f);
@@ -263,8 +280,8 @@ public class AIInstance : MonoBehaviour , IActor
     {
         _health -= amount;
         eventAIHit?.Invoke(this);
-        _fxHit.Play(transform.position,BehaviorAfterPlay.Nothing);
-        
+        FXManager.PlayFX(_fxHit,transform.position,BehaviorAfterPlay.Nothing);
+        _characterViewmodel.Play(AnimState.Damaged);
         if (_health <= 0)
         {
             OnDown();
@@ -281,7 +298,8 @@ public class AIInstance : MonoBehaviour , IActor
         eventAIDeath?.Invoke(this);
         eventAIScore?.Invoke(aiScriptableObject.ScoreDead);
        
-        _fxDeath.Play(transform.position,BehaviorAfterPlay.DestroyAfterPlay);
+        FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
+        
         UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position , ScoreDead);
         Destroy(gameObject);
     }
@@ -297,5 +315,10 @@ public class AIInstance : MonoBehaviour , IActor
                 projectile.OnHit();
             }
         }
+    }
+
+    private void PlayFX()
+    {
+        
     }
 }
