@@ -12,6 +12,13 @@ public class WeaponInstance : MonoBehaviour
     private GameObject _owner;
     private int _currentAmmo = -1;
 
+    // Burst
+    [Header("Burst")] 
+    private bool isBursting;
+    private int currentIndexBurst = 0;
+    private float burstRate;
+    private Vector3 _directionCached;
+
     public GameObject Owner
     {
         get => _owner;
@@ -41,8 +48,27 @@ public class WeaponInstance : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_cooldown > 0)
+        if ( !isBursting &&_cooldown > 0)
             _cooldown -= Time.deltaTime;
+
+        if (isBursting && currentIndexBurst > 0)
+        {
+            if (burstRate > 0)
+            {
+                burstRate -= Time.deltaTime;
+            }
+            else
+            {
+                DoFire(_directionCached);
+                currentIndexBurst--;
+                burstRate = weaponData.delayBurstedBullet;
+                if (currentIndexBurst <= 0)
+                {
+                    isBursting = false;
+                    _cooldown = FireRate;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -68,6 +94,15 @@ public class WeaponInstance : MonoBehaviour
         {
             return false;
         }
+
+        _directionCached = direction;
+        // Apply burst behavior 
+        if (weaponData.burst && !isBursting)
+        {
+            isBursting = true;
+            currentIndexBurst = weaponData.bulletPerBurst-1;
+            burstRate = weaponData.delayBurstedBullet;
+        }
         
         var projectileInstance= Instantiate(PrefabProjectile, transform.position, Quaternion.identity,null);
         var projectileComponent = projectileInstance.GetComponent<ProjectileInstance>();
@@ -81,12 +116,15 @@ public class WeaponInstance : MonoBehaviour
        
         FXManager.PlayFX(_fxFire,transform.position);
         
-        _cooldown = FireRate;
+        if(!isBursting)
+            _cooldown = FireRate;
+        
         transform.PlaySoundAtPosition(weaponData.AliasOnFire);
         transform.PlaySoundAtPosition(weaponData.AliasOnAfterFire);
         
         if( _currentAmmo != -1)
             _currentAmmo--;
+        
         return true;
     }
 }

@@ -111,9 +111,18 @@ public class AIInstance : MonoBehaviour , IActor
     {
         _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position,gameObject);
         _fxAmbiant= FXManager.InitFX(aiScriptableObject.FXLoopAmbiant,transform.position);
-        _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject);
-        _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject);
-        _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject);
+        if (_characterViewmodel.skinnedMeshRenderer != null)
+        {
+            _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
+            _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
+            _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
+        }
+        else
+        {
+            _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject);
+            _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject);
+            _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject);
+        }
         _fxMove= FXManager.InitFX(aiScriptableObject.FXMove,transform.position);
     }
     // Start is called before the first frame update
@@ -281,6 +290,18 @@ public class AIInstance : MonoBehaviour , IActor
         _health -= amount;
         eventAIHit?.Invoke(this);
         FXManager.PlayFX(_fxHit,transform.position,BehaviorAfterPlay.Nothing);
+
+        if (aiScriptableObject.Health * 0.6f > _health)
+        {
+            FXManager.PlayFX(_fxDamaged,transform.position,BehaviorAfterPlay.Nothing);
+
+        }
+        if (aiScriptableObject.Health * 0.2f > _health)
+        {
+            FXManager.PlayFX(_fxLowHealth,transform.position,BehaviorAfterPlay.Nothing);
+
+        }
+        
         _characterViewmodel.Play(AnimState.Damaged);
         if (_health <= 0)
         {
@@ -297,7 +318,10 @@ public class AIInstance : MonoBehaviour , IActor
         AudioManager.StopLoopSound(ref audioPlayerMove);
         eventAIDeath?.Invoke(this);
         eventAIScore?.Invoke(aiScriptableObject.ScoreDead);
-       
+        if (aiScriptableObject.EarthquakeOnDeath)
+        {
+            CinemachineCameraShake.SetNoisier(1,2);
+        }
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
         
         UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position , ScoreDead);
