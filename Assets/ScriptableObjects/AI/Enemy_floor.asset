@@ -26,10 +26,10 @@ MonoBehaviour:
   CanLoseTarget: 1
   SightRadius: 5
   LoseSightRadius: 10
-  AliasOnDeath: drone_death
-  AliasOnMove: None
+  AliasOnDeath: robot_explosion
+  AliasOnMove: robot_move
   AliasOnSpawn: drone_spawn
-  AliasOnAmbiant: drone_turbine_loop
+  AliasOnAmbiant: None
   ScoreDead: 50
   ScoreHit: 10
   FXLoopAmbiant: {fileID: 0}
@@ -38,3 +38,4 @@ MonoBehaviour:
   FXLoopLowHealth: {fileID: 0}
   FXLoopDamaged: {fileID: 0}
   FXMove: {fileID: 0}
+  EarthquakeOnDeath: 1
