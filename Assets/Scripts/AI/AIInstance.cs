@@ -21,10 +21,12 @@ public class AIInstance : MonoBehaviour , IActor
     #region Events
     public delegate void CallbackAIDamage(AIInstance aiInstance);
     public delegate void CallbackAIScore(int score);
-    public static event CallbackAIDamage eventAIDeath;
-    public static event CallbackAIDamage eventAIHit;
+    public static event CallbackAIDamage eventGlobalAIDeath;
+    
+    public event CallbackAIDamage eventAIDeath;
+    public static event CallbackAIDamage eventGlobalAIHit;
 
-    public static event CallbackAIScore eventAIScore;
+    public static event CallbackAIScore eventGlobalAIScore;
     #endregion
     
     #region CachedVariables
@@ -298,7 +300,7 @@ public class AIInstance : MonoBehaviour , IActor
     public void DoDamage(int amount)
     {
         _health -= amount;
-        eventAIHit?.Invoke(this);
+        eventGlobalAIHit?.Invoke(this);
         FXManager.PlayFX(_fxHit,transform.position,BehaviorAfterPlay.Nothing);
 
         if (aiScriptableObject.Health * 0.6f > _health)
@@ -318,7 +320,7 @@ public class AIInstance : MonoBehaviour , IActor
             OnDown();
             return;
         }
-        eventAIScore?.Invoke(aiScriptableObject.ScoreHit);
+        eventGlobalAIScore?.Invoke(aiScriptableObject.ScoreHit);
     }
 
     public void OnDown()
@@ -326,8 +328,9 @@ public class AIInstance : MonoBehaviour , IActor
         // Do shit before death
         gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
         AudioManager.StopLoopSound(ref audioPlayerMove);
+        eventGlobalAIDeath?.Invoke(this);
+        eventGlobalAIScore?.Invoke(aiScriptableObject.ScoreDead);
         eventAIDeath?.Invoke(this);
-        eventAIScore?.Invoke(aiScriptableObject.ScoreDead);
         if (aiScriptableObject.EarthquakeOnDeath)
         {
             //CinemachineCameraShake.SetNoisier(1,2);

@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class TriggerEndgame : MonoBehaviour
 {
+    
+    #region Events
+    public delegate void EventHandler();
+    public static event EventHandler eventTriggerEndgameStart;
+    #endregion
     private List<PlayerInstance> playersInTrigger = new List<PlayerInstance>();
 
     [SerializeField] private GameObject viewModel;
@@ -46,6 +51,7 @@ public class TriggerEndgame : MonoBehaviour
         if (AllPlayersAreInEndgameTrigger() && !EndgameIsCompleted)
         {
             LevelManager.Instance.State = State.Intermission;
+            
             Debug.Log("Players are in endgameTrigger");
             foreach (var player in LevelManager.Instance.players)
             {
@@ -57,6 +63,7 @@ public class TriggerEndgame : MonoBehaviour
             particleSystemCameraTransition.GetComponent<ParticleSystem>().Play();
             if (!endgameIsRunning)
             {
+                eventTriggerEndgameStart?.Invoke();
                 foreach (var ai in AIInstance.AIInstances)
                 {
                     Destroy(ai.gameObject);

@@ -12,21 +12,25 @@ public class CameraMotor : MonoBehaviour
     public float speed = 0.15f;
 
     private Vector3 desiredPosition;
-
+    
     // Clamp code
 
     // the transform of the camera
     public Transform cameraTransform;
     // the left limit
     private float _leftBoundaryInitial;
+    private float _rightBoundaryInitial;
+    
     public float leftBoundary;
     // the right limit
     public float rightBoundary;
-
+    
     private void Awake()
     {
         _leftBoundaryInitial = leftBoundary;
-        LevelManager.eventLevelRestartLoop += ResetCamera;
+        _rightBoundaryInitial = rightBoundary;
+        LevelManager.eventPreLevelRestart += ResetCamera;
+       
     }
 
     private void Update()
@@ -35,6 +39,7 @@ public class CameraMotor : MonoBehaviour
         Vector3 targetPosition = cameraTransform.position;
         
         // clamp the camera position so it doesnt go beyond the left and right limits
+        leftBoundary = Mathf.Clamp(leftBoundary, _leftBoundaryInitial,rightBoundary );
         targetPosition.x = Mathf.Clamp(targetPosition.x, leftBoundary, rightBoundary);
             
         transform.position = targetPosition;
@@ -78,9 +83,14 @@ public class CameraMotor : MonoBehaviour
         desiredPosition = transform.position + delta;
         transform.position = Vector3.Lerp(transform.position, desiredPosition, speed);
     }
+
     public void ResetCamera()
     {
-        
-        leftBoundary = _leftBoundaryInitial;
+        ResetCamera(true, true);
+    }
+    public void ResetCamera(bool left = true, bool right = true)
+    {
+        if(left) leftBoundary = _leftBoundaryInitial;
+        if(right) rightBoundary = _rightBoundaryInitial;
     }
 }

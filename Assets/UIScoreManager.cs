@@ -13,7 +13,7 @@ public class UIScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AIInstance.eventAIScore += AddScore;
+        AIInstance.eventGlobalAIScore += AddScore;
     }
 
     private void AddScore(int amount)
