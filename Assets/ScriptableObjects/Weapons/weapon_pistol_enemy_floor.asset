@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: weapon_pistol_enemy_floor
   m_EditorClassIdentifier: 
   fireRate: 0.63
+  startAmmo: -1
   damage: 1
+  burst: 0
+  bulletPerBurst: 3
+  delayBurstedBullet: 0.5
   projectileSpeed: 25
   projectileUseGravity: 0
   projectileDestroyOnHit: 1
@@ -25,4 +29,4 @@ MonoBehaviour:
   AliasOnImpact: None
   AliasOnDrop: None
   AliasOnEquip: wpn_pistol_equip
-  FXFire: {fileID: 4437842826240621923, guid: a47e88c3f3e5866478f6772133274c22, type: 3}
+  FXFire: {fileID: 2913552336416776031, guid: a66038cebc8bbcd4a8bf9e5537d1425d, type: 3}

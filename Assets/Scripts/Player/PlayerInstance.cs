@@ -248,34 +248,52 @@ public class PlayerInstance : MonoBehaviour , IActor
                     if (_lastDirection < 0)
                     {
                         // If the player was moving left, shoot left.
-                        weaponInstance.DoFire(Vector2.left);
+                        if (weaponInstance.DoFire(Vector2.left))
+                        {
+                            _characterViewmodel.Play(AnimState.Fire);
+                        }
                     }
                     else if (_lastDirection > 0)
                     {
                         // If the player was moving right, shoot right.
-                        weaponInstance.DoFire(Vector2.right);
+                        if (weaponInstance.DoFire(Vector2.right))
+                        {
+                            _characterViewmodel.Play(AnimState.Fire);
+                        }
                     }
                     break;
                 }
                 else if (_currentMovementInput.y < 0 || _aimDir.y < 0)
                 {
                     // If the player is in the air and pressing S, or if they are in the air and aiming downwards, shoot downwards.
-                    weaponInstance.DoFire(Vector2.down);
+                    if (weaponInstance.DoFire(Vector2.down))
+                    {
+                        _characterViewmodel.Play(AnimState.Fire);
+                    }
                 }
                 else if (_currentMovementInput.y > 0)
                 {
                     // If the player is pressing W, shoot upwards.
-                    weaponInstance.DoFire(Vector2.up);
+                    if (weaponInstance.DoFire(Vector2.up))
+                    {
+                        _characterViewmodel.Play(AnimState.Fire);
+                    }
                 }
                 else if (_currentMovementInput.x < 0)
                 {
                     // If the player is pressing A, shoot left.
-                    weaponInstance.DoFire(Vector2.left);
+                    if (weaponInstance.DoFire(Vector2.left))
+                    {
+                        _characterViewmodel.Play(AnimState.Fire);
+                    }
                 }
                 else if (_currentMovementInput.x > 0)
                 {
                     // If the player is pressing D, shoot right.
-                    weaponInstance.DoFire(Vector2.right);
+                    if (weaponInstance.DoFire(Vector2.right))
+                    {
+                        _characterViewmodel.Play(AnimState.Fire);
+                    }
                 }
                 else if (_currentMovementInput.y == 0 && _currentMovementInput.x == 0 && controller.isGrounded)
                 {
@@ -283,12 +301,18 @@ public class PlayerInstance : MonoBehaviour , IActor
                     if (_lastDirection < 0)
                     {
                         // If the player was moving left, shoot left.
-                        weaponInstance.DoFire(Vector2.left);
+                        if (weaponInstance.DoFire(Vector2.left))
+                        {
+                            _characterViewmodel.Play(AnimState.Fire);
+                        }
                     }
                     else if (_lastDirection > 0)
                     {
                         // If the player was moving right, shoot right.
-                        weaponInstance.DoFire(Vector2.right);
+                        if (weaponInstance.DoFire(Vector2.right))
+                        {
+                            _characterViewmodel.Play(AnimState.Fire);
+                        }
                     }
                 }
                 else if (_currentMovementInput.y == 0 && _currentMovementInput.x == 0 && !controller.isGrounded)
@@ -297,12 +321,18 @@ public class PlayerInstance : MonoBehaviour , IActor
                     if (_lastDirection < 0)
                     {
                         // If the player was moving left, shoot left.
-                        weaponInstance.DoFire(Vector2.left);
+                        if (weaponInstance.DoFire(Vector2.left))
+                        {
+                            _characterViewmodel.Play(AnimState.Fire);
+                        }
                     }
                     else if (_lastDirection > 0)
                     {
                         // If the player was moving right, shoot right.
-                        weaponInstance.DoFire(Vector2.right);
+                        if (weaponInstance.DoFire(Vector2.right))
+                        {
+                            _characterViewmodel.Play(AnimState.Fire);
+                        }
                     }
                 }
                 break;
@@ -332,13 +362,19 @@ public class PlayerInstance : MonoBehaviour , IActor
                 {
                     // If the player was moving left, shoot the grenade left.
                     _aimDirGrenade = new Vector2(-1+(0.5f*_movementInput.x), 1.25f);
-                    grenadeInstance.DoFire(_aimDirGrenade);
+                    if (grenadeInstance.DoFire(_aimDirGrenade))
+                    {
+                        _characterViewmodel.Play(AnimState.Grenade);
+                    }
                 }
                 else if (_lastDirection > 0)
                 {
                     // If the player was moving right, shoot the grenade right.
                     _aimDirGrenade = new Vector2(1+(0.5f*_movementInput.x), 1.25f);
-                    grenadeInstance.DoFire(_aimDirGrenade);
+                    if (grenadeInstance.DoFire(_aimDirGrenade))
+                    {
+                        _characterViewmodel.Play(AnimState.Grenade);
+                    }
                 }
                 break;
             case InputActionPhase.Performed:
@@ -408,6 +444,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         _groundedPlayer = controller.isGrounded;
         if (_groundedPlayer && _playerVelocity.y < 0)
         {
+            _characterViewmodel._animator.SetBool("IsFalling", false);
             _parachute.SetActive(false);
             // set the velocity to 0
             _playerVelocity.y = 0f;
@@ -420,6 +457,10 @@ public class PlayerInstance : MonoBehaviour , IActor
             {
                 _isCrouching = true;
             }
+        }
+        else
+        {
+            _characterViewmodel._animator.SetBool("IsFalling", true);
         }
 
         // move the player
@@ -436,16 +477,27 @@ public class PlayerInstance : MonoBehaviour , IActor
         if (!(isOutCameraNegative || isOutCameraPositive) )
         {
             controller.Move(motion);
+            if (motion.magnitude > 0)
+            {
+                _characterViewmodel.Play(AnimState.Move);
+            }
+            else
+            {
+                _characterViewmodel.Play(AnimState.Idle);
+            }
         }
         else
         {
             if (isOutCameraNegative)
             {
                 controller.Move(Vector3.right * Time.deltaTime * _playerSpeed);
+                _characterViewmodel.Play(AnimState.Move);
+               
             }
             if (isOutCameraPositive)
             {
                 controller.Move(Vector3.left * Time.deltaTime * _playerSpeed);
+                _characterViewmodel.Play(AnimState.Move);
             }
         }
         _characterViewmodel.Direction = transform.position + motion;
@@ -456,6 +508,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         if (_jumped && _groundedPlayer)
         {
             _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
+           
         }
 
         // add gravity to the player
