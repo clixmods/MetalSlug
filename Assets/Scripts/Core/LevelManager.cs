@@ -6,6 +6,12 @@ using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 
+public enum State
+{
+    Ingame,
+    Intermission
+}
+
 public class LevelManager : MonoBehaviour
 {
     #region Singleton
@@ -49,7 +55,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int respawnAmount;
     [SerializeField] private int reviveAmount;
     [SerializeField] private int _currentRound = 0;
+    private TriggerEndgame _triggerEndgame;
     
+    public State State { get; set; }
     public int CurrentRound
     {
         get => _currentRound;
@@ -158,6 +166,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         roundvolumes = FindObjectsOfType<RoundManager>();
+        _triggerEndgame = FindObjectOfType<TriggerEndgame>();
     }
 
     private void Start()
@@ -177,53 +186,62 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if (GetAlivePlayers.Count == 0)
-        {
-            foreach (var player in players)
-            {
-                player.gameObject.SetActive(true);
-                player.Teleport( playerSpawnPoint.position);
-            }
-
-            foreach (var ai in  AIInstance.AIInstances)
-            {
-                Destroy(ai.gameObject);
-            }
-           
-            for (int i = 0; i < roundvolumes.Length; i++)
-            {
-                roundvolumes[i].gameObject.SetActive(true);
-            }
-            eventLevelRestartLoop?.Invoke();
-            return;
-        }
-        bool allRoundsClean = true;
-        
-            for (int i = 0; i < roundvolumes.Length; i++)
-            {
-                if (roundvolumes[i].gameObject.activeSelf)
-                {
-                    allRoundsClean = false;
-                }
-            }
+        // if (GetAlivePlayers.Count == 0)
+        // {
+        //     foreach (var player in players)
+        //     {
+        //         player.gameObject.SetActive(true);
+        //         player.Teleport( playerSpawnPoint.position);
+        //     }
+        //
+        //     foreach (var ai in  AIInstance.AIInstances)
+        //     {
+        //         Destroy(ai.gameObject);
+        //     }
+        //    
+        //     for (int i = 0; i < roundvolumes.Length; i++)
+        //     {
+        //         roundvolumes[i].gameObject.SetActive(true);
+        //     }
+        //     eventLevelRestartLoop?.Invoke();
+        //     return;
+        // }
+        // bool allRoundsClean = true;
+        //
+        //     for (int i = 0; i < roundvolumes.Length; i++)
+        //     {
+        //         if (roundvolumes[i].gameObject.activeSelf)
+        //         {
+        //             allRoundsClean = false;
+        //         }
+        //     }
             // stay AI on the map
-            if(AIInstance.AIInstances.Count > 0)
-                allRoundsClean = false;
+           // if(AIInstance.AIInstances.Count > 0)
+               // allRoundsClean = false;
 
-            if (allRoundsClean)
+            if (_triggerEndgame.EndgameIsCompleted)
             {
-                foreach (var player in players)
-                {
-                    player.Teleport( playerSpawnPoint.position);
-                }
-
-                for (int i = 0; i < roundvolumes.Length; i++)
-                {
-                    roundvolumes[i].gameObject.SetActive(true);
-                }
-                eventLevelRestartLoop?.Invoke();
-                CurrentRound++;
-         
+                _triggerEndgame.ResetTrigger();
+                StartNewRound();
+               
+             
+             
             }
+    }
+
+    private void StartNewRound()
+    {
+        LevelManager.Instance.State = State.Ingame;
+        foreach (var player in players)
+        {
+            player.Teleport( playerSpawnPoint.position);
+        }
+
+        for (int i = 0; i < roundvolumes.Length; i++)
+        {
+            roundvolumes[i].gameObject.SetActive(true);
+        }
+        eventLevelRestartLoop?.Invoke();
+        CurrentRound++;
     }
 }

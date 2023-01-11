@@ -44,7 +44,10 @@ public class RoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_needToSpawnAmount > 0)
+        if (LevelManager.Instance.State == State.Intermission)
+            _needToSpawnAmount = 0;
+        
+        if ( _needToSpawnAmount > 0)
         {
             if (_currentDelaySpawn > 0)
             {
@@ -70,15 +73,6 @@ public class RoundManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // for (int i = 0; i < numberOfEnemiesToSpawn; i++)
-            // {
-            //     foreach (var VARIABLE in spawnPoint)
-            //     {
-            //         if (i >= numberOfEnemiesToSpawn) break;
-            //         i++;
-            //         Instantiate(enemies[Random.Range(0, enemies.Length)], VARIABLE.position,Quaternion.identity ) ;
-            //     }
-            // }
             _needToSpawnAmount = numberOfEnemiesToSpawn;
             foreach (var player in LevelManager.Instance.players)
             {

@@ -9,7 +9,7 @@ public class UIPanelPlayer : MonoBehaviour
     private PlayerInstance _playerInstance;
 
     [SerializeField] private UIPlayerAmmo _uiPlayerAmmo;
-
+    [SerializeField] private UIRevivePlayerPanel _uiPlayerRevive;
     [SerializeField] private GameObject panelTextJoin;
     [SerializeField] private GameObject panelPlayer;
     [SerializeField] private bool isHostPanel;
@@ -42,6 +42,7 @@ public class UIPanelPlayer : MonoBehaviour
             panelTextJoin.SetActive(true);
             panelPlayer.SetActive(false);
             _playerInstancesLinked.Remove(newplayer);
+            _uiPlayerRevive.PlayerInstance = null;
         }
     }
 
@@ -54,6 +55,7 @@ public class UIPanelPlayer : MonoBehaviour
             panelTextJoin.SetActive(false);
             panelPlayer.SetActive(true);
             _playerInstancesLinked.Add(newplayer);
+            _uiPlayerRevive.PlayerInstance = newplayer;
         }
     }
 
