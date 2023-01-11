@@ -23,7 +23,7 @@ public class CharacterViewmodelManager : MonoBehaviour
 
 
     public SkinnedMeshRenderer skinnedMeshRenderer;
-    private Animator _animator;
+    public Animator _animator;
 
     private const int LOWERBODY = 1;
     private const int UPPERBODY = 2;
@@ -48,7 +48,7 @@ public class CharacterViewmodelManager : MonoBehaviour
         }
         _rigidbody = GetComponent<Rigidbody>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        _animator ??= GetComponentInChildren<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         leftHand ??= gameObject;
         rightHand ??= gameObject;
 
@@ -102,7 +102,7 @@ public class CharacterViewmodelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_rigidbody.velocity.y > 0.3f || _rigidbody.velocity.y < -0.3f)
+        if (_rigidbody.velocity.y > 0.1f || _rigidbody.velocity.y < -0.1f)
         {
             _animator.SetBool("IsFalling", true);
         }
