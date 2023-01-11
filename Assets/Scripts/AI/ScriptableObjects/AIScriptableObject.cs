@@ -46,4 +46,6 @@ public class AIScriptableObject : ScriptableObject
     public GameObject FXLoopLowHealth;
     public GameObject FXLoopDamaged;
     public GameObject FXMove;
+
+    [Header("DIVERS")] public bool EarthquakeOnDeath;
 }

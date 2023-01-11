@@ -14,7 +14,7 @@ public class FXManager : MonoBehaviour
     private ParticleSystem _particleSystem;
     public SkinnedMeshRenderer skinnedMeshRenderer;
     private BehaviorAfterPlay _behaviorAfterPlay;
-    public static FXManager InitFX(GameObject prefab,  Vector3 position, GameObject owner  = null)
+    public static FXManager InitFX(GameObject prefab,  Vector3 position, GameObject owner  = null, SkinnedMeshRenderer skinnedMeshRenderer = null)
     {
         Transform parent = null;
         FXManager fxManager = null;
@@ -27,13 +27,17 @@ public class FXManager : MonoBehaviour
           
         if (owner != null)
         {
-            parent = owner.transform;
-            if (fxManager != null &&
-                parent.TryGetComponent<CharacterViewmodelManager>(out var characterViewmodelManager))
-            {
-                fxManager.skinnedMeshRenderer = characterViewmodelManager.skinnedMeshRenderer;
-                fxManager.transform.parent = owner.transform;
-            }
+            parent = owner.transform; 
+             if (fxManager != null &&
+                 parent.TryGetComponent<CharacterViewmodelManager>(out var characterViewmodelManager))
+             {
+                 if (skinnedMeshRenderer != null)
+                 {
+                     fxManager.skinnedMeshRenderer = skinnedMeshRenderer;
+                 }
+                
+                 //fxManager.transform.parent = owner.transform;
+             }
             
            
 
@@ -55,8 +59,6 @@ public class FXManager : MonoBehaviour
     void Awake()
     {
         _particleSystem = GetComponent<ParticleSystem>();
-     
-
     }
 
     private void Start()
@@ -69,6 +71,12 @@ public class FXManager : MonoBehaviour
 
     private FXManager Play(Vector3 position, BehaviorAfterPlay behaviorAfterPlay = BehaviorAfterPlay.Nothing)
     {
+        gameObject.SetActive(true);
+        if (_particleSystem == null)
+        {
+            Debug.Log("FX Null", gameObject);
+            return null;
+        }
         _behaviorAfterPlay = behaviorAfterPlay;
         _particleSystem.transform.position = position;
         _particleSystem.Play();
