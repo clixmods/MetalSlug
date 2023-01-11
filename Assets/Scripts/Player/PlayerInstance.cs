@@ -27,6 +27,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     [SerializeField] private WeaponScriptableObject grenadeWeapon;
     public WeaponInstance weaponInstance;
     public WeaponInstance grenadeInstance;
+    public HighscoreTable highscoreTable;
 
     private PlayerInstance _playerInstanceRevivedCache;
 
@@ -77,6 +78,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool _isLastStand = false;
     private bool _isSpawned;
     private bool _firstSpawn = true;
+    public bool testEndGame = false;
+
     public bool IsReviving => _isReviving;
     public bool IsLastStand => _isLastStand;
     public bool IsHealing => _isHealing;
