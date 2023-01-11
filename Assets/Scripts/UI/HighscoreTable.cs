@@ -16,6 +16,7 @@ public class HighscoreTable : MonoBehaviour {
         entryTemplate = entryContainer.Find("highscoreEntryTemplate");
 
         entryTemplate.gameObject.SetActive(false);
+        // new HighscoreEntry { score = 60000, name = "TES" };
 
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
