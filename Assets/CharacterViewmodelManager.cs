@@ -41,6 +41,11 @@ public class CharacterViewmodelManager : MonoBehaviour
     }
     private void Awake()
     {
+        if (viewModel == null)
+        {
+            Debug.LogWarning("viewModel is not assigned", gameObject);
+            this.enabled = false;
+        }
         _rigidbody = GetComponent<Rigidbody>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         _animator ??= GetComponentInChildren<Animator>();
@@ -104,6 +109,11 @@ public class CharacterViewmodelManager : MonoBehaviour
         else
         {
             _animator.SetBool("IsFalling", false);
+        }
+
+        if (_rigidbody.velocity.magnitude > 0)
+        {
+          //
         }
     }
 }

@@ -33,7 +33,7 @@ public class WeaponInstance : MonoBehaviour
     private void Start()
     {
         _fxFire = FXManager.InitFX(weaponData.FXFire, transform.position, gameObject);
-        _fxFire.transform.parent = gameObject.transform;
+        
         transform.PlaySoundAtPosition(weaponData.AliasOnEquip);
         _currentAmmo = weaponData.startAmmo;
     }
@@ -78,8 +78,8 @@ public class WeaponInstance : MonoBehaviour
             _rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
             projectileInstance.transform.LookAt(transform.position + direction);
         }
-        if(_fxFire != null)
-            _fxFire.Play(transform.position);
+       
+        FXManager.PlayFX(_fxFire,transform.position);
         
         _cooldown = FireRate;
         transform.PlaySoundAtPosition(weaponData.AliasOnFire);

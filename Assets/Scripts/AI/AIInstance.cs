@@ -96,10 +96,14 @@ public class AIInstance : MonoBehaviour , IActor
     private void SpawnWeaponInstance()
     {
         _currentWeapon = aiScriptableObject.primaryWeapon.CreateWeaponInstance(gameObject);
-        _currentWeapon.transform.parent = _characterViewmodel.rightHand.transform;
+        if(_characterViewmodel.rightHand != null)
+            _currentWeapon.transform.parent = _characterViewmodel.rightHand.transform;
+        
         _currentWeapon.transform.localPosition = Vector3.zero;
         _grenadeWeapon = aiScriptableObject.grenadeWeapon.CreateWeaponInstance(gameObject);
-        _grenadeWeapon.transform.parent = _characterViewmodel.leftHand.transform;
+        if(_characterViewmodel.leftHand != null)
+            _grenadeWeapon.transform.parent = _characterViewmodel.leftHand.transform;
+        
         _grenadeWeapon.transform.localPosition = Vector3.zero;
     }
 
@@ -276,7 +280,7 @@ public class AIInstance : MonoBehaviour , IActor
     {
         _health -= amount;
         eventAIHit?.Invoke(this);
-        _fxHit.Play(transform.position,BehaviorAfterPlay.Nothing);
+        FXManager.PlayFX(_fxHit,transform.position,BehaviorAfterPlay.Nothing);
         _characterViewmodel.Play(AnimState.Damaged);
         if (_health <= 0)
         {
@@ -294,7 +298,8 @@ public class AIInstance : MonoBehaviour , IActor
         eventAIDeath?.Invoke(this);
         eventAIScore?.Invoke(aiScriptableObject.ScoreDead);
        
-        _fxDeath.Play(transform.position,BehaviorAfterPlay.DestroyAfterPlay);
+        FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
+        
         UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position , ScoreDead);
         Destroy(gameObject);
     }
@@ -310,5 +315,10 @@ public class AIInstance : MonoBehaviour , IActor
                 projectile.OnHit();
             }
         }
+    }
+
+    private void PlayFX()
+    {
+        
     }
 }

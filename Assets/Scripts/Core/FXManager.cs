@@ -28,15 +28,29 @@ public class FXManager : MonoBehaviour
         if (owner != null)
         {
             parent = owner.transform;
-            if ( fxManager != null && parent.TryGetComponent<CharacterViewmodelManager>(out var characterViewmodelManager))
+            if (fxManager != null &&
+                parent.TryGetComponent<CharacterViewmodelManager>(out var characterViewmodelManager))
+            {
                 fxManager.skinnedMeshRenderer = characterViewmodelManager.skinnedMeshRenderer;
+                fxManager.transform.parent = owner.transform;
+            }
+            
+           
 
         }
         return fxManager;
 
         
     }
-    
+
+    public static FXManager PlayFX(FXManager fxManager, Vector3 position, BehaviorAfterPlay behaviorAfterPlay = BehaviorAfterPlay.Nothing)
+    {
+        if (fxManager == null)
+        {
+            return null;
+        }
+        return fxManager.Play(position,behaviorAfterPlay);
+    }
     // Start is called before the first frame update
     void Awake()
     {
@@ -53,11 +67,12 @@ public class FXManager : MonoBehaviour
         shapeParameters.skinnedMeshRenderer = skinnedMeshRenderer;
     }
 
-    public void Play(Vector3 position, BehaviorAfterPlay behaviorAfterPlay = BehaviorAfterPlay.Nothing)
+    private FXManager Play(Vector3 position, BehaviorAfterPlay behaviorAfterPlay = BehaviorAfterPlay.Nothing)
     {
         _behaviorAfterPlay = behaviorAfterPlay;
         _particleSystem.transform.position = position;
         _particleSystem.Play();
+        return this;
     }
 
     // Update is called once per frame
