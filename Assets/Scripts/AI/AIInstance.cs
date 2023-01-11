@@ -320,7 +320,7 @@ public class AIInstance : MonoBehaviour , IActor
         eventAIScore?.Invoke(aiScriptableObject.ScoreDead);
         if (aiScriptableObject.EarthquakeOnDeath)
         {
-            CinemachineCameraShake.SetNoisier(1,2);
+            //CinemachineCameraShake.SetNoisier(1,2);
         }
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
         
