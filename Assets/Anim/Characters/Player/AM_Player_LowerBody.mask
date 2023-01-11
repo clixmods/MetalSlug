@@ -12,30 +12,30 @@ AvatarMask:
   - m_Path: 
     m_Weight: 1
   - m_Path: bassin
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: bassin/cuisse_droit
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: bassin/cuisse_droit/tibias_droit
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: bassin/cuisse_droit/tibias_droit/pied_droit
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: bassin/cuisse_gauche
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: bassin/cuisse_gauche/tibias_gauche
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: bassin/cuisse_gauche/tibias_gauche/pied_gauche
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: bassin/torse
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: bassin/torse/biceps_droit
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: bassin/torse/biceps_droit/avant_bras_droit
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: bassin/torse/biceps_gauche
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: bassin/torse/biceps_gauche/avant_bras_gauche
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: bassin/torse/tete
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Joueur
     m_Weight: 0

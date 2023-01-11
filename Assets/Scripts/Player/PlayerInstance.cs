@@ -441,6 +441,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         _groundedPlayer = controller.isGrounded;
         if (_groundedPlayer && _playerVelocity.y < 0)
         {
+            _characterViewmodel._animator.SetBool("IsFalling", false);
             _parachute.SetActive(false);
             // set the velocity to 0
             _playerVelocity.y = 0f;
@@ -453,6 +454,10 @@ public class PlayerInstance : MonoBehaviour , IActor
             {
                 _isCrouching = true;
             }
+        }
+        else
+        {
+            _characterViewmodel._animator.SetBool("IsFalling", true);
         }
 
         // move the player
@@ -500,6 +505,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         if (_jumped && _groundedPlayer)
         {
             _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
+           
         }
 
         // add gravity to the player
