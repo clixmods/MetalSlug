@@ -1,11 +1,7 @@
-using Cinemachine;
-using System;
 using AudioAliase;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
-using Unity.VisualScripting;
 
 [SelectionBase]
 [RequireComponent(typeof(CharacterController))]
