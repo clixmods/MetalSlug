@@ -15,12 +15,15 @@ MonoBehaviour:
   fireRate: 2
   startAmmo: 10
   damage: 1
+  burst: 0
+  bulletPerBurst: 3
+  delayBurstedBullet: 0.5
   projectileSpeed: 10.47
   projectileUseGravity: 1
   projectileDestroyOnHit: 1
   prefabMeshWeapon: {fileID: 3879117375123579610, guid: b42fb40297393aa4a9e0173877a3eaa9,
     type: 3}
-  prefabProjectile: {fileID: 3476202047971693012, guid: 2f187e1be13601c45bff6649394a7bab,
+  prefabProjectile: {fileID: 3476202047971693012, guid: 2726d3747f85f77428be3df4684a507d,
     type: 3}
   AliasOnFire: wpn_pistol_shot
   AliasOnAfterFire: wpn_pistol_shells_out

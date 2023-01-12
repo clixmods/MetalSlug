@@ -20,7 +20,7 @@ public class UIRoundPanel : MonoBehaviour
 
     private void LevelManagerOneventResetSession()
     {
-        _textMeshProUGUI.text = "0";
+        _textMeshProUGUI.text = "1";
     }
 
     private void LevelManagerOnCallbackOnRoundChange(int newRound)

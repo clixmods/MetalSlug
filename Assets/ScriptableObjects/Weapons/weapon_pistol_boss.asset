@@ -23,7 +23,7 @@ MonoBehaviour:
   projectileDestroyOnHit: 1
   prefabMeshWeapon: {fileID: 1198069101019903048, guid: 3a45366a65f6d574fbdbb1a67878e5dd,
     type: 3}
-  prefabProjectile: {fileID: 3476202047971693012, guid: c48ffc837a1a7c2468629768637eeef1,
+  prefabProjectile: {fileID: 3476202047971693012, guid: 23ab9c3f9c6408749987cee067ecaa65,
     type: 3}
   AliasOnFire: wpn_pistol_shot
   AliasOnAfterFire: wpn_pistol_shells_out

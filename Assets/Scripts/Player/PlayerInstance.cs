@@ -474,6 +474,10 @@ public class PlayerInstance : MonoBehaviour , IActor
     // update
     void Update()
     {
+        if (transform.position.y < -10)
+        {
+            OnDeath();
+        }
         if (timerInvulnerability > 0)
         {
             timerInvulnerability -= Time.deltaTime;
