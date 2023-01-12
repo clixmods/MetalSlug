@@ -69,7 +69,7 @@ namespace AudioAliase
                 if(_lastAliasePlayed == null)  gameObject.SetActive(false);
                 FollowTransform();
                 // Audio play have finish the play
-                if (_timePlayed >= Source.clip.length + _delayLoop)
+                if (_timePlayed >= (Source.clip.length* Source.pitch ) + _delayLoop)
                 {
                     if (_isStopping)
                     {

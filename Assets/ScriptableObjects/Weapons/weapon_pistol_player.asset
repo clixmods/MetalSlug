@@ -17,7 +17,7 @@ MonoBehaviour:
   damage: 1
   burst: 0
   bulletPerBurst: 3
-  delayBurstedBullet: 0.5
+  delayBurstedBullet: 1
   projectileSpeed: 20
   projectileUseGravity: 0
   projectileDestroyOnHit: 1

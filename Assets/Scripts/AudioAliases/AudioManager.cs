@@ -69,6 +69,7 @@ namespace AudioAliase
         [SerializeField] private List<AudioPlayer> _audioSource;
         public const string AliasNameNull = "None";
         [SerializeField] int audioSourcePoolSize = 128; // 32 is a good start
+        private static Vector3 positionDefault = Vector3.zero;
         [Header("Debug")]
         //[SerializeField] Aliases[] TableAliasesLoaded = new Aliases[0];
 
@@ -252,7 +253,7 @@ namespace AudioAliase
         {
             
         }
-        public static Aliase PlaySoundAtPosition(string aliaseName, Vector3 position)
+        public static Aliase PlaySoundAtPosition(string aliaseName, Vector3 position = default)
         {
             if (string.IsNullOrEmpty(aliaseName))
             {
