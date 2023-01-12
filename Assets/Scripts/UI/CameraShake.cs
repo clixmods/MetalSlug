@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
+    public static CameraShake instance;
     public bool shaking = false;
 
     [SerializeField]
     private float shakeAmt;
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Update()
     {
         if (shaking)
         {
             Vector3 newPos = Random.insideUnitSphere * (Time.deltaTime * shakeAmt);
+            newPos.x += transform.position.x;
             newPos.y = transform.position.y;
             newPos.z = transform.position.z;
 
@@ -21,23 +27,23 @@ public class CameraShake : MonoBehaviour
         }
     }
 
-    public void ShakeMe()
+    public static void ShakeMe()
     {
-        StartCoroutine("ShakeNow");
+        instance.StartCoroutine(ShakeNow());
     }
 
-    IEnumerator ShakeNow()
+    public static IEnumerator ShakeNow()
     {
-        Vector3 originalPos = transform.position;
+        Vector3 originalPos = instance.transform.position;
 
-        if (shaking == false)
+        if (instance.shaking == false)
         {
-            shaking = true;
+            instance.shaking = true;
         }
 
         yield return new WaitForSeconds(2.5f);
 
-        shaking = false;
-        transform.position = originalPos;
+        instance.shaking = false;
+        instance.transform.position = originalPos;
     }
 }

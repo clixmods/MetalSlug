@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CodeMonkey.Utils;
-using UnityEngine.InputSystem;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class HighscoreTable : MonoBehaviour
 {
+    [SerializeField] GameObject _text;
     [SerializeField] Alphabet alphabet;
     [SerializeField] private GameObject keyboard;
     private Transform entryContainer;
@@ -101,6 +99,7 @@ public class HighscoreTable : MonoBehaviour
         }
     }
 
+    Transform entryTransformCached;
     public void RegisterScore(int scoreValue)
     {
         GetHighscore(out var jsonString, out var highscores);
@@ -126,6 +125,7 @@ public class HighscoreTable : MonoBehaviour
 
         UpdateHighscore(currentPosition - 1);
 
+        _text.gameObject.SetActive(true);
         keyboard.gameObject.SetActive(true);
 
         score = scoreValue;
@@ -134,16 +134,28 @@ public class HighscoreTable : MonoBehaviour
         alphabet.text = entryTransform.Find("nameText").GetComponent<Text>();
         entryTransform.Find("posText").GetComponent<Text>().text = currentPosition.ToString();
         entryTransform.Find("scoreText").GetComponent<Text>().text = score.ToString();
+
+        entryTransform.GetComponent<Animator>().SetBool("IsHighlited", true);
+        entryTransformCached = entryTransform;
+        alphabet.action += OnAnim;
+
         //entryTransform.Find("nameText").GetComponent<Text>().text = "";
     }
-
     private void OnRegister(string value)
     {
+        _text.gameObject.SetActive(false);
         keyboard.gameObject.SetActive(false);
         AddHighscoreEntry(score, value);
         UpdateHighscore();
         alphabet.action -= OnRegister;
         LevelManager.ResetSession();
+    }
+    private void OnAnim(string value)
+    {
+        entryTransformCached.GetComponent<Animator>().SetBool("IsHighlited", false);
+
+        alphabet.action -= OnAnim;
+        entryTransformCached = null;
     }
 
     private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList)
@@ -311,7 +323,6 @@ public class HighscoreTable : MonoBehaviour
 
     public void AddHighscoreEntry(int score, string name)
     {
-
         // Create HighscoreEntry
         HighscoreEntry highscoreEntry = new HighscoreEntry { score = score, name = name };
 
@@ -344,7 +355,6 @@ public class HighscoreTable : MonoBehaviour
 
         PlayerPrefs.SetString("highScoreMetalSlugLeaderBoard", json);
         PlayerPrefs.Save();
-        Debug.Log(PlayerPrefs.GetString("highScoreMetalSlugLeaderBoard"));
     }
 
     private class Highscores
@@ -361,5 +371,16 @@ public class HighscoreTable : MonoBehaviour
         public int score;
         public string name;
     }
-
+    /*IEnumerator LerpFunction(Color endValue, float duration, Text textToFade)
+    {
+        float time = 0;
+        Color startValue = textToFade.color;
+        while (time < duration)
+        {
+            textToFade.color = Color.Lerp(startValue, endValue, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        textToFade.color = endValue;
+    }*/
 }
