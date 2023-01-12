@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System;
 
 public class Alphabet : MonoBehaviour
 {
+    public Action<string> action;
     [SerializeField] HighscoreTable highscoreTable;
     [SerializeField] GameObject transformTest;
-    private bool delPressed = false;
     private TextMeshProUGUI textMeshProUGUI;
     private TextMeshProUGUI savedName;
     public string nameTapped = "";
@@ -29,5 +30,12 @@ public class Alphabet : MonoBehaviour
         if (nameTapped.Length >= 3)
         { return; }
         nameTapped += letter;
+    }
+
+    public void OnPressedEnd()
+    {
+        action?.Invoke(nameTapped);
+        nameTapped = "";
+        textMeshProUGUI.text = nameTapped;
     }
 }

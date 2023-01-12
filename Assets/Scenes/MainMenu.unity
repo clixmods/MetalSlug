@@ -983,8 +983,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1035,7 +1035,7 @@ RectTransform:
   m_GameObject: {fileID: 314796664}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1933281832}
@@ -1043,7 +1043,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -36}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &318676434
@@ -8818,6 +8818,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7390606816794294031, guid: db1debe434ae4ec4ebc4e9d829a3c710,
         type: 3}
+      propertyPath: keyboard
+      value: 
+      objectReference: {fileID: 929505228}
+    - target: {fileID: 7390606816794294031, guid: db1debe434ae4ec4ebc4e9d829a3c710,
+        type: 3}
       propertyPath: endPressed
       value: 0
       objectReference: {fileID: 0}
@@ -8909,7 +8914,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 929505230}
         m_TargetAssemblyTypeName: Alphabet, Assembly-CSharp
-        m_MethodName: OnEndPressed
+        m_MethodName: OnPressedEnd
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
