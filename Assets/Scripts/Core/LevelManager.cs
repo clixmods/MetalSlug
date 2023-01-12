@@ -219,6 +219,7 @@ public class LevelManager : MonoBehaviour
         Instance.reviveAmount = 3;
         Instance._firstSpawn = false;
         Instance.secondFirstSpawn = false;
+        Instance._currentRound = 1;
         
         PlayerInputManager.instance.EnableJoining();
 
