@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using AudioAliase;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -21,10 +18,12 @@ public class AIInstance : MonoBehaviour , IActor
     #region Events
     public delegate void CallbackAIDamage(AIInstance aiInstance);
     public delegate void CallbackAIScore(int score);
-    public static event CallbackAIDamage eventAIDeath;
-    public static event CallbackAIDamage eventAIHit;
+    public static event CallbackAIDamage eventGlobalAIDeath;
+    
+    public event CallbackAIDamage eventAIDeath;
+    public static event CallbackAIDamage eventGlobalAIHit;
 
-    public static event CallbackAIScore eventAIScore;
+    public static event CallbackAIScore eventGlobalAIScore;
     #endregion
     
     #region CachedVariables
@@ -98,6 +97,11 @@ public class AIInstance : MonoBehaviour , IActor
         _currentWeapon = aiScriptableObject.primaryWeapon.CreateWeaponInstance(gameObject);
         if(_characterViewmodel.rightHand != null)
             _currentWeapon.transform.parent = _characterViewmodel.rightHand.transform;
+
+        _currentWeapon.eventWeaponFire += () =>
+        {
+            _characterViewmodel.Play(AnimState.Fire);
+        };
         
         _currentWeapon.transform.localPosition = Vector3.zero;
         _grenadeWeapon = aiScriptableObject.grenadeWeapon.CreateWeaponInstance(gameObject);
@@ -105,15 +109,29 @@ public class AIInstance : MonoBehaviour , IActor
             _grenadeWeapon.transform.parent = _characterViewmodel.leftHand.transform;
         
         _grenadeWeapon.transform.localPosition = Vector3.zero;
+
+        _grenadeWeapon.eventWeaponFire += () =>
+        {
+            _characterViewmodel.Play(AnimState.Grenade);
+        };
     }
 
     private void InitFXInstance()
     {
-        _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position,gameObject);
+        _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position);
         _fxAmbiant= FXManager.InitFX(aiScriptableObject.FXLoopAmbiant,transform.position);
-        _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject);
-        _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject);
-        _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject);
+        if (_characterViewmodel.skinnedMeshRenderer != null)
+        {
+            _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
+            _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
+            _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
+        }
+        else
+        {
+            _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject);
+            _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject);
+            _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject);
+        }
         _fxMove= FXManager.InitFX(aiScriptableObject.FXMove,transform.position);
     }
     // Start is called before the first frame update
@@ -190,7 +208,7 @@ public class AIInstance : MonoBehaviour , IActor
         {
             if (_currentWeapon.DoFire(_target))
             {
-                _characterViewmodel.Play(AnimState.Fire);
+                //_characterViewmodel.Play(AnimState.Fire);
             }
            
         }
@@ -198,7 +216,7 @@ public class AIInstance : MonoBehaviour , IActor
         {
             if (_grenadeWeapon.DoFire(_target))
             {
-                _characterViewmodel.Play(AnimState.Grenade);
+               // _characterViewmodel.Play(AnimState.Grenade);
             }
         }
 
@@ -279,15 +297,27 @@ public class AIInstance : MonoBehaviour , IActor
     public void DoDamage(int amount)
     {
         _health -= amount;
-        eventAIHit?.Invoke(this);
+        eventGlobalAIHit?.Invoke(this);
         FXManager.PlayFX(_fxHit,transform.position,BehaviorAfterPlay.Nothing);
+
+        if (aiScriptableObject.Health * 0.6f > _health)
+        {
+            FXManager.PlayFX(_fxDamaged,transform.position,BehaviorAfterPlay.Nothing);
+
+        }
+        if (aiScriptableObject.Health * 0.2f > _health)
+        {
+            FXManager.PlayFX(_fxLowHealth,transform.position,BehaviorAfterPlay.Nothing);
+
+        }
+        
         _characterViewmodel.Play(AnimState.Damaged);
         if (_health <= 0)
         {
             OnDown();
             return;
         }
-        eventAIScore?.Invoke(aiScriptableObject.ScoreHit);
+        eventGlobalAIScore?.Invoke(aiScriptableObject.ScoreHit);
     }
 
     public void OnDown()
@@ -295,9 +325,13 @@ public class AIInstance : MonoBehaviour , IActor
         // Do shit before death
         gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
         AudioManager.StopLoopSound(ref audioPlayerMove);
+        eventGlobalAIDeath?.Invoke(this);
+        eventGlobalAIScore?.Invoke(aiScriptableObject.ScoreDead);
         eventAIDeath?.Invoke(this);
-        eventAIScore?.Invoke(aiScriptableObject.ScoreDead);
-       
+        if (aiScriptableObject.EarthquakeOnDeath)
+        {
+            //CinemachineCameraShake.SetNoisier(1,2);
+        }
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
         
         UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position , ScoreDead);

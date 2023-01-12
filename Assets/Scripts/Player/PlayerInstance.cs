@@ -1,11 +1,7 @@
-using Cinemachine;
-using System;
 using AudioAliase;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
-using Unity.VisualScripting;
 
 [SelectionBase]
 [RequireComponent(typeof(CharacterController))]
@@ -23,11 +19,13 @@ public class PlayerInstance : MonoBehaviour , IActor
     #endregion
 
     // REFS DE SCRIPTS
+    [Header("Weapon")]
     [SerializeField] private WeaponScriptableObject primaryWeapon;
     [SerializeField] private WeaponScriptableObject grenadeWeapon;
     public WeaponInstance weaponInstance;
     public WeaponInstance grenadeInstance;
-
+    public HighscoreTable highscoreTable;
+    
     private PlayerInstance _playerInstanceRevivedCache;
 
     // REFS DE GO
@@ -35,6 +33,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     [SerializeField] private GameObject _parachute;
 
     // FLOAT & INT
+    [Header("Settings")]
     [SerializeField] private float _playerSpeed = 2.0f;
     [SerializeField] private float _jumpHeight = 3.0f;
     [SerializeField] private float _gravityValue = -9.81f;
@@ -77,6 +76,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool _isLastStand = false;
     private bool _isSpawned;
     private bool _firstSpawn = true;
+    public bool testEndGame = false;
+
     public bool IsReviving => _isReviving;
     public bool IsLastStand => _isLastStand;
     public bool IsHealing => _isHealing;
@@ -94,7 +95,18 @@ public class PlayerInstance : MonoBehaviour , IActor
     private void SpawnWeaponInstance()
     {
         weaponInstance = primaryWeapon.CreateWeaponInstance(gameObject);
+        if(_characterViewmodel.rightHand != null)
+            weaponInstance.transform.parent = _characterViewmodel.rightHand.transform;
+        weaponInstance.transform.localPosition = Vector3.zero;
+        
+        
         grenadeInstance = grenadeWeapon.CreateWeaponInstance(gameObject);
+        
+        if(_characterViewmodel.leftHand != null)
+            grenadeInstance.transform.parent = _characterViewmodel.leftHand.transform;
+        
+        grenadeInstance.transform.localPosition = Vector3.zero;
+        
     }
 
     // start
@@ -273,7 +285,7 @@ public class PlayerInstance : MonoBehaviour , IActor
                     // If the player is pressing W, shoot upwards.
                     if (weaponInstance.DoFire(Vector2.up))
                     {
-                        _characterViewmodel.Play(AnimState.Fire);
+                        _characterViewmodel.Play(AnimState.FireUp);
                     }
                 }
                 else if (_currentMovementInput.x < 0)

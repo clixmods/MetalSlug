@@ -20,7 +20,7 @@ MonoBehaviour:
   angleAim: 0.3
   speed: 0.5
   primaryWeapon: {fileID: 11400000, guid: f87defbb07da19f40aa890e2e1c62480, type: 2}
-  grenadeWeapon: {fileID: 0}
+  grenadeWeapon: {fileID: 11400000, guid: f87defbb07da19f40aa890e2e1c62480, type: 2}
   CanFly: 1
   minY: 3
   CanLoseTarget: 0
@@ -38,3 +38,4 @@ MonoBehaviour:
   FXLoopLowHealth: {fileID: 0}
   FXLoopDamaged: {fileID: 0}
   FXMove: {fileID: 0}
+  EarthquakeOnDeath: 0
