@@ -27,7 +27,8 @@ public class CameraMotor : MonoBehaviour
         _leftBoundaryInitial = leftBoundary;
         _rightBoundaryInitial = rightBoundary;
         LevelManager.eventPreLevelRestart += ResetCamera;
-       
+        LevelManager.eventResetSession += ResetCamera;
+
     }
 
     private void Update()

@@ -29,6 +29,12 @@ public class RoundMasterManager : MonoBehaviour
         _cameraMotor = FindObjectOfType<CameraMotor>();
         LevelManager.eventPostLevelRestart += PostLevelManagerOneventPostLevelRestart;
         PlayerInstance.eventPlayerJoin += WaitPlayerToStart;
+        LevelManager.eventResetSession += LevelManagerOneventResetSession;
+    }
+
+    private void LevelManagerOneventResetSession()
+    {
+        PlayerInstance.eventPlayerJoin += WaitPlayerToStart;
     }
 
     private void WaitPlayerToStart(PlayerInstance newplayer)

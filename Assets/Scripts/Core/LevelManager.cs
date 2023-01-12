@@ -61,7 +61,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int reviveAmount;
     [SerializeField] private int _currentRound = 0;
     private TriggerEndgame _triggerEndgame;
-    
+    private bool _firstSpawn;
+    private bool secondFirstSpawn;
     
     
     [Header("Aliases")]
@@ -216,6 +217,9 @@ public class LevelManager : MonoBehaviour
         eventResetSession?.Invoke(); 
         Instance.respawnAmount = 3;
         Instance.reviveAmount = 3;
+        Instance._firstSpawn = false;
+        Instance.secondFirstSpawn = false;
+        
         PlayerInputManager.instance.EnableJoining();
 
     }
@@ -243,7 +247,7 @@ public class LevelManager : MonoBehaviour
         AudioManager.PlaySoundAtPosition(RoundEnd);
     }
 
-    private bool _firstSpawn, secondFirstSpawn;
+    
     private void RemoveRespawnAmount(PlayerInstance newplayer)
     {
         if (_currentRound == 1 && !_firstSpawn)
@@ -259,8 +263,6 @@ public class LevelManager : MonoBehaviour
         }
 
         RespawnAmount--;
-        
-       
     }
 
 

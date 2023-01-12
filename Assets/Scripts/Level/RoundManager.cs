@@ -46,7 +46,7 @@ public class RoundManager : MonoBehaviour
         roundBlocker.SetActive(false);
         _triggerBox.isTrigger = true;
         LevelManager.eventPreLevelRestart += ResetVolume;
-
+        LevelManager.eventResetSession += ResetVolume;
         //PlayerSpawnActive = new GameObject().transform;
         //PlayerSpawnActive.position = Vector3.zero;
         
