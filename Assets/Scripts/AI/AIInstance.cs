@@ -355,8 +355,11 @@ public class AIInstance : MonoBehaviour , IActor
             //CinemachineCameraShake.SetNoisier(1,2);
         }
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
-        
-        UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position , ScoreDead);
+        if (LevelManager.Instance.players.Count > 0)
+        {
+            UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position, ScoreDead);
+        }
+
         Destroy(gameObject);
     }
 
