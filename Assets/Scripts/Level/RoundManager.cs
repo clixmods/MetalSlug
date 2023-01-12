@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AudioAliase;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
@@ -18,6 +19,8 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private float delaySpawn = 1;
     [SerializeField] private List<Transform> spawnPoint = new List<Transform>();
     [SerializeField] private List<Transform> bossSpawnPoint = new List<Transform>();
+    [SerializeField] private List<Transform> playerSpawnPoints = new List<Transform>();
+    
     [SerializeField] private GameObject[] enemies;
     [SerializeField] private GameObject roundBlocker;
     
@@ -26,8 +29,11 @@ public class RoundManager : MonoBehaviour
     private bool _volumeTriggered;
     public bool IsRoundBoss;
     private bool _noSpawn ;
-   
+
+    public static Transform PlayerSpawnActive;
     
+
+
     private void OnValidate()
     {
         GetValues();
@@ -40,6 +46,10 @@ public class RoundManager : MonoBehaviour
         roundBlocker.SetActive(false);
         _triggerBox.isTrigger = true;
         LevelManager.eventPreLevelRestart += ResetVolume;
+
+        //PlayerSpawnActive = new GameObject().transform;
+        //PlayerSpawnActive.position = Vector3.zero;
+        
     }
 
     private void ResetVolume()
@@ -63,14 +73,18 @@ public class RoundManager : MonoBehaviour
         {
             var tempSpawnPoint = transform.GetChild(i);
             if (tempSpawnPoint.CompareTag("BossSpawnPoint"))
-                bossSpawnPoint.Add( transform.GetChild(i));
+                bossSpawnPoint.Add( tempSpawnPoint);
             else if(tempSpawnPoint.CompareTag("RoundBlocker"))
             {
                 roundBlocker = tempSpawnPoint.gameObject;
             }
+            else if (tempSpawnPoint.CompareTag("PlayerSpawnPoint"))
+            {
+                playerSpawnPoints.Add(tempSpawnPoint);
+            }
             else
             {
-                spawnPoint.Add(transform.GetChild(i));
+                spawnPoint.Add(tempSpawnPoint);
             }
         }
     }
@@ -130,6 +144,7 @@ public class RoundManager : MonoBehaviour
     {
         if (!_volumeTriggered && other.CompareTag("Player"))
         {
+            PlayerSpawnActive = playerSpawnPoints[0];
             _volumeTriggered = true;
             eventRoundTriggered?.Invoke(this);
             _needToSpawnAmount = numberOfEnemiesToSpawn;

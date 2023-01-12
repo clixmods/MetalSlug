@@ -6879,10 +6879,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8648926699220179063}
     m_Modifications:
+    - target: {fileID: 3469815199019448607, guid: b6b9a2e73fd6921409c845377e0f08ee,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 69
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570523458883283606, guid: b6b9a2e73fd6921409c845377e0f08ee,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 69
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941752618791870549, guid: b6b9a2e73fd6921409c845377e0f08ee,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 69
+      objectReference: {fileID: 0}
     - target: {fileID: 6001258251503754773, guid: b6b9a2e73fd6921409c845377e0f08ee,
         type: 3}
       propertyPath: m_Name
       value: props_tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001258251503754773, guid: b6b9a2e73fd6921409c845377e0f08ee,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 69
       objectReference: {fileID: 0}
     - target: {fileID: 6341930541376537775, guid: b6b9a2e73fd6921409c845377e0f08ee,
         type: 3}
@@ -6958,6 +6978,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9136083442306350724, guid: b6b9a2e73fd6921409c845377e0f08ee,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 69
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6b9a2e73fd6921409c845377e0f08ee, type: 3}

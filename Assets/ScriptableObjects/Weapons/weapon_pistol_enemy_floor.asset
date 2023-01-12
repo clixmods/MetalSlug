@@ -18,7 +18,7 @@ MonoBehaviour:
   burst: 0
   bulletPerBurst: 3
   delayBurstedBullet: 0.5
-  projectileSpeed: 25
+  projectileSpeed: 10
   projectileUseGravity: 0
   projectileDestroyOnHit: 1
   prefabMeshWeapon: {fileID: 0}

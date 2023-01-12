@@ -41,6 +41,7 @@ public class UIRevivePlayerPanel : MonoBehaviour
         else
         {
             _canvasGroup.alpha = 0;
+            _image.fillAmount = _amountFiled;
             _amountFiled = 0;
         }
         

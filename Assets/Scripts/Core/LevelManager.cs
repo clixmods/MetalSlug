@@ -57,11 +57,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int reviveAmount;
     [SerializeField] private int _currentRound = 0;
     private TriggerEndgame _triggerEndgame;
+    
+    
+    
     [Header("Aliases")]
     [SerializeField][Aliase] private string RoundIntro;
     [SerializeField][Aliase] private string RoundStart;
     [SerializeField][Aliase] private string RoundEnd;
-
     [SerializeField][Aliase] private string Gameover;
     public State State { get; set; }
     public int CurrentRound
@@ -166,6 +168,14 @@ public class LevelManager : MonoBehaviour
         if (Instance.players.Contains(player))
         {
             Instance.players.Remove(player);
+        }
+
+        if (GetAlivePlayers.Count == 0)
+        {
+            foreach (var ai in AIInstance.AIInstances)
+            {
+                ai.OnDown();
+            }
         }
     }
 

@@ -425,7 +425,7 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     public void Parachute()
     {
-        Teleport(new Vector3(_playerTransform.x, 10f, 0f));
+        Teleport(new Vector3(RoundManager.PlayerSpawnActive.position.x, 10f, 0f));
         _gravityValue = -2f;
         _parachute.SetActive(true);
         _firstSpawn = false;
@@ -446,7 +446,8 @@ public class PlayerInstance : MonoBehaviour , IActor
 
         if (_timerDeath <= 0)
         {
-            Destroy(gameObject);
+            OnDeath();
+            return;
         }
 
         // check if the player is grounded
@@ -565,6 +566,11 @@ public class PlayerInstance : MonoBehaviour , IActor
     
     public void OnDown()
     {
+        if (LevelManager.Instance.players.Count == 1)
+        {
+            OnDeath();
+            return;
+        }
         AudioManager.PlaySoundAtPosition("announcer_player_down", Vector3.zero);
         _isLastStand = true;
     }
@@ -572,6 +578,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     public void OnDeath()
     {
         AudioManager.PlaySoundAtPosition("announcer_player_death", Vector3.zero);
+        Destroy(gameObject);
     }
 
     private const int IndexLayerProjectile = 7;

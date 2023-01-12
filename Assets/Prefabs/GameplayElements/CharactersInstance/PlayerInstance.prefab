@@ -141,7 +141,7 @@ MonoBehaviour:
   _gravityValue: -20
   _timerDeath: 0
   _lastDirection: 0
-  _startHealth: 900
+  _startHealth: 1
   _health: 1
   testEndGame: 0
   _team: 1
