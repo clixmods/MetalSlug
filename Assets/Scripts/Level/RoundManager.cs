@@ -69,6 +69,7 @@ public class RoundManager : MonoBehaviour
 
         spawnPoint = new List<Transform>();
         bossSpawnPoint = new List<Transform>();
+        playerSpawnPoints = new List<Transform>();
         for (int i = 0; i < transform.childCount; i++)
         {
             var tempSpawnPoint = transform.GetChild(i);

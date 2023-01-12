@@ -145,6 +145,7 @@ public class AIInstance : MonoBehaviour , IActor
 
     private void OnDestroy()
     {
+        OnDown(true);
         AudioManager.StopLoopSound(ref LoopAmbiant, StopLoopBehavior.Direct);
         AIInstances.Remove(this);
     }
@@ -357,6 +358,10 @@ public class AIInstance : MonoBehaviour , IActor
 
     public void OnDown()
     {
+        OnDown(false);
+    }
+    public void OnDown(bool noDestroy = false)
+    {
         // Do shit before death
         gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
         AudioManager.StopLoopSound(ref audioPlayerMove);
@@ -372,8 +377,8 @@ public class AIInstance : MonoBehaviour , IActor
         {
             UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position, ScoreDead);
         }
-
-        Destroy(gameObject);
+        if(!noDestroy)
+            Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

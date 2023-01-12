@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Enemy_air
   m_EditorClassIdentifier: 
   team: 2
-  _minDistanceToKeepWithTarget: 3
+  _minDistanceToKeepWithTarget: 0
   Health: 1
   attackRange: 20
   attackRate: 2.78
   angleAim: 0.3
+  canReajustAim: 0
   speed: 0.5
   primaryWeapon: {fileID: 11400000, guid: f87defbb07da19f40aa890e2e1c62480, type: 2}
   grenadeWeapon: {fileID: 11400000, guid: f87defbb07da19f40aa890e2e1c62480, type: 2}
