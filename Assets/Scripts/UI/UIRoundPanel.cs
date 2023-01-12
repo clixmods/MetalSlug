@@ -13,8 +13,14 @@ public class UIRoundPanel : MonoBehaviour
     private void Awake()
     {
         LevelManager.CallbackOnRoundChange += LevelManagerOnCallbackOnRoundChange;
+        LevelManager.eventResetSession += LevelManagerOneventResetSession;
         _animator = GetComponent<Animator>();
         _textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    private void LevelManagerOneventResetSession()
+    {
+        _textMeshProUGUI.text = "0";
     }
 
     private void LevelManagerOnCallbackOnRoundChange(int newRound)

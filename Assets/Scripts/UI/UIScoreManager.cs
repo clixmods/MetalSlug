@@ -15,6 +15,13 @@ public class UIScoreManager : MonoBehaviour
     {
         AIInstance.eventGlobalAIScore += AddScore;
         LevelManager.eventEndgame += LevelManager_eventEndgame;
+        LevelManager.eventResetSession += LevelManagerOneventResetSession;
+    }
+
+    private void LevelManagerOneventResetSession()
+    {
+        _currentScore = 0;
+        textComponentScore.text = "Score : " + _currentScore;
     }
 
     private void LevelManager_eventEndgame()
