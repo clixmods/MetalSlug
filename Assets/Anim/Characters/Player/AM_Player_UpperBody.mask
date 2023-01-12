@@ -12,7 +12,7 @@ AvatarMask:
   - m_Path: 
     m_Weight: 1
   - m_Path: bassin
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: bassin/cuisse_droit
     m_Weight: 0
   - m_Path: bassin/cuisse_droit/tibias_droit
@@ -38,4 +38,4 @@ AvatarMask:
   - m_Path: bassin/torse/tete
     m_Weight: 1
   - m_Path: Joueur
-    m_Weight: 0
+    m_Weight: 1

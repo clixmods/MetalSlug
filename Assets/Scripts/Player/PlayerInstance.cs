@@ -95,7 +95,18 @@ public class PlayerInstance : MonoBehaviour , IActor
     private void SpawnWeaponInstance()
     {
         weaponInstance = primaryWeapon.CreateWeaponInstance(gameObject);
+        if(_characterViewmodel.rightHand != null)
+            weaponInstance.transform.parent = _characterViewmodel.rightHand.transform;
+        weaponInstance.transform.localPosition = Vector3.zero;
+        
+        
         grenadeInstance = grenadeWeapon.CreateWeaponInstance(gameObject);
+        
+        if(_characterViewmodel.leftHand != null)
+            grenadeInstance.transform.parent = _characterViewmodel.leftHand.transform;
+        
+        grenadeInstance.transform.localPosition = Vector3.zero;
+        
     }
 
     // start

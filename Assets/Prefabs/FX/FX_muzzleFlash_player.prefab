@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4466804790781854733}
   - component: {fileID: 3750345379656744563}
   m_Layer: 0
-  m_Name: FX_muzzleFlash
+  m_Name: FX_muzzleFlash_player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -497,7 +497,7 @@ ParticleSystem:
     startRotationY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.5707963
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
