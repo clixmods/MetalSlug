@@ -38,6 +38,13 @@ public class Alphabet : MonoBehaviour
         nameTapped += letter;
     }
 
+    public void OnPressedDelete()
+    {
+        if (nameTapped.Length <= 0)
+        { return; }
+        nameTapped = nameTapped.Remove(nameTapped.Length - 1);
+    }
+
     public void OnPressedEnd()
     {
         action?.Invoke(nameTapped);

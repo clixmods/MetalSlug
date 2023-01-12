@@ -16,7 +16,6 @@ public class HighscoreTable : MonoBehaviour {
     [SerializeField] private bool Send;
     [SerializeField] private int score;
     [SerializeField] private string nameEntry;
-    [SerializeField] private bool testt = false;
 
     private void Awake()
     {
