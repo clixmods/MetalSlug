@@ -31,7 +31,7 @@ public class HighscoreTable : MonoBehaviour
         if (highscores == null)
         {
             // There's no stored table, initialize
-            /*AddHighscoreEntry(1000, "BOT");
+            AddHighscoreEntry(1000, "BOT");
             AddHighscoreEntry(2000, "BOT");
             AddHighscoreEntry(3000, "BOT");
             AddHighscoreEntry(4000, "BOT");
@@ -40,7 +40,7 @@ public class HighscoreTable : MonoBehaviour
             AddHighscoreEntry(7000, "BOT");
             AddHighscoreEntry(8000, "BOT");
             AddHighscoreEntry(9000, "BOT");
-            AddHighscoreEntry(10000, "BOT");*/
+            AddHighscoreEntry(10000, "BOT");
             
 
             // Reload
