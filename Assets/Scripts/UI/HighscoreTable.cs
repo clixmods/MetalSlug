@@ -13,22 +13,23 @@ public class HighscoreTable : MonoBehaviour {
     private Transform entryTemplate;
     private List<Transform> highscoreEntryTransformList;
     [Header("Debug")]
-    [SerializeField]  private bool Send;
+    [SerializeField] private bool Send;
     [SerializeField] private int score;
     [SerializeField] private string nameEntry;
+    [SerializeField] private bool testt = false;
 
-    private void Awake() {
+    private void Awake()
+    {
         entryContainer = transform.Find("highscoreEntryContainer");
         entryTemplate = entryContainer.Find("highscoreEntryTemplate");
         entryTemplate.gameObject.SetActive(false);
         alphabet = keyboard.GetComponent<Alphabet>();
+        string jsonString;
+        Highscores highscores;
+        GetHighscore(out jsonString, out highscores);
 
-        // keaboard assign
-
-        string jsonString = PlayerPrefs.GetString("highscoreTable");
-        Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
-
-        if (highscores == null) {
+        if (highscores == null)
+        {
             // There's no stored table, initialize
             AddHighscoreEntry(5000, "BOT");
 
@@ -38,9 +39,12 @@ public class HighscoreTable : MonoBehaviour {
         }
 
         // Sort entry list by Score
-        for (int i = 0; i < highscores.highscoreEntryList.Count; i++) {
-            for (int j = i + 1; j < highscores.highscoreEntryList.Count; j++) {
-                if (highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score) {
+        for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
+        {
+            for (int j = i + 1; j < highscores.highscoreEntryList.Count; j++)
+            {
+                if (highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score)
+                {
                     // Swap
                     HighscoreEntry tmp = highscores.highscoreEntryList[i];
                     highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
@@ -58,26 +62,62 @@ public class HighscoreTable : MonoBehaviour {
         }
 
         highscoreEntryTransformList = new List<Transform>();
-        foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList) {
+        foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
+        {
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
         }
+    }
+
+    private static void GetHighscore(out string jsonString, out Highscores highscores)
+    {
+        // keaboard assign
+
+        jsonString = PlayerPrefs.GetString("highscoreTable");
+        highscores = JsonUtility.FromJson<Highscores>(jsonString);
     }
 
     private void Update()
     {
         if(Send)
         {
-            RegisterScore(1212129);
+            RegisterScore(score);
             Send = false;
         }
     }
 
     public void RegisterScore(int scoreValue)
     {
-        keyboard.gameObject.SetActive(true);
-        score = scoreValue;
+        GetHighscore(out var jsonString, out var highscores);
+        UpdateHighscore();
+        SortHighscore(highscores);
 
+        int currentPosition = 0;
+        for (int i = 0; i < highscores.highscoreEntryList.Count-1; i++)
+        {
+            var entry = highscores.highscoreEntryList[i];
+            if (scoreValue > entry.score)
+            {
+                currentPosition = i+1;
+                break;
+            }
+        }
+        // Not in highscore
+        if (currentPosition == 0 || currentPosition == 11)
+        {
+            return;
+        }
+
+        UpdateHighscore(currentPosition-1);
+
+        keyboard.gameObject.SetActive(true);
+
+        score = scoreValue;
         alphabet.action += OnRegister;
+        var entryTransform = highscoreEntryTransformList[currentPosition-1];
+        alphabet.text = entryTransform.Find("nameText").GetComponent<Text>();
+        entryTransform.Find("posText").GetComponent<Text>().text = currentPosition.ToString();
+        entryTransform.Find("scoreText").GetComponent<Text>().text = score.ToString();
+        //entryTransform.Find("nameText").GetComponent<Text>().text = "";
     }
 
     private void OnRegister(string value)
@@ -113,6 +153,7 @@ public class HighscoreTable : MonoBehaviour {
         entryTransform.Find("scoreText").GetComponent<Text>().text = score.ToString();
 
         string name = highscoreEntry.name;
+
         entryTransform.Find("nameText").GetComponent<Text>().text = name;
 
         // Set background visible odds and evens, easier to read
@@ -143,26 +184,13 @@ public class HighscoreTable : MonoBehaviour {
         transformList.Add(entryTransform);
     }
 
-    private void UpdateHighscore()
+    private void UpdateHighscore(int untilIndex = 10)
     {
         float templateHeight = 31f;
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
 
-        // Sort entry list by Score
-        for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
-        {
-            for (int j = i + 1; j < highscores.highscoreEntryList.Count; j++)
-            {
-                if (highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score)
-                {
-                    // Swap
-                    HighscoreEntry tmp = highscores.highscoreEntryList[i];
-                    highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
-                    highscores.highscoreEntryList[j] = tmp;
-                }
-            }
-        }
+        SortHighscore(highscores);
 
         if (highscores.highscoreEntryList.Count > 10)
         {
@@ -171,8 +199,17 @@ public class HighscoreTable : MonoBehaviour {
                 highscores.highscoreEntryList.RemoveAt(10);
             }
         }
+        // Clear each line
 
         for (int i = 0; i < highscoreEntryTransformList.Count; i++)
+        {
+            var entryTransform = highscoreEntryTransformList[i];
+            entryTransform.Find("posText").GetComponent<Text>().text = "";
+            entryTransform.Find("scoreText").GetComponent<Text>().text = "";
+            entryTransform.Find("nameText").GetComponent<Text>().text = "";
+        }
+
+        for (int i = 0; i < untilIndex; i++)
         {
             var entryTransform = highscoreEntryTransformList[i];
             var highscoreEntry = highscores.highscoreEntryList[i];
@@ -199,6 +236,7 @@ public class HighscoreTable : MonoBehaviour {
             entryTransform.Find("scoreText").GetComponent<Text>().text = score.ToString();
 
             string name = highscoreEntry.name;
+
             entryTransform.Find("nameText").GetComponent<Text>().text = name;
 
             // Set background visible odds and evens, easier to read
@@ -227,6 +265,24 @@ public class HighscoreTable : MonoBehaviour {
                 case 3:
                     entryTransform.Find("trophy").GetComponent<Image>().color = UtilsClass.GetColorFromString("B76F56");
                     break;
+            }
+        }
+    }
+
+    private static void SortHighscore(Highscores highscores)
+    {
+        // Sort entry list by Score
+        for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
+        {
+            for (int j = i + 1; j < highscores.highscoreEntryList.Count; j++)
+            {
+                if (highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score)
+                {
+                    // Swap
+                    HighscoreEntry tmp = highscores.highscoreEntryList[i];
+                    highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
+                    highscores.highscoreEntryList[j] = tmp;
+                }
             }
         }
     }

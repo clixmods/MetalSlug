@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 public class Alphabet : MonoBehaviour
 {
     public Action<string> action;
     [SerializeField] HighscoreTable highscoreTable;
     [SerializeField] GameObject transformTest;
-    private TextMeshProUGUI textMeshProUGUI;
+    public TextMeshProUGUI textMeshProUGUI;
+    public Text text;
     private TextMeshProUGUI savedName;
     public string nameTapped = "";
 
@@ -23,6 +25,10 @@ public class Alphabet : MonoBehaviour
     void Update()
     {
         textMeshProUGUI.text = nameTapped;
+        if(text != null)
+        {
+            text.text = nameTapped;
+        }
     }
 
     public void OnClickLetter(string letter)
