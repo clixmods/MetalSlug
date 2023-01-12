@@ -185,6 +185,8 @@ public class AIInstance : MonoBehaviour , IActor
             {
                 newPosition.y = Mathf.Clamp(newPosition.y, aiScriptableObject.minY, 10);
             }
+
+            newPosition.z = 0;
             _rigidbody.MovePosition(newPosition);
             _characterViewmodel.Play(AnimState.Move);
             transform.PlayLoopSound(aiScriptableObject.AliasOnMove, ref audioPlayerMove);
@@ -284,8 +286,23 @@ public class AIInstance : MonoBehaviour , IActor
 
         return nearestPlayer;
     }
+    
+    const float WorldToViewportPointValueNegative = -0.5f;
+    const float WorldToViewportPointValuePositive = 1.5f;
     private bool IsInAttackRange()
     {
+        // Check if the object is out of the camera
+        Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
+        
+        bool isOutCameraNegative = position.x < WorldToViewportPointValueNegative || position.y < WorldToViewportPointValueNegative;
+        bool isOutCameraPositive =  position.x > WorldToViewportPointValuePositive || position.y > WorldToViewportPointValuePositive;
+        Debug.Log($"Hello  {isOutCameraNegative} : {isOutCameraPositive}" );
+        if(isOutCameraNegative || isOutCameraPositive )
+        {
+            return false;
+        }
+        
+        
         var direction = (_target.transform.position - transform.position).normalized;
         float angle = Mathf.Abs(direction.y);
         return angle < aiScriptableObject.angleAim;

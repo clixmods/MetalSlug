@@ -82,14 +82,13 @@ public class LevelManager : MonoBehaviour
         get => respawnAmount;
         set
         {
-            if(value == 0)
-                PlayerInputManager.instance.DisableJoining();
+            if(value > 0)
+                PlayerInputManager.instance.EnableJoining();
             else
             {
-                PlayerInputManager.instance.EnableJoining();
+                PlayerInputManager.instance.DisableJoining();
             }
             respawnAmount = value;
-            
         }
     }
     public int ReviveAmount
@@ -97,7 +96,7 @@ public class LevelManager : MonoBehaviour
         get => reviveAmount;
         set
         {
-            respawnAmount = value;
+            reviveAmount = value;
         }
     }
     #region Properties
@@ -192,8 +191,14 @@ public class LevelManager : MonoBehaviour
         PlayerInstance.eventPlayerJoin += AddPlayer;
         PlayerInstance.eventPlayerDisconnect += RemovePlayer;
         PlayerInstance.eventPlayerRespawn += RemoveRespawnAmount;
+        PlayerInstance.eventPlayerRevive += PlayerInstanceOneventPlayerRevive;
         AudioManager.PlaySoundAtPosition(RoundIntro, Vector3.zero);
         TriggerEndgame.eventTriggerEndgameStart += TriggerEndgameOneventTriggerEndgameStart;
+    }
+
+    private void PlayerInstanceOneventPlayerRevive(PlayerInstance newplayer)
+    {
+        ReviveAmount--;
     }
 
     private void TriggerEndgameOneventTriggerEndgameStart()
@@ -201,9 +206,24 @@ public class LevelManager : MonoBehaviour
         AudioManager.PlaySoundAtPosition(RoundEnd);
     }
 
+    private bool _firstSpawn, secondFirstSpawn;
     private void RemoveRespawnAmount(PlayerInstance newplayer)
     {
+        if (_currentRound == 1 && !_firstSpawn)
+        {
+            _firstSpawn = true;
+            return;
+        }
+
+        if (_currentRound == 1 && players.Count > 1 && !secondFirstSpawn)
+        {
+            secondFirstSpawn = true;
+            return;
+        }
+
         RespawnAmount--;
+        
+       
     }
 
 

@@ -14,6 +14,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     public static event PlayerEvent eventPlayerDisconnect;
     public static event PlayerEvent eventPlayerDeath;
     public static event PlayerEvent eventPlayerRespawn;
+    public static event PlayerEvent eventPlayerRevive;
     public static event PlayerEvent eventPlayerFire;
     public static event PlayerEvent eventIsReviving;
     #endregion
@@ -38,6 +39,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     [SerializeField] private float _jumpHeight = 3.0f;
     [SerializeField] private float _gravityValue = -9.81f;
     [SerializeField] private float _timerDeath;
+    private float timerInvulnerability = 0;
     private float _timerDeathCache;
     [SerializeField] public float ctxCached { get; private set; }
 
@@ -59,8 +61,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     #region Properties
 
     // Todo : need to be implemented
-    public bool IsAlive => gameObject.activeSelf;
-
+    public bool IsAlive => !_isLastStand;
 
     #endregion
 
@@ -89,7 +90,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     {
         _characterViewmodel = GetComponent<CharacterViewmodelManager>();
         SpawnWeaponInstance();
-        _health = _startHealth;
+        Health = _startHealth;
+        timerInvulnerability = 3f;
         _timerDeath = 15f;
     }
     private void SpawnWeaponInstance()
@@ -119,6 +121,8 @@ public class PlayerInstance : MonoBehaviour , IActor
             eventPlayerJoin?.Invoke(this);
             _isSpawned = true;
             Parachute();
+            eventPlayerRespawn?.Invoke(this);
+            timerInvulnerability = 3;
         }
     }
 
@@ -434,6 +438,15 @@ public class PlayerInstance : MonoBehaviour , IActor
     // update
     void Update()
     {
+        if (timerInvulnerability > 0)
+        {
+            timerInvulnerability -= Time.deltaTime;
+        }
+        else
+        {
+            timerInvulnerability = 0;
+        }
+        
         if (_firstSpawn)
         {
             Parachute();
@@ -444,12 +457,16 @@ public class PlayerInstance : MonoBehaviour , IActor
             _timerDeath -= Time.deltaTime;
         }
 
-        if (_timerDeath <= 0)
+        if (_timerDeath <= 0 || LevelManager.GetAlivePlayers.Count == 0)
         {
             OnDeath();
             return;
         }
 
+
+        if (_isLastStand) return;
+        
+        
         // check if the player is grounded
         _groundedPlayer = controller.isGrounded;
         if (_groundedPlayer && _playerVelocity.y < 0)
@@ -549,16 +566,34 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     public void Revive()
     {
+        eventPlayerRevive?.Invoke(this);
         _isLastStand = false;
-        _health = _startHealth;
+        Health = _startHealth;
+        timerInvulnerability = 1.5f;
     }
  
     public TeamEnum Team => _team;
-    public int Health => _health;
+    public int Health
+    {
+        get
+        {
+            return _health;
+        }
+        set
+        {
+            if (timerInvulnerability > 0)
+            {
+                return;
+            }
+
+            _health = value;
+        }
+    }
+
     public void DoDamage(int amount)
     {  
-        _health -= amount;
-        if (_health <= 0)
+        Health -= amount;
+        if ( Health <= 0 && !_isLastStand)
         {
             OnDown();
         }
