@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +12,7 @@ public class UIRevivePlayerPanel : MonoBehaviour
     [SerializeField] private Image _image;
     private float _amountFiled = 0;
     private Vector3 _offset = new Vector3(0,1.5f,0);
+    [SerializeField] private TextMeshProUGUI textCounter;
     public PlayerInstance PlayerInstance
     {
         get => _playerInstance;
@@ -24,19 +27,22 @@ public class UIRevivePlayerPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if (_playerInstance != null && _playerInstance.IsLastStand)
         {
             transform.position = Camera.main.WorldToScreenPoint(PlayerInstance.transform.position + _offset ) ;
-            
+            textCounter.text = Math.Round(_playerInstance.TimerDeath, 1).ToString();
             _canvasGroup.alpha = 1;
             if(_playerInstance.IsHealing)
             {
+                
                 _image.fillAmount = _amountFiled;
                 _amountFiled += Time.deltaTime/3f;
             }
-                
-            
+            else
+            {
+                _image.fillAmount = 0;
+                _amountFiled = 0;
+            }
         }
         else
         {
@@ -44,6 +50,5 @@ public class UIRevivePlayerPanel : MonoBehaviour
             _image.fillAmount = _amountFiled;
             _amountFiled = 0;
         }
-        
     }
 }

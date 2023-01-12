@@ -9,7 +9,8 @@ using Random = UnityEngine.Random;
 public enum State
 {
     Ingame,
-    Intermission
+    Intermission,
+    Gameover
 }
 
 public class LevelManager : MonoBehaviour
@@ -45,6 +46,7 @@ public class LevelManager : MonoBehaviour
     public static event EventHandler eventPostLevelRestart;
     public static event EventHandlerRound CallbackOnRoundChange;
 
+    public static event EventHandler eventEndgame;
     
 
     #endregion
@@ -233,6 +235,14 @@ public class LevelManager : MonoBehaviour
         {
            _triggerEndgame.ResetTrigger();
            StartNewRound();
+        }
+
+        if (GetAlivePlayers.Count == 0 && RespawnAmount == 0 && State != State.Gameover)
+        {
+            State = State.Gameover;
+            Debug.Log("ENDGAME");
+            eventEndgame?.Invoke();
+            // Execute endgame function here
         }
     }
 

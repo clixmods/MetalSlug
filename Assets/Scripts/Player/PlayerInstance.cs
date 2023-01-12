@@ -39,6 +39,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     [SerializeField] private float _jumpHeight = 3.0f;
     [SerializeField] private float _gravityValue = -9.81f;
     [SerializeField] private float _timerDeath;
+    public float TimerDeath => _timerDeath;
+    
     private float timerInvulnerability = 0;
     private float _timerDeathCache;
     [SerializeField] public float ctxCached { get; private set; }
@@ -185,7 +187,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             _inRange = true;
             var playerInstanceCached = other.transform.parent.GetComponent<PlayerInstance>();
-            if (playerInstanceCached._isLastStand == true)
+            if (playerInstanceCached._isLastStand)
             {
                 _playerInstanceRevivedCache = playerInstanceCached;
                 playerInstanceCached._isHealing = _isReviving;
@@ -199,7 +201,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         if (other.transform.parent != null && other.transform.parent.CompareTag("Player"))
         {
             var playerInstanceCached = other.transform.parent.GetComponent<PlayerInstance>();
-            if (playerInstanceCached._isLastStand == true)
+            if (playerInstanceCached._isLastStand)
             {
                 _playerInstanceRevivedCache = null;
                 playerInstanceCached._isHealing = false;
@@ -436,6 +438,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     {
         if (_isLastStand || _playerInstanceRevivedCache == null)
         {
+            _isReviving = false;
             return;
         }
 
@@ -487,6 +490,7 @@ public class PlayerInstance : MonoBehaviour , IActor
 
         if (_isLastStand && !_isHealing)
         {
+            _isReviving = false;
             _timerDeath -= Time.deltaTime;
         }
 
@@ -497,86 +501,88 @@ public class PlayerInstance : MonoBehaviour , IActor
         }
 
 
-        if (_isLastStand) return;
-
-        if (_aimDir.y > 0)
+        if (!_isLastStand)
         {
-            _characterViewmodel.Play(AnimState.LookUp);
-        }
-        else if (_aimDir.y < 0)
-        {
-            _characterViewmodel.Play(AnimState.LookDown);
-        }
-        
-        // check if the player is grounded
-        _groundedPlayer = controller.isGrounded;
-        if (_groundedPlayer && _playerVelocity.y < 0)
-        {
-            _characterViewmodel._animator.SetBool("IsFalling", false);
-            _parachute.SetActive(false);
-            // set the velocity to 0
-            _playerVelocity.y = 0f;
-            if(_gravityValue != -20f)
+            if (_aimDir.y > 0)
             {
-                _gravityValue = -20f;
+                _characterViewmodel.Play(AnimState.LookUp);
             }
-            // if the player jump and crouch while in the air and arrive on the ground crouched then isCrouching is set to true
-            if (_currentMovementInput.y < 0 && controller.isGrounded)
+            else if (_aimDir.y < 0)
             {
-                _isCrouching = true;
+                _characterViewmodel.Play(AnimState.LookDown);
             }
-        }
-        else
-        {
-            _characterViewmodel._animator.SetBool("IsFalling", true);
-        }
-
-        // move the player
-        Vector3 move = new Vector3(_movementInput.x, 0, 0);
-
-        var motion = move.normalized * Time.deltaTime * _playerSpeed;
-
-        // Check if the object is out of the camera
-        Vector3 position = Camera.main.WorldToViewportPoint(transform.position + motion);
-
-        bool isOutCameraNegative = position.x < 0.1f || position.y < 0.1f;
-        bool isOutCameraPositive = position.x > 0.9f || position.y > 0.9f;
-
-        if (!(isOutCameraNegative || isOutCameraPositive) )
-        {
-            controller.Move(motion);
-            if (motion.magnitude > 0)
+            
+            // check if the player is grounded
+            _groundedPlayer = controller.isGrounded;
+            if (_groundedPlayer && _playerVelocity.y < 0)
             {
-                _characterViewmodel.Play(AnimState.Move);
+                _characterViewmodel._animator.SetBool("IsFalling", false);
+                _parachute.SetActive(false);
+                // set the velocity to 0
+                _playerVelocity.y = 0f;
+                if(_gravityValue != -20f)
+                {
+                    _gravityValue = -20f;
+                }
+                // if the player jump and crouch while in the air and arrive on the ground crouched then isCrouching is set to true
+                if (_currentMovementInput.y < 0 && controller.isGrounded)
+                {
+                    _isCrouching = true;
+                }
             }
             else
             {
-                _characterViewmodel.Play(AnimState.Idle);
+                _characterViewmodel._animator.SetBool("IsFalling", true);
             }
-        }
-        else
-        {
-            if (isOutCameraNegative)
+
+            // move the player
+            Vector3 move = new Vector3(_movementInput.x, 0, 0);
+
+            var motion = move.normalized * Time.deltaTime * _playerSpeed;
+
+            // Check if the object is out of the camera
+            Vector3 position = Camera.main.WorldToViewportPoint(transform.position + motion);
+
+            bool isOutCameraNegative = position.x < 0.1f || position.y < 0.1f;
+            bool isOutCameraPositive = position.x > 0.9f || position.y > 0.9f;
+
+            if (!(isOutCameraNegative || isOutCameraPositive) )
             {
-                controller.Move(Vector3.right * Time.deltaTime * _playerSpeed);
-                _characterViewmodel.Play(AnimState.Move);
+                controller.Move(motion);
+                if (motion.magnitude > 0)
+                {
+                    _characterViewmodel.Play(AnimState.Move);
+                }
+                else
+                {
+                    _characterViewmodel.Play(AnimState.Idle);
+                }
+            }
+            else
+            {
+                if (isOutCameraNegative)
+                {
+                    controller.Move(Vector3.right * Time.deltaTime * _playerSpeed);
+                    _characterViewmodel.Play(AnimState.Move);
+                   
+                }
+                if (isOutCameraPositive)
+                {
+                    controller.Move(Vector3.left * Time.deltaTime * _playerSpeed);
+                    _characterViewmodel.Play(AnimState.Move);
+                }
+            }
+            _characterViewmodel.Direction = transform.position + motion;
+            
+            
+
+            // Changes the height position of the player..
+            if (_jumped && _groundedPlayer)
+            {
+                _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
                
             }
-            if (isOutCameraPositive)
-            {
-                controller.Move(Vector3.left * Time.deltaTime * _playerSpeed);
-                _characterViewmodel.Play(AnimState.Move);
-            }
-        }
-        _characterViewmodel.Direction = transform.position + motion;
-        
-        
 
-        // Changes the height position of the player..
-        if (_jumped && _groundedPlayer)
-        {
-            _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
-           
         }
 
         // add gravity to the player

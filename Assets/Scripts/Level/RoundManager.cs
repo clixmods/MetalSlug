@@ -20,7 +20,7 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private List<Transform> spawnPoint = new List<Transform>();
     [SerializeField] private List<Transform> bossSpawnPoint = new List<Transform>();
     [SerializeField] private List<Transform> playerSpawnPoints = new List<Transform>();
-    
+    public List<Transform> PlayerSpawnPoints => playerSpawnPoints;
     [SerializeField] private GameObject[] enemies;
     [SerializeField] private GameObject roundBlocker;
     

@@ -151,11 +151,16 @@ public class AIInstance : MonoBehaviour , IActor
     // Update is called once per frame
     void Update()
     {
+        
         if (_target != null)
         {
             ThinkMovement();
             ThinkAttack();
             ThinkTargetPerception();
+            if (!_target.GetComponent<PlayerInstance>().IsAlive)
+            {
+                _target = null;
+            }    
         }
         else
         {
