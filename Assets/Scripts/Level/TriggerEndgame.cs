@@ -36,6 +36,10 @@ public class TriggerEndgame : MonoBehaviour
     private bool AllPlayersAreInEndgameTrigger()
     {
         bool condition = true;
+        if (LevelManager.Instance.players.Count == 0)
+        {
+            return false;
+        }
         foreach (var player in LevelManager.Instance.players)
         {
             if (!playersInTrigger.Contains(player))

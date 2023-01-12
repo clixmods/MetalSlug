@@ -10,17 +10,31 @@ using Random = UnityEngine.Random;
 public class RoundMasterManager : MonoBehaviour
 {
     [SerializeField] private List<RoundManager> _roundManagers;
+    [SerializeField] private RoundManager firstRoundManager;
     [SerializeField] private GameObject[] bossEnemies;
     
     private CameraMotor _cameraMotor;
     [Header("Aliases")]
-    [SerializeField][Aliase] private string RoundBossStart;
-    [SerializeField][Aliase] private string RoundBossEnd;
+    //[SerializeField][Aliase] private string RoundBossStart;
+    //[SerializeField][Aliase] private string RoundBossEnd;
+    
+    [SerializeField][Aliase] private string musicBg;
+    [SerializeField][Aliase] private string musicBgBoss;
+    private AudioPlayer _audioPlayerBgMusic;
+    private AudioPlayer _audioPlayerBgBossMusic;
+    private float cachedVolume;
     private void Awake()
     {
         GetValues();
         _cameraMotor = FindObjectOfType<CameraMotor>();
         LevelManager.eventPostLevelRestart += PostLevelManagerOneventPostLevelRestart;
+        PlayerInstance.eventPlayerJoin += WaitPlayerToStart;
+    }
+
+    private void WaitPlayerToStart(PlayerInstance newplayer)
+    {
+        RoundManager.PlayerSpawnActive = firstRoundManager.PlayerSpawnPoints[0];
+        PlayerInstance.eventPlayerJoin -= WaitPlayerToStart;
     }
 
     private void OnValidate()
@@ -35,6 +49,8 @@ public class RoundMasterManager : MonoBehaviour
     
     private void PostLevelManagerOneventPostLevelRestart()
     {
+        AudioManager.PlayLoopSound(musicBg ,Vector3.zero, ref _audioPlayerBgMusic);
+        cachedVolume = _audioPlayerBgMusic.Source.volume;
         int roundBoss = Random.Range(1, _roundManagers.Count);
         var boss = _roundManagers[roundBoss].SpawnBoss(bossEnemies[Random.Range(0, bossEnemies.Length)],false, true);
         boss.eventAIDeath += BossOneventAIDeath;
@@ -45,7 +61,9 @@ public class RoundMasterManager : MonoBehaviour
 
     private void OneventRoundTriggered(RoundManager roundmanager)
     {
-        AudioManager.PlaySoundAtPosition(RoundBossStart);
+        
+        AudioManager.PlayLoopSound(musicBgBoss ,Vector3.zero, ref _audioPlayerBgBossMusic);
+        
         roundmanager.eventRoundTriggered -= OneventRoundTriggered;
     }
 
@@ -53,12 +71,29 @@ public class RoundMasterManager : MonoBehaviour
     private void BossOneventAIDeath(AIInstance aiinstance)
     {
         _cameraMotor.ResetCamera(false, true);
-        AudioManager.PlaySoundAtPosition(RoundBossEnd);
+        //AudioManager.PlaySoundAtPosition(RoundBossEnd);
+        AudioManager.StopLoopSound(ref _audioPlayerBgBossMusic, StopLoopBehavior.Direct);
+        
+       
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_audioPlayerBgBossMusic != null)
+        {
+            
+            _audioPlayerBgMusic.Source.volume = 0;
+        }
+        else
+        {
+            if (_audioPlayerBgMusic != null)
+            {
+                _audioPlayerBgMusic.Source.volume = cachedVolume;
+            }
+            
+        }
+        
         
     }
 }

@@ -35,6 +35,9 @@ public class ProjectileInstance : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
+        if(LevelManager.GetAlivePlayers.Count == 0)
+            Destroy(gameObject);
+        
         if (currentLifeTime > 0)
         {
             currentLifeTime -= Time.deltaTime;
@@ -52,9 +55,10 @@ public class ProjectileInstance : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        
-        
+
+        var Bulletposition = transform.position;
+        Bulletposition.z = 0;
+        transform.position = Bulletposition;
     }
 
     private void OnCollisionEnter(Collision collision)

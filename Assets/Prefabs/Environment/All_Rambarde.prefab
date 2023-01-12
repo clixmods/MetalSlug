@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 71
   m_IsActive: 1
 --- !u!4 &5806409854550115392
 Transform:
@@ -46,7 +46,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 71
   m_IsActive: 1
 --- !u!4 &1197474559499971488
 Transform:
@@ -78,7 +78,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 71
   m_IsActive: 1
 --- !u!4 &5654401367763264082
 Transform:
@@ -110,7 +110,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 71
   m_IsActive: 1
 --- !u!4 &6998826573395918471
 Transform:
@@ -142,7 +142,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 71
   m_IsActive: 1
 --- !u!4 &2132867826420949000
 Transform:
@@ -174,7 +174,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 71
   m_IsActive: 1
 --- !u!4 &2225808782211983319
 Transform:
@@ -211,7 +211,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 71
   m_IsActive: 1
 --- !u!4 &4273093066859114169
 Transform:
@@ -240,6 +240,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: prop_fence
+      objectReference: {fileID: 0}
+    - target: {fileID: 5026051173771856583, guid: 081134da68c4ac04e8afd2f9bef5cd76,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 71
       objectReference: {fileID: 0}
     - target: {fileID: 5659844153696784509, guid: 081134da68c4ac04e8afd2f9bef5cd76,
         type: 3}
@@ -316,6 +321,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: prop_fence
       objectReference: {fileID: 0}
+    - target: {fileID: 5026051173771856583, guid: 081134da68c4ac04e8afd2f9bef5cd76,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 71
+      objectReference: {fileID: 0}
     - target: {fileID: 5659844153696784509, guid: 081134da68c4ac04e8afd2f9bef5cd76,
         type: 3}
       propertyPath: m_RootOrder
@@ -390,6 +400,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: prop_fence
+      objectReference: {fileID: 0}
+    - target: {fileID: 5026051173771856583, guid: 081134da68c4ac04e8afd2f9bef5cd76,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 71
       objectReference: {fileID: 0}
     - target: {fileID: 5659844153696784509, guid: 081134da68c4ac04e8afd2f9bef5cd76,
         type: 3}
@@ -466,6 +481,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: prop_fence
       objectReference: {fileID: 0}
+    - target: {fileID: 5026051173771856583, guid: 081134da68c4ac04e8afd2f9bef5cd76,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 71
+      objectReference: {fileID: 0}
     - target: {fileID: 5659844153696784509, guid: 081134da68c4ac04e8afd2f9bef5cd76,
         type: 3}
       propertyPath: m_RootOrder
@@ -541,6 +561,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: prop_fence
       objectReference: {fileID: 0}
+    - target: {fileID: 5026051173771856583, guid: 081134da68c4ac04e8afd2f9bef5cd76,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 71
+      objectReference: {fileID: 0}
     - target: {fileID: 5659844153696784509, guid: 081134da68c4ac04e8afd2f9bef5cd76,
         type: 3}
       propertyPath: m_RootOrder
@@ -615,6 +640,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: prop_fence
+      objectReference: {fileID: 0}
+    - target: {fileID: 5026051173771856583, guid: 081134da68c4ac04e8afd2f9bef5cd76,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 69
       objectReference: {fileID: 0}
     - target: {fileID: 5659844153696784509, guid: 081134da68c4ac04e8afd2f9bef5cd76,
         type: 3}

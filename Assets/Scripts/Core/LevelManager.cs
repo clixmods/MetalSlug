@@ -9,7 +9,8 @@ using Random = UnityEngine.Random;
 public enum State
 {
     Ingame,
-    Intermission
+    Intermission,
+    Gameover
 }
 
 public class LevelManager : MonoBehaviour
@@ -45,6 +46,7 @@ public class LevelManager : MonoBehaviour
     public static event EventHandler eventPostLevelRestart;
     public static event EventHandlerRound CallbackOnRoundChange;
 
+    public static event EventHandler eventEndgame;
     
 
     #endregion
@@ -57,11 +59,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int reviveAmount;
     [SerializeField] private int _currentRound = 0;
     private TriggerEndgame _triggerEndgame;
+    
+    
+    
     [Header("Aliases")]
     [SerializeField][Aliase] private string RoundIntro;
     [SerializeField][Aliase] private string RoundStart;
     [SerializeField][Aliase] private string RoundEnd;
-
     [SerializeField][Aliase] private string Gameover;
     public State State { get; set; }
     public int CurrentRound
@@ -80,14 +84,13 @@ public class LevelManager : MonoBehaviour
         get => respawnAmount;
         set
         {
-            if(value == 0)
-                PlayerInputManager.instance.DisableJoining();
+            if(value > 0)
+                PlayerInputManager.instance.EnableJoining();
             else
             {
-                PlayerInputManager.instance.EnableJoining();
+                PlayerInputManager.instance.DisableJoining();
             }
             respawnAmount = value;
-            
         }
     }
     public int ReviveAmount
@@ -95,7 +98,7 @@ public class LevelManager : MonoBehaviour
         get => reviveAmount;
         set
         {
-            respawnAmount = value;
+            reviveAmount = value;
         }
     }
     #region Properties
@@ -167,6 +170,14 @@ public class LevelManager : MonoBehaviour
         {
             Instance.players.Remove(player);
         }
+
+        if (GetAlivePlayers.Count == 0)
+        {
+            foreach (var ai in AIInstance.AIInstances)
+            {
+                ai.OnDown();
+            }
+        }
     }
 
     private void Awake()
@@ -182,8 +193,14 @@ public class LevelManager : MonoBehaviour
         PlayerInstance.eventPlayerJoin += AddPlayer;
         PlayerInstance.eventPlayerDisconnect += RemovePlayer;
         PlayerInstance.eventPlayerRespawn += RemoveRespawnAmount;
+        PlayerInstance.eventPlayerRevive += PlayerInstanceOneventPlayerRevive;
         AudioManager.PlaySoundAtPosition(RoundIntro, Vector3.zero);
         TriggerEndgame.eventTriggerEndgameStart += TriggerEndgameOneventTriggerEndgameStart;
+    }
+
+    private void PlayerInstanceOneventPlayerRevive(PlayerInstance newplayer)
+    {
+        ReviveAmount--;
     }
 
     private void TriggerEndgameOneventTriggerEndgameStart()
@@ -191,9 +208,24 @@ public class LevelManager : MonoBehaviour
         AudioManager.PlaySoundAtPosition(RoundEnd);
     }
 
+    private bool _firstSpawn, secondFirstSpawn;
     private void RemoveRespawnAmount(PlayerInstance newplayer)
     {
+        if (_currentRound == 1 && !_firstSpawn)
+        {
+            _firstSpawn = true;
+            return;
+        }
+
+        if (_currentRound == 1 && players.Count > 1 && !secondFirstSpawn)
+        {
+            secondFirstSpawn = true;
+            return;
+        }
+
         RespawnAmount--;
+        
+       
     }
 
 
@@ -203,6 +235,14 @@ public class LevelManager : MonoBehaviour
         {
            _triggerEndgame.ResetTrigger();
            StartNewRound();
+        }
+
+        if (GetAlivePlayers.Count == 0 && RespawnAmount == 0 && State != State.Gameover)
+        {
+            State = State.Gameover;
+            Debug.Log("ENDGAME");
+            eventEndgame?.Invoke();
+            // Execute endgame function here
         }
     }
 

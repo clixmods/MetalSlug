@@ -10,8 +10,13 @@ public enum AnimState
     Move,
     Fire,
     FireUp,
+    FireDown,
+    LookUp,
+    LookDown,
     Grenade,
     Damaged,
+    Down,
+    Revived,
     Falling
     
 }
@@ -92,6 +97,21 @@ public class CharacterViewmodelManager : MonoBehaviour
                 break;
             case AnimState.Falling:
                 //_animator.SetBool("IsFalling", true);
+                break;
+            case AnimState.FireDown:
+                _animator.SetTrigger("ShootingDown");
+                break;
+            case AnimState.LookUp:
+                _animator.SetTrigger("LookUp");
+                break;
+            case AnimState.LookDown:
+                _animator.SetTrigger("LookDown");
+                break;
+            case AnimState.Down:
+                _animator.SetTrigger("Down");
+                break;
+            case AnimState.Revived:
+                _animator.SetTrigger("Revived");
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
