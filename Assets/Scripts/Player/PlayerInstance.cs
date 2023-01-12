@@ -212,6 +212,12 @@ public class PlayerInstance : MonoBehaviour , IActor
     // move
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (LevelManager.Instance.State != State.Ingame)
+        {
+            _movementInput = Vector2.zero;
+            _aimDir = Vector2.right;
+            return;
+        }
         if (_isReviving || _isLastStand)
         {
             return;

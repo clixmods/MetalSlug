@@ -40,6 +40,9 @@ public class RoundMasterManager : MonoBehaviour
     private void WaitPlayerToStart(PlayerInstance newplayer)
     {
         RoundManager.PlayerSpawnActive = firstRoundManager.PlayerSpawnPoints[0];
+        AudioManager.StopLoopSound(ref _audioPlayerBgBossMusic, StopLoopBehavior.Direct);
+        AudioManager.StopLoopSound(ref _audioPlayerBgMusic, StopLoopBehavior.Direct);
+            
         PlayerInstance.eventPlayerJoin -= WaitPlayerToStart;
     }
 

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 2
   _minDistanceToKeepWithTarget: 39.55
-  Health: 50
+  Health: 275
   attackRange: 20
-  attackRate: 3.22
+  attackRate: 3
   angleAim: 0.3
   speed: 0
   primaryWeapon: {fileID: 11400000, guid: d900c05c144c01e47816245304013a16, type: 2}
@@ -33,10 +33,11 @@ MonoBehaviour:
   ScoreDead: 500
   ScoreHit: 25
   FXLoopAmbiant: {fileID: 0}
-  FXDeath: {fileID: 265171566773142626, guid: 60a3332fdc97a864ba0f3c84403659d8, type: 3}
+  FXDeath: {fileID: 447400256752751964, guid: 74c0c787cc641b44c9c5e6127433daa3, type: 3}
   FXHit: {fileID: 6942642715644864728, guid: 6411d5d61108194429956fc31e94f0a8, type: 3}
   FXLoopLowHealth: {fileID: 1781255841430832962, guid: 979ca340f40956c48b52321671df15df,
     type: 3}
   FXLoopDamaged: {fileID: 1781305419972960173, guid: 062ced69027a3594791036bb281773a9,
     type: 3}
   FXMove: {fileID: 0}
+  EarthquakeOnDeath: 0
