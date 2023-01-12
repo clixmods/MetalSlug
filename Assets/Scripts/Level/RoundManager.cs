@@ -92,7 +92,7 @@ public class RoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (LevelManager.Instance.State == State.Intermission)
+        if (LevelManager.Instance.State != State.Ingame)
             _needToSpawnAmount = 0;
         
         if(_noSpawn) IsSpawned = true;

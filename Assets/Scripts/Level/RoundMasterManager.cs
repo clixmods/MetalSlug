@@ -80,19 +80,23 @@ public class RoundMasterManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_audioPlayerBgBossMusic != null)
+        if(LevelManager.Instance.State == State.Ingame)
         {
-            
-            _audioPlayerBgMusic.Source.volume = 0;
-        }
-        else
-        {
-            if (_audioPlayerBgMusic != null)
+            if (_audioPlayerBgBossMusic != null)
             {
-                _audioPlayerBgMusic.Source.volume = cachedVolume;
+
+                _audioPlayerBgMusic.Source.volume = 0;
             }
-            
+            else
+            {
+                if (_audioPlayerBgMusic != null)
+                {
+                    _audioPlayerBgMusic.Source.volume = cachedVolume;
+                }
+
+            }
         }
+       
         
         
     }

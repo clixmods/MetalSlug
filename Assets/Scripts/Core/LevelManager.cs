@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using AudioAliase;
 using UnityEngine;
@@ -10,7 +11,8 @@ public enum State
 {
     Ingame,
     Intermission,
-    Gameover
+    Gameover,
+    Menu
 }
 
 public class LevelManager : MonoBehaviour
@@ -45,10 +47,10 @@ public class LevelManager : MonoBehaviour
     public static event EventHandler eventPreLevelRestart;
     public static event EventHandler eventPostLevelRestart;
     public static event EventHandlerRound CallbackOnRoundChange;
-
+    public static event EventHandler eventSessionStart;
+    public static event EventHandler eventResetSession;
     public static event EventHandler eventEndgame;
     
-
     #endregion
     
     
@@ -67,7 +69,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField][Aliase] private string RoundStart;
     [SerializeField][Aliase] private string RoundEnd;
     [SerializeField][Aliase] private string Gameover;
-    public State State { get; set; }
+    private State state = State.Menu;
+    public State State { get => state; set => state = value; }
     public int CurrentRound
     {
         get => _currentRound;
@@ -162,6 +165,12 @@ public class LevelManager : MonoBehaviour
             {
                 player.Teleport(Instance.players[0].transform.position);
             }
+            // Start the game if we are in menu
+            if(Instance.State == State.Menu && Instance.players.Count <= 1)
+            {
+                Debug.Log("Game is starting...");
+                Instance.StartCoroutine(Instance.CoolDownBeforeStart());
+            }
         }
     }
     public static void RemovePlayer(PlayerInstance player)
@@ -184,6 +193,8 @@ public class LevelManager : MonoBehaviour
     {
         roundvolumes = FindObjectsOfType<RoundManager>();
         _triggerEndgame = FindObjectOfType<TriggerEndgame>();
+        
+        eventSessionStart += SessionIntro;
         Application.targetFrameRate = 60;
     }
 
@@ -194,8 +205,32 @@ public class LevelManager : MonoBehaviour
         PlayerInstance.eventPlayerDisconnect += RemovePlayer;
         PlayerInstance.eventPlayerRespawn += RemoveRespawnAmount;
         PlayerInstance.eventPlayerRevive += PlayerInstanceOneventPlayerRevive;
-        AudioManager.PlaySoundAtPosition(RoundIntro, Vector3.zero);
+
+      
         TriggerEndgame.eventTriggerEndgameStart += TriggerEndgameOneventTriggerEndgameStart;
+    }
+
+    public static void ResetSession()
+    {
+        Instance.State = State.Menu;
+        eventResetSession?.Invoke(); 
+        Instance.respawnAmount = 3;
+        Instance.reviveAmount = 3;
+        PlayerInputManager.instance.EnableJoining();
+
+    }
+
+    void SessionIntro()
+    {
+        AudioManager.PlaySoundAtPosition(RoundIntro, Vector3.zero);
+
+    }
+    IEnumerator CoolDownBeforeStart()
+    {
+        yield return new WaitForSeconds(3);
+
+        State = State.Ingame;
+        eventSessionStart?.Invoke();
     }
 
     private void PlayerInstanceOneventPlayerRevive(PlayerInstance newplayer)
@@ -231,13 +266,15 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
+        
+
         if (_triggerEndgame.EndgameIsCompleted) 
         {
            _triggerEndgame.ResetTrigger();
            StartNewRound();
         }
 
-        if (GetAlivePlayers.Count == 0 && RespawnAmount == 0 && State != State.Gameover)
+        if (GetAlivePlayers.Count == 0 && RespawnAmount == 0 && State == State.Ingame)
         {
             State = State.Gameover;
             Debug.Log("ENDGAME");

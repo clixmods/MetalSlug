@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System;
+using UnityEngine.UI;
 
 public class Alphabet : MonoBehaviour
 {
+    public Action<string> action;
     [SerializeField] HighscoreTable highscoreTable;
     [SerializeField] GameObject transformTest;
-    private bool delPressed = false;
-    private TextMeshProUGUI textMeshProUGUI;
+    public TextMeshProUGUI textMeshProUGUI;
+    public Text text;
     private TextMeshProUGUI savedName;
     public string nameTapped = "";
 
@@ -22,6 +25,10 @@ public class Alphabet : MonoBehaviour
     void Update()
     {
         textMeshProUGUI.text = nameTapped;
+        if(text != null)
+        {
+            text.text = nameTapped;
+        }
     }
 
     public void OnClickLetter(string letter)
@@ -29,5 +36,19 @@ public class Alphabet : MonoBehaviour
         if (nameTapped.Length >= 3)
         { return; }
         nameTapped += letter;
+    }
+
+    public void OnPressedDelete()
+    {
+        if (nameTapped.Length <= 0)
+        { return; }
+        nameTapped = nameTapped.Remove(nameTapped.Length - 1);
+    }
+
+    public void OnPressedEnd()
+    {
+        action?.Invoke(nameTapped);
+        nameTapped = "";
+        textMeshProUGUI.text = nameTapped;
     }
 }
