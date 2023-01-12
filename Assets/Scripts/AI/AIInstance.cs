@@ -352,7 +352,8 @@ public class AIInstance : MonoBehaviour , IActor
         eventAIDeath?.Invoke(this);
         if (aiScriptableObject.EarthquakeOnDeath)
         {
-            //CinemachineCameraShake.SetNoisier(1,2);
+            // CinemachineCameraShake.SetNoisier(1,2);
+            // CameraShake.ShakeMe();
         }
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
         

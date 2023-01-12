@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CodeMonkey.Utils;
-using UnityEngine.InputSystem;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class HighscoreTable : MonoBehaviour
 {
+    [SerializeField] GameObject _text;
     [SerializeField] Alphabet alphabet;
     [SerializeField] private GameObject keyboard;
     private Transform entryContainer;
@@ -126,6 +124,7 @@ public class HighscoreTable : MonoBehaviour
 
         UpdateHighscore(currentPosition - 1);
 
+        _text.gameObject.SetActive(true);
         keyboard.gameObject.SetActive(true);
 
         score = scoreValue;
@@ -139,6 +138,7 @@ public class HighscoreTable : MonoBehaviour
 
     private void OnRegister(string value)
     {
+        _text.gameObject.SetActive(false);
         keyboard.gameObject.SetActive(false);
         AddHighscoreEntry(score, value);
         UpdateHighscore();
