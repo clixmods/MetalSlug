@@ -5,9 +5,20 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        LevelManager.eventSessionStart += LevelManager_eventSessionStart;
+        LevelManager.eventEndgame += LevelManager_eventEndgame;
+    }
+
+    private void LevelManager_eventEndgame()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void LevelManager_eventSessionStart()
+    {
+        gameObject.SetActive(true);
     }
 
     // Update is called once per frame
