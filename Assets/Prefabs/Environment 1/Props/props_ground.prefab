@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 69
   m_IsActive: 1
 --- !u!4 &6896530526279925426
 Transform:
@@ -39,6 +39,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6896530526279925426}
     m_Modifications:
+    - target: {fileID: -9136133791851183169, guid: 063b3d170e6d6e4428c377db86869f07,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 69
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 063b3d170e6d6e4428c377db86869f07,
         type: 3}
       propertyPath: m_RootOrder
@@ -94,10 +99,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: -6435399192587130656, guid: 063b3d170e6d6e4428c377db86869f07,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 69
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 063b3d170e6d6e4428c377db86869f07,
         type: 3}
       propertyPath: m_Name
       value: msh_props_ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 063b3d170e6d6e4428c377db86869f07,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 69
       objectReference: {fileID: 0}
     - target: {fileID: 1646733720424155422, guid: 063b3d170e6d6e4428c377db86869f07,
         type: 3}
