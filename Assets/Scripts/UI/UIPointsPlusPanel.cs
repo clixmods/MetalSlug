@@ -9,7 +9,9 @@ public class UIPointsPlusPanel : MonoBehaviour
    [SerializeField] private CanvasGroup _canvasGroup;
     private int _score;
     float time = 0;
-    float lifeTime = 0.75f;
+    float lifeTime = 1f;
+
+    public Vector3 positionWorld;
     public int score
     {
         get => _score;
@@ -27,6 +29,7 @@ public class UIPointsPlusPanel : MonoBehaviour
        var component = objectui.GetComponent<UIPointsPlusPanel>();
        objectui.SetActive(true);
        component.score = scoreValue;
+       component.positionWorld = position;
     }
     // Start is called before the first frame update
     void Awake()
@@ -46,6 +49,7 @@ public class UIPointsPlusPanel : MonoBehaviour
     {
         if(time < lifeTime)
         {   
+            transform.position = Camera.main.WorldToScreenPoint(positionWorld);
             _canvasGroup.alpha = 1 - (time/lifeTime);
             transform.localScale = new Vector3(_canvasGroup.alpha,_canvasGroup.alpha,_canvasGroup.alpha);
             time += Time.deltaTime;
