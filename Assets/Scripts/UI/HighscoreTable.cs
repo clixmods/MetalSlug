@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using CodeMonkey.Utils;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class HighscoreTable : MonoBehaviour {
 
     private Transform entryContainer;
     private Transform entryTemplate;
     private List<Transform> highscoreEntryTransformList;
+    [Header("Debug")]
+    [SerializeField ]  private bool Send;
+    [SerializeField] private int score;
+    [SerializeField] private string nameEntry;
 
     private void Awake() {
         entryContainer = transform.Find("highscoreEntryContainer");
@@ -22,6 +27,7 @@ public class HighscoreTable : MonoBehaviour {
 
         if (highscores == null) {
             // There's no stored table, initialize
+            AddHighscoreEntry(5000, "BOT");
 
             // Reload
             jsonString = PlayerPrefs.GetString("highscoreTable");
@@ -52,6 +58,16 @@ public class HighscoreTable : MonoBehaviour {
         foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList) {
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
         }
+    }
+
+    private void Update()
+    {
+        if(Send)
+        {
+            AddHighscoreEntry( score,  nameEntry);
+            Send = false;
+        }
+        
     }
 
     private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList) {
@@ -141,6 +157,7 @@ public class HighscoreTable : MonoBehaviour {
 
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
+        Awake();
     }
 
     private class Highscores {

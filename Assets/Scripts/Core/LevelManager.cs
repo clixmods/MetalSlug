@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using AudioAliase;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -41,7 +41,8 @@ public class LevelManager : MonoBehaviour
     #region Events
     public delegate void EventHandler();
     public delegate void EventHandlerRound(int newRound);
-    public static event EventHandler eventLevelRestartLoop;
+    public static event EventHandler eventPreLevelRestart;
+    public static event EventHandler eventPostLevelRestart;
     public static event EventHandlerRound CallbackOnRoundChange;
 
     
@@ -56,7 +57,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int reviveAmount;
     [SerializeField] private int _currentRound = 0;
     private TriggerEndgame _triggerEndgame;
-    
+    [Header("Aliases")]
+    [SerializeField][Aliase] private string RoundIntro;
+    [SerializeField][Aliase] private string RoundStart;
+    [SerializeField][Aliase] private string RoundEnd;
+
+    [SerializeField][Aliase] private string Gameover;
     public State State { get; set; }
     public int CurrentRound
     {
@@ -167,6 +173,7 @@ public class LevelManager : MonoBehaviour
     {
         roundvolumes = FindObjectsOfType<RoundManager>();
         _triggerEndgame = FindObjectOfType<TriggerEndgame>();
+        Application.targetFrameRate = 60;
     }
 
     private void Start()
@@ -175,7 +182,13 @@ public class LevelManager : MonoBehaviour
         PlayerInstance.eventPlayerJoin += AddPlayer;
         PlayerInstance.eventPlayerDisconnect += RemovePlayer;
         PlayerInstance.eventPlayerRespawn += RemoveRespawnAmount;
+        AudioManager.PlaySoundAtPosition(RoundIntro, Vector3.zero);
+        TriggerEndgame.eventTriggerEndgameStart += TriggerEndgameOneventTriggerEndgameStart;
+    }
 
+    private void TriggerEndgameOneventTriggerEndgameStart()
+    {
+        AudioManager.PlaySoundAtPosition(RoundEnd);
     }
 
     private void RemoveRespawnAmount(PlayerInstance newplayer)
@@ -186,47 +199,11 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        // if (GetAlivePlayers.Count == 0)
-        // {
-        //     foreach (var player in players)
-        //     {
-        //         player.gameObject.SetActive(true);
-        //         player.Teleport( playerSpawnPoint.position);
-        //     }
-        //
-        //     foreach (var ai in  AIInstance.AIInstances)
-        //     {
-        //         Destroy(ai.gameObject);
-        //     }
-        //    
-        //     for (int i = 0; i < roundvolumes.Length; i++)
-        //     {
-        //         roundvolumes[i].gameObject.SetActive(true);
-        //     }
-        //     eventLevelRestartLoop?.Invoke();
-        //     return;
-        // }
-        // bool allRoundsClean = true;
-        //
-        //     for (int i = 0; i < roundvolumes.Length; i++)
-        //     {
-        //         if (roundvolumes[i].gameObject.activeSelf)
-        //         {
-        //             allRoundsClean = false;
-        //         }
-        //     }
-            // stay AI on the map
-           // if(AIInstance.AIInstances.Count > 0)
-               // allRoundsClean = false;
-
-            if (_triggerEndgame.EndgameIsCompleted)
-            {
-                _triggerEndgame.ResetTrigger();
-                StartNewRound();
-               
-             
-             
-            }
+        if (_triggerEndgame.EndgameIsCompleted) 
+        {
+           _triggerEndgame.ResetTrigger();
+           StartNewRound();
+        }
     }
 
     private void StartNewRound()
@@ -239,9 +216,11 @@ public class LevelManager : MonoBehaviour
 
         for (int i = 0; i < roundvolumes.Length; i++)
         {
-            roundvolumes[i].gameObject.SetActive(true);
+            //roundvolumes[i].gameObject.SetActive(true);
         }
-        eventLevelRestartLoop?.Invoke();
+        eventPreLevelRestart?.Invoke();
+        eventPostLevelRestart?.Invoke();
+        AudioManager.PlaySoundAtPosition(RoundStart,Vector3.zero);
         CurrentRound++;
     }
 }

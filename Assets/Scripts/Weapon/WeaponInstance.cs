@@ -118,8 +118,8 @@ public class WeaponInstance : MonoBehaviour
             projectileInstance.transform.LookAt(transform.position + direction);
         }
        
-        FXManager.PlayFX(_fxFire,transform.position);
-        
+        var fxManager = FXManager.PlayFX(_fxFire,transform.position);
+       // fxManager.transform.rotation = transform.rotation;
         if(!isBursting)
             _cooldown = FireRate;
         

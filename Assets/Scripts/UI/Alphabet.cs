@@ -8,7 +8,6 @@ public class Alphabet : MonoBehaviour
 {
     [SerializeField] HighscoreTable highscoreTable;
     [SerializeField] GameObject transformTest;
-    private bool endPressed = false;
     private bool delPressed = false;
     private TextMeshProUGUI textMeshProUGUI;
     private TextMeshProUGUI savedName;
@@ -23,12 +22,6 @@ public class Alphabet : MonoBehaviour
     void Update()
     {
         textMeshProUGUI.text = nameTapped;
-
-        if (endPressed && nameTapped != null)
-        {
-            nameTapped = savedName.text;
-            highscoreTable.AddHighscoreEntry(5000, savedName.text);
-        }
     }
 
     public void OnClickLetter(string letter)
@@ -36,10 +29,5 @@ public class Alphabet : MonoBehaviour
         if (nameTapped.Length >= 3)
         { return; }
         nameTapped += letter;
-    }
-
-    public void OnEndPressed()
-    {
-        endPressed = true;
     }
 }

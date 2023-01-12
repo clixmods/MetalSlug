@@ -4149,7 +4149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &929505229
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8815,6 +8815,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HighscoreTable
+      objectReference: {fileID: 0}
+    - target: {fileID: 7390606816794294031, guid: db1debe434ae4ec4ebc4e9d829a3c710,
+        type: 3}
+      propertyPath: endPressed
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db1debe434ae4ec4ebc4e9d829a3c710, type: 3}
