@@ -55,9 +55,10 @@ public class ProjectileInstance : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        
-        
+
+        var Bulletposition = transform.position;
+        Bulletposition.z = 0;
+        transform.position = Bulletposition;
     }
 
     private void OnCollisionEnter(Collision collision)

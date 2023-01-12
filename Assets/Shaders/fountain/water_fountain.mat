@@ -15,7 +15,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -35,20 +35,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _QueueControl: 0
+    - _QueueControl: 1
     - _QueueOffset: 0
-    - _RefractionScale: 0.24
-    - _RefractionSpeed: 0.1
-    - _RefractionStrenght: 0.58
-    - _WaterDepth: 0.53
-    - _foamamount: 0
-    - _foamcutout: 100
-    - _foamscale: 0
-    - _foamspeed: 0
+    - _RefractionScale: 1.2
+    - _RefractionSpeed: -0.07
+    - _RefractionStrenght: 0.06
+    - _WaterDepth: 0.31
+    - _foamamount: 0.42
+    - _foamcutout: 1.5
+    - _foamscale: -46.62
+    - _foamspeed: -2.58
     m_Colors:
-    - _DeepWater: {r: 0.32872015, g: 0.43627864, b: 0.8396226, a: 0.50980395}
-    - _ShallowWater: {r: 0.8820755, g: 0.95918, b: 1, a: 0.5803922}
-    - _foamcolor_fountain: {r: 1, g: 1, b: 1, a: 0.9294118}
+    - _DeepWater: {r: 0.32872012, g: 0.4362786, b: 0.8396226, a: 0.50980395}
+    - _ShallowWater: {r: 1, g: 1, b: 1, a: 0.6117647}
+    - _foamcolor_fountain: {r: 1, g: 1, b: 1, a: 0.7294118}
   m_BuildTextureStacks: []
 --- !u!114 &902685723034400701
 MonoBehaviour:
