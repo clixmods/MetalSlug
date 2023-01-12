@@ -140,6 +140,7 @@ public class AIInstance : MonoBehaviour , IActor
         _health = aiScriptableObject.Health;
         transform.PlayLoopSound(aiScriptableObject.AliasOnAmbiant, ref LoopAmbiant);
         AIInstances.Add(this);
+        _attackCooldown = 3;
     }
 
     private void OnDestroy()
@@ -151,7 +152,6 @@ public class AIInstance : MonoBehaviour , IActor
     // Update is called once per frame
     void Update()
     {
-        
         if (_target != null)
         {
             ThinkMovement();
@@ -181,8 +181,6 @@ public class AIInstance : MonoBehaviour , IActor
     private void ThinkMovement()
     {
         var targetPosition = _target.transform.position;
-     
-
         if (DistanceWithTarget() > _minDistanceToKeepWithTarget)
         {
             var newPosition = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * _speed);
@@ -213,18 +211,33 @@ public class AIInstance : MonoBehaviour , IActor
         
         if (IsInAttackRange())
         {
-            if (_currentWeapon.DoFire(_target))
+            if (aiScriptableObject.canReajustAim)
             {
-                //_characterViewmodel.Play(AnimState.Fire);
+                _currentWeapon.DoFire(_target);
             }
-           
+            else
+            {
+                var direction = (_target.transform.position - transform.position).normalized;
+                direction.x = (int) direction.x;
+                direction.y = (int) direction.y;
+                _currentWeapon.DoFire(direction);
+            }
+            
         }
         else
         {
-            if (_grenadeWeapon.DoFire(_target))
+            if (aiScriptableObject.canReajustAim)
             {
-               // _characterViewmodel.Play(AnimState.Grenade);
+                _grenadeWeapon.DoFire(_target);
             }
+            else
+            {
+                var direction = (_target.transform.position - transform.position).normalized;
+                direction.x = (int) direction.x;
+                direction.y = (int) direction.y;
+                _grenadeWeapon.DoFire(direction);
+            }
+            
         }
 
         _attackCooldown = Random.Range(aiScriptableObject.attackRate, aiScriptableObject.attackRate * 1.5f);

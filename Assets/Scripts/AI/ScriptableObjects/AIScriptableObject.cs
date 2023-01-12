@@ -14,6 +14,7 @@ public class AIScriptableObject : ScriptableObject
 
     public float attackRate = 0.5f;
     public float angleAim;
+    public bool canReajustAim = true;
     public float speed = 1;
     public WeaponScriptableObject primaryWeapon;
     public WeaponScriptableObject grenadeWeapon;

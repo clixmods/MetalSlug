@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 77102
+  controlID: 79420
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 77103
+  controlID: 79421
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 77104
+  controlID: 79422
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 90091900
+      m_SelectedIDs: a67c0000
       m_LastClickedID: 0
       m_ExpandedIDs: 003fe7ff063fe7ff103fe7ff84e1e9ffaa4beaffc045ebff8846ebff1a94ebff46deecff8422eefff896f4ff42fbffff50830d003e8f0f009e8f0f00b0920f00a0930f0072d611009ee11100
       m_RenameOverlay:
@@ -490,7 +490,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 0
-      snapOffset: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 25}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: Scene View/Particles
@@ -539,9 +539,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 103.42316, y: -202.51172, z: 1085.5228}
+    m_Target: {x: -63.122993, y: 208.67744, z: 1056.9474}
     speed: 2
-    m_Value: {x: 103.42316, y: -202.51172, z: 1085.5228}
+    m_Value: {x: -63.122993, y: 208.67744, z: 1056.9474}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -588,9 +588,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.09308414, y: 0.044197652, z: -0.0041281274, w: 0.9946815}
+    m_Target: {x: -0.09251991, y: -0.028968122, z: -0.0026849287, w: 0.9952992}
     speed: 2
-    m_Value: {x: -0.09308414, y: -0.044197652, z: 0.0041281274, w: -0.9946815}
+    m_Value: {x: -0.09251867, y: -0.028967734, z: -0.0026848929, w: 0.9952859}
   m_Size:
     m_Target: 558.97687
     speed: 2
@@ -773,21 +773,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/FX
+    - Assets/ScriptableObjects/Weapons
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefabs/FX
+  - Assets/ScriptableObjects/Weapons
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\clixd\Documents\UnityProject\MetalSlug
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 272}
-    m_SelectedIDs: 6cea0500
-    m_LastClickedID: 387692
+    scrollPos: {x: 0, y: 376}
+    m_SelectedIDs: 68f20000
+    m_LastClickedID: 62056
     m_ExpandedIDs: 0000000060f1000062f1000064f1000066f1000068f100006af100006cf100006ef1000070f1000072f1000074f1000076f100007af100007cf100007ef1000080f1000082f1000084f1000086f1000088f100008af100008cf100008ef1000092f1000094f100004ef2000056f2000094e90500c4830800ce83080000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -841,8 +841,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 90091900
-    m_LastClickedInstanceID: 1640848
+    m_SelectedInstanceIDs: a67c0000
+    m_LastClickedInstanceID: 31910
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300002e2f1000fab11300
     m_RenameOverlay:
