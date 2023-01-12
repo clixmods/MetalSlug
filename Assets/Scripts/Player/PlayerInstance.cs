@@ -47,6 +47,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     [SerializeField] private int _startHealth = 900;
     [SerializeField] private int _health = 1;
 
+
     // RB
     private CharacterController controller;
 
@@ -79,6 +80,20 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool _firstSpawn = true;
     public bool testEndGame = false;
 
+    // FX Instancied 
+    private FXManager _fxDeath;
+    private FXManager _fxAmbiant;
+    private FXManager _fxHit;
+    private FXManager _fxDamaged;
+    private FXManager _fxLowHealth;
+    private FXManager _fxMove;
+    // FX
+    [Header("FX")] 
+    public GameObject FXLoopAmbiant;
+    public GameObject FXDeath;
+    public GameObject FXHit;
+    public GameObject FXMove;
+    public GameObject FXLoopDamaged;
     public bool IsReviving => _isReviving;
     public bool IsLastStand => _isLastStand;
     public bool IsHealing => _isHealing;
@@ -93,6 +108,24 @@ public class PlayerInstance : MonoBehaviour , IActor
         Health = _startHealth;
         timerInvulnerability = 3f;
         _timerDeath = 15f;
+        InitFXInstance();
+    }
+    private void InitFXInstance()
+    {
+        _fxDeath = FXManager.InitFX(FXDeath,transform.position);
+        _fxAmbiant= FXManager.InitFX(FXLoopAmbiant,transform.position);
+        if (_characterViewmodel.skinnedMeshRenderer != null)
+        {
+            _fxHit= FXManager.InitFX(FXHit,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
+            _fxDamaged= FXManager.InitFX(FXLoopDamaged,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
+
+        }
+        else
+        {
+            _fxHit= FXManager.InitFX(FXHit,transform.position,gameObject); 
+            _fxDamaged= FXManager.InitFX(FXLoopDamaged,transform.position,gameObject);
+        }
+        _fxMove= FXManager.InitFX(FXMove,transform.position);
     }
     private void SpawnWeaponInstance()
     {
@@ -281,7 +314,7 @@ public class PlayerInstance : MonoBehaviour , IActor
                     // If the player is in the air and pressing S, or if they are in the air and aiming downwards, shoot downwards.
                     if (weaponInstance.DoFire(Vector2.down))
                     {
-                        _characterViewmodel.Play(AnimState.Fire);
+                        _characterViewmodel.Play(AnimState.FireDown);
                     }
                 }
                 else if (_currentMovementInput.y > 0)
@@ -465,7 +498,15 @@ public class PlayerInstance : MonoBehaviour , IActor
 
 
         if (_isLastStand) return;
-        
+
+        if (_aimDir.y > 0)
+        {
+            _characterViewmodel.Play(AnimState.LookUp);
+        }
+        else if (_aimDir.y < 0)
+        {
+            _characterViewmodel.Play(AnimState.LookDown);
+        }
         
         // check if the player is grounded
         _groundedPlayer = controller.isGrounded;
@@ -567,9 +608,12 @@ public class PlayerInstance : MonoBehaviour , IActor
     public void Revive()
     {
         eventPlayerRevive?.Invoke(this);
+        _characterViewmodel.Play(AnimState.Revived);
         _isLastStand = false;
         Health = _startHealth;
         timerInvulnerability = 1.5f;
+        if(damagedFx != null)
+            Destroy(damagedFx.gameObject);
     }
  
     public TeamEnum Team => _team;
@@ -593,12 +637,15 @@ public class PlayerInstance : MonoBehaviour , IActor
     public void DoDamage(int amount)
     {  
         Health -= amount;
+        
         if ( Health <= 0 && !_isLastStand)
         {
+            FXManager.PlayFX(_fxHit,transform.position,BehaviorAfterPlay.Nothing);
             OnDown();
         }
     }
-    
+
+    private FXManager damagedFx;
     public void OnDown()
     {
         if (LevelManager.Instance.players.Count == 1)
@@ -607,12 +654,18 @@ public class PlayerInstance : MonoBehaviour , IActor
             return;
         }
         AudioManager.PlaySoundAtPosition("announcer_player_down", Vector3.zero);
+        damagedFx = FXManager.PlayFX(_fxDamaged,transform.position,BehaviorAfterPlay.Nothing);
+        _characterViewmodel.Play(AnimState.Down);
         _isLastStand = true;
     }
 
     public void OnDeath()
     {
         AudioManager.PlaySoundAtPosition("announcer_player_death", Vector3.zero);
+        
+        FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
+        if(damagedFx != null)
+            Destroy(damagedFx.gameObject);
         Destroy(gameObject);
     }
 

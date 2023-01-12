@@ -144,6 +144,12 @@ MonoBehaviour:
   _startHealth: 1
   _health: 1
   testEndGame: 0
+  FXLoopAmbiant: {fileID: 0}
+  FXDeath: {fileID: 265171566773142626, guid: 60a3332fdc97a864ba0f3c84403659d8, type: 3}
+  FXHit: {fileID: 6942642715644864728, guid: 6411d5d61108194429956fc31e94f0a8, type: 3}
+  FXMove: {fileID: 0}
+  FXLoopDamaged: {fileID: 1781305419972960173, guid: 062ced69027a3594791036bb281773a9,
+    type: 3}
   _team: 1
 --- !u!114 &4180758100284577546
 MonoBehaviour:
@@ -333,8 +339,8 @@ MonoBehaviour:
   viewModel: {fileID: 2527100814504300607}
   leftHand: {fileID: 1359379237094878639}
   rightHand: {fileID: 4191522626488635882}
-  skinnedMeshRenderer: {fileID: 0}
-  _animator: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 4511578851617284608}
+  _animator: {fileID: 9157974660039497827}
 --- !u!114 &4223861522295262397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,9 +611,21 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7552481385384032106}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &4511578851617284608 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6220479070438724970, guid: 6bb9af94fb5d4754d86d95fb54ca6d12,
+    type: 3}
+  m_PrefabInstance: {fileID: 7552481385384032106}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5845735094245611880 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4174824582695087618, guid: 6bb9af94fb5d4754d86d95fb54ca6d12,
+    type: 3}
+  m_PrefabInstance: {fileID: 7552481385384032106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &9157974660039497827 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1718233898569068297, guid: 6bb9af94fb5d4754d86d95fb54ca6d12,
     type: 3}
   m_PrefabInstance: {fileID: 7552481385384032106}
   m_PrefabAsset: {fileID: 0}
