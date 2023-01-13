@@ -321,3 +321,129 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+  - name: wpn_minigun_loop_fire
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: d1edff91b401fa24f9d11a3b6a8201e8, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.82242155
+    maxVolume: 1
+    isLooping: 1
+    startAliase: wpn_minigun_loop_start
+    endAliase: wpn_minigun_loop_end
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1.01
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: wpn_minigun_loop_start
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 93c16d5f1455dfd4e8427e7101fc9384, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: wpn_minigun_loop_end
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 06f73a6970a64f64f8ce690d7f12c104, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1

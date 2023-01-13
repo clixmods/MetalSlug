@@ -40,7 +40,7 @@ MonoBehaviour:
     minPitch: 1
     maxPitch: 1.01
     stereoPan: 0
-    spatialBlend: 0.944
+    spatialBlend: 1
     reverbZoneMix: 1
     dopplerLevel: 1
     Spread: 1
@@ -74,8 +74,8 @@ MonoBehaviour:
     bypassReverbZones: 0
     priority: 0
     volume: 0
-    minVolume: 0.8
-    maxVolume: 0.8
+    minVolume: 0.9188341
+    maxVolume: 1
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -85,7 +85,97 @@ MonoBehaviour:
     minPitch: 1
     maxPitch: 1.01
     stereoPan: 0
-    spatialBlend: 0.934
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: grenade_shot
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: d1a17c9134e059647bb9a9fd04f7f9a0, type: 3}
+    - {fileID: 8300000, guid: eb97f3edbffa5df499968ae281638ef6, type: 3}
+    - {fileID: 8300000, guid: 4a63cb4495ddd434b853c5430e136e6f, type: 3}
+    - {fileID: 8300000, guid: 6b027950b7a45504fac7687d60fe7cd1, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: grenade_shot_mech
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 0.85201794
+    maxPitch: 1.3732287
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: grenade_shot_mech
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: e428723b86d070a47ae5f2d947255cfb, type: 3}
+    - {fileID: 8300000, guid: 9dc037ada3b378a48a7c1dff5a7df4bd, type: 3}
+    - {fileID: 8300000, guid: 74b6b15354f1cee46bd7c9a87ba6b9dd, type: 3}
+    - {fileID: 8300000, guid: 0c96861ecccbb254b828370c785483e7, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.6161435
+    maxVolume: 0.70179373
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 0.8375335
+    maxPitch: 1.1569504
+    stereoPan: 0
+    spatialBlend: 1
     reverbZoneMix: 1
     dopplerLevel: 1
     Spread: 1

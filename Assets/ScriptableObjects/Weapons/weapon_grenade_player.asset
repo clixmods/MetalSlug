@@ -15,6 +15,9 @@ MonoBehaviour:
   fireRate: 2
   startAmmo: 10
   damage: 1
+  burst: 0
+  bulletPerBurst: 3
+  delayBurstedBullet: 0.5
   projectileSpeed: 10.47
   projectileUseGravity: 1
   projectileDestroyOnHit: 1
@@ -22,9 +25,9 @@ MonoBehaviour:
     type: 3}
   prefabProjectile: {fileID: 3476202047971693012, guid: 2f187e1be13601c45bff6649394a7bab,
     type: 3}
-  AliasOnFire: wpn_pistol_shot
+  AliasOnFire: grenade_shot
   AliasOnAfterFire: wpn_pistol_shells_out
-  AliasOnImpact: None
+  AliasOnImpact: grenade_explosion
   AliasOnDrop: None
   AliasOnEquip: wpn_pistol_equip
   FXFire: {fileID: 0}
