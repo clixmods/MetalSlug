@@ -140,10 +140,12 @@ public class AIInstance : MonoBehaviour , IActor
         _health = aiScriptableObject.Health;
         transform.PlayLoopSound(aiScriptableObject.AliasOnAmbiant, ref LoopAmbiant);
         AIInstances.Add(this);
+        _attackCooldown = 3;
     }
 
     private void OnDestroy()
     {
+        OnDown(true);
         AudioManager.StopLoopSound(ref LoopAmbiant, StopLoopBehavior.Direct);
         AIInstances.Remove(this);
     }
@@ -151,7 +153,6 @@ public class AIInstance : MonoBehaviour , IActor
     // Update is called once per frame
     void Update()
     {
-        
         if (_target != null)
         {
             ThinkMovement();
@@ -181,8 +182,6 @@ public class AIInstance : MonoBehaviour , IActor
     private void ThinkMovement()
     {
         var targetPosition = _target.transform.position;
-     
-
         if (DistanceWithTarget() > _minDistanceToKeepWithTarget)
         {
             var newPosition = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * _speed);
@@ -213,18 +212,33 @@ public class AIInstance : MonoBehaviour , IActor
         
         if (IsInAttackRange())
         {
-            if (_currentWeapon.DoFire(_target))
+            if (aiScriptableObject.canReajustAim)
             {
-                //_characterViewmodel.Play(AnimState.Fire);
+                _currentWeapon.DoFire(_target);
             }
-           
+            else
+            {
+                var direction = (_target.transform.position - transform.position).normalized;
+                direction.x = (int) direction.x;
+                direction.y = (int) direction.y;
+                _currentWeapon.DoFire(direction);
+            }
+            
         }
         else
         {
-            if (_grenadeWeapon.DoFire(_target))
+            if (aiScriptableObject.canReajustAim)
             {
-               // _characterViewmodel.Play(AnimState.Grenade);
+                _grenadeWeapon.DoFire(_target);
             }
+            else
+            {
+                var direction = (_target.transform.position - transform.position).normalized;
+                direction.x = (int) direction.x;
+                direction.y = (int) direction.y;
+                _grenadeWeapon.DoFire(direction);
+            }
+            
         }
 
         _attackCooldown = Random.Range(aiScriptableObject.attackRate, aiScriptableObject.attackRate * 1.5f);
@@ -344,6 +358,10 @@ public class AIInstance : MonoBehaviour , IActor
 
     public void OnDown()
     {
+        OnDown(false);
+    }
+    public void OnDown(bool noDestroy = false)
+    {
         // Do shit before death
         gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
         AudioManager.StopLoopSound(ref audioPlayerMove);
@@ -356,9 +374,12 @@ public class AIInstance : MonoBehaviour , IActor
             // CameraShake.ShakeMe();
         }
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
-        
-        UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position , ScoreDead);
-        Destroy(gameObject);
+        if (LevelManager.Instance.players.Count > 0)
+        {
+            UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position, ScoreDead);
+        }
+        if(!noDestroy)
+            Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

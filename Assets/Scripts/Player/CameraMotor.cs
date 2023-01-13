@@ -80,6 +80,10 @@ public class CameraMotor : MonoBehaviour
         // Move the camera
         desiredPosition = transform.position + delta;
         transform.position = Vector3.Lerp(transform.position, desiredPosition, speed);
+
+        var cameraPosition = transform.position;
+        cameraPosition.y = Mathf.Clamp(cameraPosition.y, 4.36f, 13);
+        transform.position = cameraPosition;
     }
 
     public void ResetCamera()

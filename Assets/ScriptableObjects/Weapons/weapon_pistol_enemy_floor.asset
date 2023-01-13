@@ -18,11 +18,11 @@ MonoBehaviour:
   burst: 0
   bulletPerBurst: 3
   delayBurstedBullet: 0.5
-  projectileSpeed: 10
+  projectileSpeed: 4
   projectileUseGravity: 0
   projectileDestroyOnHit: 1
   prefabMeshWeapon: {fileID: 0}
-  prefabProjectile: {fileID: 3476202047971693012, guid: c48ffc837a1a7c2468629768637eeef1,
+  prefabProjectile: {fileID: 3476202047971693012, guid: 23ab9c3f9c6408749987cee067ecaa65,
     type: 3}
   AliasOnFire: wpn_pistol_shot
   AliasOnAfterFire: wpn_pistol_shells_out

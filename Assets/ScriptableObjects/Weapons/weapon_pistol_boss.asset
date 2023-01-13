@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7509bfbe866eb0478e84dcbc907553c, type: 3}
   m_Name: weapon_pistol_boss
   m_EditorClassIdentifier: 
-  fireRate: 5.58
+  fireRate: 1.87
   startAmmo: -1
   damage: 1
   burst: 1
   bulletPerBurst: 3
-  delayBurstedBullet: 0.2
-  projectileSpeed: 2.3
+  delayBurstedBullet: 0.25
+  projectileSpeed: 5
   projectileUseGravity: 0
   projectileDestroyOnHit: 1
   prefabMeshWeapon: {fileID: 1198069101019903048, guid: 3a45366a65f6d574fbdbb1a67878e5dd,
     type: 3}
-  prefabProjectile: {fileID: 3476202047971693012, guid: c48ffc837a1a7c2468629768637eeef1,
+  prefabProjectile: {fileID: 3476202047971693012, guid: 23ab9c3f9c6408749987cee067ecaa65,
     type: 3}
   AliasOnFire: wpn_pistol_shot
   AliasOnAfterFire: wpn_pistol_shells_out
