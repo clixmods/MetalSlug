@@ -18,8 +18,8 @@ public enum State
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] GameObject canvasMenuGO;
     [SerializeField] private GameObject textMeshProUGUI;
+    [SerializeField] private GameObject menuCanvas;
     #region Singleton
 
     private static LevelManager _instance;
@@ -172,7 +172,7 @@ public class LevelManager : MonoBehaviour
             // Start the game if we are in menu
             if(Instance.State == State.Menu && Instance.players.Count <= 1)
             {
-                _instance.canvasMenuGO.SetActive(false);
+                _instance.menuCanvas.SetActive(false);
                 Debug.Log("Game is starting...");
                 Instance.StartCoroutine(Instance.CoolDownBeforeStart());
             }
