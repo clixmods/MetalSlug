@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AudioAliase;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -17,6 +18,8 @@ public enum State
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] GameObject canvasMenuGO;
+    [SerializeField] private GameObject textMeshProUGUI;
     #region Singleton
 
     private static LevelManager _instance;
@@ -169,6 +172,7 @@ public class LevelManager : MonoBehaviour
             // Start the game if we are in menu
             if(Instance.State == State.Menu && Instance.players.Count <= 1)
             {
+                _instance.canvasMenuGO.SetActive(false);
                 Debug.Log("Game is starting...");
                 Instance.StartCoroutine(Instance.CoolDownBeforeStart());
             }
@@ -232,7 +236,10 @@ public class LevelManager : MonoBehaviour
     }
     IEnumerator CoolDownBeforeStart()
     {
+        textMeshProUGUI.SetActive(true);
         yield return new WaitForSeconds(3);
+
+        textMeshProUGUI.SetActive(false);
 
         State = State.Ingame;
         eventSessionStart?.Invoke();
