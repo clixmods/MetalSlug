@@ -17,12 +17,15 @@ public class ProjectileInstance : MonoBehaviour
     
     const float WorldToViewportPointValueNegative = -0.5f;
     const float WorldToViewportPointValuePositive = 1.5f;
+    private FXManager _fxImpact;
+    
+    
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;
         _collider = GetComponent<Collider>();
-       
 
+    
     }
 
     private void Start()
@@ -30,6 +33,10 @@ public class ProjectileInstance : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.useGravity = fromWeapon.weaponData.projectileUseGravity;
         teamEnum = fromWeapon.Owner.GetComponent<IActor>().Team;
+        if (fromWeapon.weaponData.isGrenade)
+        {
+            _fxImpact = FXManager.InitFX(fromWeapon.weaponData.FXImpact, transform.position, gameObject);
+        }
     }
 
     // Update is called once per frame
@@ -63,13 +70,49 @@ public class ProjectileInstance : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.layer == 6 && fromWeapon.weaponData.isGrenade)
+        {
+            // var casts = Physics.SphereCastAll(transform.position, 10, Vector3.zero, 10, 0, QueryTriggerInteraction.Collide);
+            // foreach (var cast in casts)
+            // {
+            //     if (cast.collider.gameObject.layer == 6 && fromWeapon.Owner != cast.transform.gameObject)
+            //     {
+            //         var actor = cast.transform.GetComponent<IActor>();
+            //         if (actor.Team != teamEnum)
+            //         {
+            //             cast.collider.GetComponent<IActor>().DoDamage(fromWeapon.weaponData.damage);
+            //         }
+            //     }
+            //         
+            // }
+            //
+            //
+
+            // if (casts.Length != 0)
+            // {
+            //     
+            //     Destroy(gameObject);
+            // }
+                
+        }
+            
         OnHit();
     }
 
     public void OnHit()
     {
-        if(fromWeapon.weaponData.projectileDestroyOnHit)
+        if (fromWeapon.weaponData.isGrenade && _fxImpact != null)
+        {
+            FXManager.PlayFX(_fxImpact, transform.position, BehaviorAfterPlay.DestroyAfterPlay);
+        }
+        if (fromWeapon.weaponData.projectileDestroyOnHit)
+        {
+            
+              
+            
             Destroy(gameObject);
+        }
+        
     }
 #if UNITY_EDITOR
     private void OnDrawGizmos()

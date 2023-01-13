@@ -20,7 +20,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private bool conditionTimer = false;
     [SerializeField] private TextMeshProUGUI timerUGUI;
-    [SerializeField] private float currentValue = 10f;
+    [SerializeField] private float currentValue;
     [SerializeField] private GameObject textMeshProUGUI;
     [SerializeField] private GameObject menuCanvas;
     #region Singleton
@@ -179,6 +179,7 @@ public class LevelManager : MonoBehaviour
                 _instance.menuCanvas.SetActive(false);
                 Debug.Log("Game is starting...");
                 _instance.timerUGUI.gameObject.SetActive(true);
+                _instance.currentValue = 3;
                 Instance.StartCoroutine(Instance.CoolDownBeforeStart());
                 
             }
@@ -295,7 +296,7 @@ public class LevelManager : MonoBehaviour
            StartNewRound();
         }
 
-        if (GetAlivePlayers.Count == 0 && RespawnAmount == 0 && State == State.Ingame)
+        if (GetAlivePlayers.Count == 0 && RespawnAmount <= 0 && State == State.Ingame)
         {
             State = State.Gameover;
             Debug.Log("ENDGAME");

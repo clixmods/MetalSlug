@@ -27,7 +27,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     public WeaponInstance grenadeInstance;
     public HighscoreTable highscoreTable;
     
-    private PlayerInstance _playerInstanceRevivedCache;
+    private PlayerInstance _playerQueJeSoigne;
 
     // REFS DE GO
     [SerializeField] private GameObject _cameraTarget;
@@ -75,8 +75,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool _shootedGrenade;
     private bool _isCrouching = false;
     private bool _inRange = false;
-    private bool _isReviving = false;
-    private bool _isHealing = false;
+    private bool _isQuandilsoigne = false;
+    private bool _isQuandilsefaitrevive = false;
     private bool _isLastStand = false;
     private bool _isSpawned;
     private bool _firstSpawn = true;
@@ -96,9 +96,9 @@ public class PlayerInstance : MonoBehaviour , IActor
     public GameObject FXHit;
     public GameObject FXMove;
     public GameObject FXLoopDamaged;
-    public bool IsReviving => _isReviving;
+    public bool IsQuandilsoigne => _isQuandilsoigne;
     public bool IsLastStand => _isLastStand;
-    public bool IsHealing => _isHealing;
+    public bool IsQuandilsefaitrevive => _isQuandilsefaitrevive;
 
     [SerializeField] private TeamEnum _team;
     private CharacterViewmodelManager _characterViewmodel;
@@ -189,8 +189,8 @@ public class PlayerInstance : MonoBehaviour , IActor
             var playerInstanceCached = other.transform.parent.GetComponent<PlayerInstance>();
             if (playerInstanceCached._isLastStand)
             {
-                _playerInstanceRevivedCache = playerInstanceCached;
-                playerInstanceCached._isHealing = _isReviving;
+                _playerQueJeSoigne = playerInstanceCached;
+                _playerQueJeSoigne._isQuandilsefaitrevive = _isQuandilsoigne;
             }
             //todo UI active
         }
@@ -201,10 +201,10 @@ public class PlayerInstance : MonoBehaviour , IActor
         if (other.transform.parent != null && other.transform.parent.CompareTag("Player"))
         {
             var playerInstanceCached = other.transform.parent.GetComponent<PlayerInstance>();
-            if (playerInstanceCached._isLastStand)
+            if (playerInstanceCached._isLastStand && playerInstanceCached == _playerQueJeSoigne )
             {
-                _playerInstanceRevivedCache = null;
-                playerInstanceCached._isHealing = false;
+                _playerQueJeSoigne._isQuandilsefaitrevive = false;
+                _playerQueJeSoigne = null;
             }
         }
     }
@@ -218,7 +218,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             _aimDir = Vector2.right;
             return;
         }
-        if (_isReviving || _isLastStand)
+        if (_isQuandilsoigne || _isLastStand)
         {
             return;
         }
@@ -263,7 +263,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     // jump
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (_isReviving || _isLastStand)
+        if (_isQuandilsoigne || _isLastStand)
         {
             return;
         }
@@ -285,7 +285,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     // shoot
     public void OnShoot(InputAction.CallbackContext context)
     {
-        if (_isReviving || _isLastStand)
+        if (_isQuandilsoigne || _isLastStand)
         {
             return;
         }
@@ -403,7 +403,7 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     public void OnShootGrenade(InputAction.CallbackContext context)
     {
-        if (_isReviving || _isLastStand)
+        if (_isQuandilsoigne || _isLastStand)
         {
             return;
         }
@@ -442,9 +442,9 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     public void OnInteraction(InputAction.CallbackContext context)
     {
-        if (_isLastStand || _playerInstanceRevivedCache == null)
+        if (_isLastStand || _playerQueJeSoigne == null)
         {
-            _isReviving = false;
+            _isQuandilsoigne = false;
             return;
         }
 
@@ -453,18 +453,18 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             case InputActionPhase.Started:
                 _movementInput = new Vector2(0, 0);
-                _isReviving = true;
+                _isQuandilsoigne = true;
                 break;
             case InputActionPhase.Performed:
-                if (_playerInstanceRevivedCache != null)
+                if (_playerQueJeSoigne != null)
                 {
-                    _playerInstanceRevivedCache.Revive();
-                    _isReviving = false;
-                    _playerInstanceRevivedCache = null;
+                    _playerQueJeSoigne.Revive();
+                    _isQuandilsoigne = false;
+                    _playerQueJeSoigne = null;
                 }
                 break;
             case InputActionPhase.Canceled:
-                _isReviving = false;
+                _isQuandilsoigne = false;
                 break;
         }
     }
@@ -480,6 +480,15 @@ public class PlayerInstance : MonoBehaviour , IActor
     // update
     void Update()
     {
+        if (!_isLastStand)
+        {
+            _isQuandilsefaitrevive = false;
+        }
+        if (_playerQueJeSoigne != null && !_playerQueJeSoigne._isLastStand)
+        {
+            _playerQueJeSoigne = null;
+            _isQuandilsoigne = false;
+        }
         if (transform.position.y < -10)
         {
             OnDeath();
@@ -498,9 +507,9 @@ public class PlayerInstance : MonoBehaviour , IActor
             Parachute();
         }
 
-        if (_isLastStand && !_isHealing)
+        if (_isLastStand && !_isQuandilsefaitrevive)
         {
-            _isReviving = false;
+            _isQuandilsoigne = false;
             _timerDeath -= Time.deltaTime;
         }
 
@@ -626,6 +635,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         eventPlayerRevive?.Invoke(this);
         _characterViewmodel.Play(AnimState.Revived);
         _isLastStand = false;
+        _jumped = false;
         Health = _startHealth;
         timerInvulnerability = 1.5f;
         if(damagedFx != null)
@@ -664,7 +674,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private FXManager damagedFx;
     public void OnDown()
     {
-        if (LevelManager.Instance.players.Count == 1)
+        if (LevelManager.Instance.players.Count == 1 || LevelManager.Instance.ReviveAmount <= 0)
         {
             OnDeath();
             return;

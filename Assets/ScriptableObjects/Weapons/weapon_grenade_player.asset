@@ -20,7 +20,8 @@ MonoBehaviour:
   delayBurstedBullet: 0.5
   projectileSpeed: 10.47
   projectileUseGravity: 1
-  projectileDestroyOnHit: 1
+  projectileDestroyOnHit: 0
+  isGrenade: 1
   prefabMeshWeapon: {fileID: 3879117375123579610, guid: b42fb40297393aa4a9e0173877a3eaa9,
     type: 3}
   prefabProjectile: {fileID: 3476202047971693012, guid: 2f187e1be13601c45bff6649394a7bab,
@@ -31,3 +32,5 @@ MonoBehaviour:
   AliasOnDrop: None
   AliasOnEquip: wpn_pistol_equip
   FXFire: {fileID: 0}
+  FXImpact: {fileID: 6430068609007164898, guid: aaf0bab14c2ec7e43b7c99ffddaa5b70,
+    type: 3}
