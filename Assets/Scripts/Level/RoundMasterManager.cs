@@ -30,6 +30,13 @@ public class RoundMasterManager : MonoBehaviour
         LevelManager.eventPostLevelRestart += PostLevelManagerOneventPostLevelRestart;
         PlayerInstance.eventPlayerJoin += WaitPlayerToStart;
         LevelManager.eventResetSession += LevelManagerOneventResetSession;
+        LevelManager.eventSessionStart  += LevelManagerOneventSessionStart;
+    }
+
+    private void LevelManagerOneventSessionStart()
+    {
+        if(_audioPlayerBgMusic == null)
+            AudioManager.PlayLoopSound(musicBg ,Vector3.zero, ref _audioPlayerBgMusic);
     }
 
     private void LevelManagerOneventResetSession()

@@ -32,14 +32,14 @@ public class UIRevivePlayerPanel : MonoBehaviour
             transform.position = Camera.main.WorldToScreenPoint(PlayerInstance.transform.position + _offset ) ;
             textCounter.text = Math.Round(_playerInstance.TimerDeath, 1).ToString();
             _canvasGroup.alpha = 1;
-            if(_playerInstance.IsHealing)
+            if(_playerInstance.IsQuandilsefaitrevive)
             {
-                
                 _image.fillAmount = _amountFiled;
                 _amountFiled += Time.deltaTime/3f;
             }
             else
             {
+                textCounter.text = Math.Round(_playerInstance.TimerDeath, 1).ToString();
                 _image.fillAmount = 0;
                 _amountFiled = 0;
             }

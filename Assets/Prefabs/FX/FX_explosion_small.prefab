@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5525479651284240048}
   - component: {fileID: 4996975223507336398}
   m_Layer: 0
-  m_Name: FX_explosion
+  m_Name: FX_explosion_small
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -286,8 +286,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.8
-      minScalar: 0.5
+      scalar: 0.51
+      minScalar: 0.18
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4771,7 +4771,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d0215ff330f22814dbad7937e80eb619, type: 2}
+  - {fileID: 2100000, guid: 76addc2a077d7924ca84401345e98813, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

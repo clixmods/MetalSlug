@@ -23,7 +23,7 @@ public class WeaponScriptableObject : ScriptableObject
     
     public bool projectileUseGravity = false;
     public bool projectileDestroyOnHit = true;
-    
+    public bool isGrenade = false;
     [FormerlySerializedAs("prefabWeapon")] public GameObject prefabMeshWeapon;
     public GameObject prefabProjectile;
     [Header("Aliases")] 
@@ -34,7 +34,7 @@ public class WeaponScriptableObject : ScriptableObject
     [Aliase] public string AliasOnEquip;
     [Header("FX")]
     public GameObject FXFire;
-
+    public GameObject FXImpact;
     public WeaponInstance CreateWeaponInstance(GameObject Owner)
     {
         GameObject weaponObject = new GameObject();
