@@ -18,6 +18,9 @@ public enum State
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private bool conditionTimer = false;
+    [SerializeField] private TextMeshProUGUI timerUGUI;
+    [SerializeField] private float currentValue = 10f;
     [SerializeField] private GameObject textMeshProUGUI;
     [SerializeField] private GameObject menuCanvas;
     #region Singleton
@@ -172,6 +175,7 @@ public class LevelManager : MonoBehaviour
             // Start the game if we are in menu
             if(Instance.State == State.Menu && Instance.players.Count <= 1)
             {
+                _instance.conditionTimer = true;
                 _instance.menuCanvas.SetActive(false);
                 Debug.Log("Game is starting...");
                 Instance.StartCoroutine(Instance.CoolDownBeforeStart());
@@ -238,6 +242,7 @@ public class LevelManager : MonoBehaviour
     {
         textMeshProUGUI.SetActive(true);
         yield return new WaitForSeconds(3);
+        _instance.conditionTimer = false;
 
         textMeshProUGUI.SetActive(false);
 
@@ -276,7 +281,11 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if (conditionTimer)
+        {
+            _instance.currentValue -= 1 * Time.deltaTime;
+            _instance.timerUGUI.text = currentValue.ToString("0");
+        }
 
         if (_triggerEndgame.EndgameIsCompleted) 
         {
