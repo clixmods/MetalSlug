@@ -178,7 +178,9 @@ public class LevelManager : MonoBehaviour
                 _instance.conditionTimer = true;
                 _instance.menuCanvas.SetActive(false);
                 Debug.Log("Game is starting...");
+                _instance.timerUGUI.gameObject.SetActive(true);
                 Instance.StartCoroutine(Instance.CoolDownBeforeStart());
+                
             }
         }
     }
@@ -243,7 +245,7 @@ public class LevelManager : MonoBehaviour
         textMeshProUGUI.SetActive(true);
         yield return new WaitForSeconds(3);
         _instance.conditionTimer = false;
-
+        _instance.timerUGUI.gameObject.SetActive(false);
         textMeshProUGUI.SetActive(false);
 
         State = State.Ingame;
