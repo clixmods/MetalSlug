@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,11 @@ public class UIManager : MonoBehaviour
     {
         LevelManager.eventSessionStart += LevelManager_eventSessionStart;
         LevelManager.eventEndgame += LevelManager_eventEndgame;
+    }
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
     }
 
     private void LevelManager_eventEndgame()
