@@ -156,6 +156,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     // start
     private void Start()
     {
+        // This script will manage IsFalling behavior, so we need to disable isfalling management from _characterViewmodel
+        _characterViewmodel.ManageIsFalling = false;
         if (!_isSpawned)
         {
             controller = gameObject.GetComponent<CharacterController>();
@@ -479,6 +481,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         Teleport(new Vector3(RoundManager.PlayerSpawnActive.position.x, 10f, 0f));
         _gravityValue = -2f;
         _parachute.SetActive(true);
+        _characterViewmodel._animator.SetBool(IsFalling, true);
         _firstSpawn = false;
     }
 
@@ -541,14 +544,11 @@ public class PlayerInstance : MonoBehaviour , IActor
             _groundedPlayer = controller.isGrounded;
             if (_groundedPlayer && _playerVelocity.y < 0)
             {
-                _characterViewmodel._animator.SetBool("IsFalling", false);
+                _characterViewmodel._animator.SetBool(IsFalling, false);
                 _parachute.SetActive(false);
                 // set the velocity to 0
                 _playerVelocity.y = 0f;
-                if(_gravityValue != -20f)
-                {
-                    _gravityValue = -20f;
-                }
+                _gravityValue = -20f;
                 // if the player jump and crouch while in the air and arrive on the ground crouched then isCrouching is set to true
                 if (_currentMovementInput.y < 0 && controller.isGrounded)
                 {
@@ -557,9 +557,8 @@ public class PlayerInstance : MonoBehaviour , IActor
             }
             else
             {
-                _characterViewmodel._animator.SetBool("IsFalling", true);
+                _characterViewmodel._animator.SetBool(IsFalling, true);
             }
-
             // move the player
             Vector3 move = new Vector3(_movementInput.x, 0, 0);
 
@@ -680,6 +679,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     }
 
     private FXManager damagedFx;
+    private static readonly int IsFalling = Animator.StringToHash("IsFalling");
+
     public void OnDown()
     {
         if (LevelManager.Players.Count == 1 || LevelManager.Instance.ReviveAmount <= 0)

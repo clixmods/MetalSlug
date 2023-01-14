@@ -31,6 +31,10 @@ public class CharacterViewmodelManager : MonoBehaviour
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public Animator _animator;
 
+    public bool ManageIsFalling = true;
+    
+    private static readonly int IsFalling = Animator.StringToHash("IsFalling");
+
     private const int LOWERBODY = 1;
     private const int UPPERBODY = 2;
     
@@ -127,18 +131,22 @@ public class CharacterViewmodelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_rigidbody.velocity.y > 0.1f || _rigidbody.velocity.y < -0.1f)
+        if (ManageIsFalling)
         {
-            _animator.SetBool("IsFalling", true);
-        }
-        else
-        {
-            _animator.SetBool("IsFalling", false);
-        }
+            if (_rigidbody.velocity.y is > 0.1f or < -0.1f)
+            {
+                _animator.SetBool(IsFalling, true);
+            }
+            else
+            {
+                _animator.SetBool(IsFalling, false);
+            }
 
-        if (_rigidbody.velocity.magnitude > 0)
-        {
-          //
+            if (_rigidbody.velocity.magnitude > 0)
+            {
+                //
+            }
         }
+       
     }
 }

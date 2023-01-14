@@ -188,10 +188,16 @@ public class AIInstance : MonoBehaviour , IActor
             if (aiScriptableObject.CanFly)
             {
                 newPosition.y = Mathf.Clamp(newPosition.y, aiScriptableObject.minY, 10);
+                _rigidbody.MovePosition(newPosition);
+            }
+            else
+            {
+                var directionToTarget = (targetPosition - transform.position).normalized;
+                _rigidbody.MovePosition(directionToTarget);
             }
 
             newPosition.z = 0;
-            _rigidbody.MovePosition(newPosition);
+            
             _characterViewmodel.Play(AnimState.Move);
             transform.PlayLoopSound(aiScriptableObject.AliasOnMove, ref audioPlayerMove);
         }
