@@ -193,7 +193,8 @@ public class AIInstance : MonoBehaviour , IActor
             else
             {
                 var directionToTarget = (targetPosition - transform.position).normalized;
-                _rigidbody.MovePosition(directionToTarget);
+                _rigidbody.velocity = new Vector3 (directionToTarget.x * _speed, _rigidbody.velocity.y, 0);
+               
             }
 
             newPosition.z = 0;
@@ -321,7 +322,7 @@ public class AIInstance : MonoBehaviour , IActor
         
         bool isOutCameraNegative = position.x < WorldToViewportPointValueNegative || position.y < WorldToViewportPointValueNegative;
         bool isOutCameraPositive =  position.x > WorldToViewportPointValuePositive || position.y > WorldToViewportPointValuePositive;
-        Debug.Log($"Hello  {isOutCameraNegative} : {isOutCameraPositive}" );
+//        Debug.Log($"Hello  {isOutCameraNegative} : {isOutCameraPositive}" );
         if(isOutCameraNegative || isOutCameraPositive )
         {
             return false;
