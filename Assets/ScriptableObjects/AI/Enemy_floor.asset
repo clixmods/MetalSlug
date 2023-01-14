@@ -18,7 +18,8 @@ MonoBehaviour:
   attackRange: 20
   attackRate: 2.69
   angleAim: 0.3
-  speed: 0.7
+  canReajustAim: 1
+  speed: 2
   primaryWeapon: {fileID: 11400000, guid: 9ad448ac9b506e54c816b63a613aeca6, type: 2}
   grenadeWeapon: {fileID: 11400000, guid: bf58af6a044e9e54aad8148c9649d495, type: 2}
   CanFly: 0
