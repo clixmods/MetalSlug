@@ -89,6 +89,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     private bool _isLastStand = false;
     private bool _isSpawned;
     private bool _firstSpawn = true;
+    private bool _isDead;
     public bool testEndGame = false;
 
     // FX Instancied 
@@ -176,7 +177,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     // OnTriggerEnter 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == IndexLayerProjectile)
+        if ( !_isDead && other.gameObject.layer == IndexLayerProjectile)
         {
             var projectile = other.GetComponent<ProjectileInstance>();
             if (projectile.teamEnum != Team)
@@ -518,7 +519,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             _timerDeath -= Time.deltaTime;
         }
 
-        if (_timerDeath <= 0 || LevelManager.GetAlivePlayers.Count == 0)
+        if ((_isLastStand && _timerDeath <= 0) || LevelManager.GetAlivePlayers.Count == 0)
         {
             OnDeath();
             return;
@@ -694,8 +695,9 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     public void OnDeath()
     {
+        _isDead = true;
         // TODO : Deplacer les evenement announcer dans son propre script
-        AudioManager.PlaySoundAtPosition("announcer_player_death", Vector3.zero);
+        AudioManager.PlaySoundAtPosition("announcer_player_eliminated", Vector3.zero);
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
         if(damagedFx != null)
             Destroy(damagedFx.gameObject);
