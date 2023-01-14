@@ -77,7 +77,7 @@ public class WeaponInstance : MonoBehaviour
     /// <summary>
     /// Return true if the fire is a success
     /// </summary>
-    /// <param name="target"></param>
+    /// <param name="target"> The target when the weapon fire, its calcul the direction between the origin of fire and the target</param>
     /// <returns></returns>
     public virtual bool DoFire(GameObject target)
     {
@@ -87,7 +87,7 @@ public class WeaponInstance : MonoBehaviour
     /// <summary>
     /// Return true if the fire is a success
     /// </summary>
-    /// <param name="target"></param>
+    /// <param name="direction">Direction used to fire the bullet</param>
     /// <returns></returns>
     public virtual bool DoFire(Vector3 direction)
     {

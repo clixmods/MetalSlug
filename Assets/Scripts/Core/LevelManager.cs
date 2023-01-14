@@ -6,16 +6,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
-
-
 public enum State
 {
-    Ingame,
+    InGame,
     Intermission,
-    Gameover,
+    GameOver,
     Menu
 }
-
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private bool conditionTimer = false;
@@ -46,7 +43,6 @@ public class LevelManager : MonoBehaviour
     }
 
     #endregion
-
     #region Events
     public delegate void EventHandler();
     public delegate void EventHandlerRound(int newRound);
@@ -58,26 +54,21 @@ public class LevelManager : MonoBehaviour
     public static event EventHandler eventEndgame;
     
     #endregion
-    
-    
-    public List<PlayerInstance> players = new List<PlayerInstance>();
+    private List<PlayerInstance> players = new List<PlayerInstance>();
     [SerializeField] private Transform playerSpawnPoint;
-    private RoundManager[] roundvolumes;
     [SerializeField] private int respawnAmount;
     [SerializeField] private int reviveAmount;
     [SerializeField] private int _currentRound = 0;
     private TriggerEndgame _triggerEndgame;
     private bool _firstSpawn;
-    private bool secondFirstSpawn;
-    
-    
+    private bool _secondFirstSpawn;
     [Header("Aliases")]
     [SerializeField][Aliase] private string RoundIntro;
     [SerializeField][Aliase] private string RoundStart;
     [SerializeField][Aliase] private string RoundEnd;
     [SerializeField][Aliase] private string Gameover;
-    private State state = State.Menu;
-    public State State { get => state; set => state = value; }
+    private State _state = State.Menu;
+    public State State { get => _state; set => _state = value; }
     public int CurrentRound
     {
         get => _currentRound;
@@ -88,7 +79,6 @@ public class LevelManager : MonoBehaviour
         }
         
     }
-
     public int RespawnAmount
     {
         get => respawnAmount;
@@ -112,35 +102,33 @@ public class LevelManager : MonoBehaviour
         }
     }
     #region Properties
-
+    /// <summary>
+    /// Get a random alive player from alive players
+    /// </summary>
     public static PlayerInstance GetRandomAlivePlayers
     {
         get
         {
-            for (int i = 0; i < Instance.players.Count; i++)
+            List<PlayerInstance> playersAlives = GetAlivePlayers;
+            for (int i = 0; i < playersAlives.Count; i++)
             {
-                var player = Instance.players[i];
-                if (player == null) continue;
-                if (player.IsAlive)
+                var player = playersAlives[i];
+                // The last player of the list ? return it
+                if (i == playersAlives.Count - 1)
                 {
-                    if (i == Instance.players.Count - 1)
-                    {
-                        if (player.IsAlive)
-                        {
-                            return player;
-                        }
-                    }
-                    else if (0.5f < Random.Range(0f, 1f))
-                    {
-                        return player;
-                    }
+                    return player;
+                } 
+                if (0.5f < Random.Range(0f, 1f))
+                {
+                    return player;
                 }
             }
-
             return null;
         }
     }
-
+    /// <summary>
+    /// Return a list of alive players, laststand player are not included.
+    /// </summary>
     public static List<PlayerInstance> GetAlivePlayers
     {
         get
@@ -149,19 +137,21 @@ public class LevelManager : MonoBehaviour
             for (int i = 0; i < Instance.players.Count; i++)
             {
                 var player = Instance.players[i];
+                // TODO : check expensive, players list are not supposed to have null element in it.
                 if (player == null) continue;
-               
-                
                 if (player.IsAlive)
                 {
                     playersAlive.Add(player);
                 }
             }
-
             return playersAlive;
         }
     }
 
+    /// <summary>
+    /// Return a list of players in the game
+    /// </summary>
+    public static List<PlayerInstance> Players => Instance.players;
     #endregion
     public static void AddPlayer(PlayerInstance player)
     {
@@ -203,9 +193,7 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        roundvolumes = FindObjectsOfType<RoundManager>();
         _triggerEndgame = FindObjectOfType<TriggerEndgame>();
-        
         eventSessionStart += SessionIntro;
         Application.targetFrameRate = 60;
     }
@@ -214,11 +202,9 @@ public class LevelManager : MonoBehaviour
     {
         players = FindObjectsOfType<PlayerInstance>().ToList();
         PlayerInstance.eventPlayerJoin += AddPlayer;
-        PlayerInstance.eventPlayerDisconnect += RemovePlayer;
-        PlayerInstance.eventPlayerRespawn += RemoveRespawnAmount;
+        PlayerInstance.eventPlayerDeath += RemovePlayer;
+        PlayerInstance.eventPlayerSpawn += RemoveRespawnAmount;
         PlayerInstance.eventPlayerRevive += PlayerInstanceOneventPlayerRevive;
-
-      
         TriggerEndgame.eventTriggerEndgameStart += TriggerEndgameOneventTriggerEndgameStart;
     }
 
@@ -229,7 +215,7 @@ public class LevelManager : MonoBehaviour
         Instance.respawnAmount = 3;
         Instance.reviveAmount = 3;
         Instance._firstSpawn = false;
-        Instance.secondFirstSpawn = false;
+        Instance._secondFirstSpawn = false;
         Instance._currentRound = 1;
         
         PlayerInputManager.instance.EnableJoining();
@@ -249,7 +235,7 @@ public class LevelManager : MonoBehaviour
         _instance.timerUGUI.gameObject.SetActive(false);
         textMeshProUGUI.SetActive(false);
 
-        State = State.Ingame;
+        State = State.InGame;
         eventSessionStart?.Invoke();
     }
 
@@ -271,13 +257,11 @@ public class LevelManager : MonoBehaviour
             _firstSpawn = true;
             return;
         }
-
-        if (_currentRound == 1 && players.Count > 1 && !secondFirstSpawn)
+        if (_currentRound == 1 && players.Count > 1 && !_secondFirstSpawn)
         {
-            secondFirstSpawn = true;
+            _secondFirstSpawn = true;
             return;
         }
-
         RespawnAmount--;
     }
 
@@ -296,9 +280,9 @@ public class LevelManager : MonoBehaviour
            StartNewRound();
         }
 
-        if (GetAlivePlayers.Count == 0 && RespawnAmount <= 0 && State == State.Ingame)
+        if (GetAlivePlayers.Count == 0 && RespawnAmount <= 0 && State == State.InGame)
         {
-            State = State.Gameover;
+            State = State.GameOver;
             Debug.Log("ENDGAME");
             eventEndgame?.Invoke();
             // Execute endgame function here
@@ -307,15 +291,10 @@ public class LevelManager : MonoBehaviour
 
     private void StartNewRound()
     {
-        LevelManager.Instance.State = State.Ingame;
+        Instance.State = State.InGame;
         foreach (var player in players)
         {
             player.Teleport( playerSpawnPoint.position);
-        }
-
-        for (int i = 0; i < roundvolumes.Length; i++)
-        {
-            //roundvolumes[i].gameObject.SetActive(true);
         }
         eventPreLevelRestart?.Invoke();
         eventPostLevelRestart?.Invoke();

@@ -10,9 +10,14 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(BoxCollider))]
 public class RoundManager : MonoBehaviour
 {
+    #region Events
+
     public delegate void CallbackRoundTriggered(RoundManager roundManager);
-    public event CallbackRoundTriggered eventRoundTriggered;
-    
+
+    public event CallbackRoundTriggered EventRoundTriggered;
+
+    #endregion
+
     private Collider _triggerBox;
     public bool IsSpawned;
     [SerializeField] private int numberOfEnemiesToSpawn = 5;
@@ -23,16 +28,14 @@ public class RoundManager : MonoBehaviour
     public List<Transform> PlayerSpawnPoints => playerSpawnPoints;
     [SerializeField] private GameObject[] enemies;
     [SerializeField] private GameObject roundBlocker;
-    
+
     private int _needToSpawnAmount = 0;
     private float _currentDelaySpawn = 0;
     private bool _volumeTriggered;
     public bool IsRoundBoss;
-    private bool _noSpawn ;
+    private bool _noSpawn;
 
     public static Transform PlayerSpawnActive;
-    
-
 
     private void OnValidate()
     {
@@ -40,16 +43,13 @@ public class RoundManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         GetValues();
         roundBlocker.SetActive(false);
         _triggerBox.isTrigger = true;
         LevelManager.eventPreLevelRestart += ResetVolume;
         LevelManager.eventResetSession += ResetVolume;
-        //PlayerSpawnActive = new GameObject().transform;
-        //PlayerSpawnActive.position = Vector3.zero;
-        
     }
 
     private void ResetVolume()
@@ -74,8 +74,8 @@ public class RoundManager : MonoBehaviour
         {
             var tempSpawnPoint = transform.GetChild(i);
             if (tempSpawnPoint.CompareTag("BossSpawnPoint"))
-                bossSpawnPoint.Add( tempSpawnPoint);
-            else if(tempSpawnPoint.CompareTag("RoundBlocker"))
+                bossSpawnPoint.Add(tempSpawnPoint);
+            else if (tempSpawnPoint.CompareTag("RoundBlocker"))
             {
                 roundBlocker = tempSpawnPoint.gameObject;
             }
@@ -93,11 +93,11 @@ public class RoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (LevelManager.Instance.State != State.Ingame)
+        if (LevelManager.Instance.State != State.InGame)
             _needToSpawnAmount = 0;
-        
-        if(_noSpawn) IsSpawned = true;
-        if ( _needToSpawnAmount > 0 && !IsSpawned )
+
+        if (_noSpawn) IsSpawned = true;
+        if (_needToSpawnAmount > 0 && !IsSpawned)
         {
             if (_currentDelaySpawn > 0)
             {
@@ -106,7 +106,7 @@ public class RoundManager : MonoBehaviour
             else
             {
                 var spawnPointRandom = spawnPoint[Random.Range(0, spawnPoint.Count)];
-                Instantiate(enemies[Random.Range(0, enemies.Length)], spawnPointRandom.position,Quaternion.identity ) ;
+                Instantiate(enemies[Random.Range(0, enemies.Length)], spawnPointRandom.position, Quaternion.identity);
                 _currentDelaySpawn = delaySpawn;
                 _needToSpawnAmount--;
                 if (_needToSpawnAmount <= 0)
@@ -115,14 +115,12 @@ public class RoundManager : MonoBehaviour
                 }
             }
         }
-        
-        
     }
 
     public AIInstance SpawnBoss(GameObject prefabBoss, bool bossIsAlone, bool useRoundBlocker)
     {
         var pointRandom = bossSpawnPoint[Random.Range(0, bossSpawnPoint.Count)];
-        var bossObject = Instantiate(prefabBoss, pointRandom.position,Quaternion.identity ) ;
+        var bossObject = Instantiate(prefabBoss, pointRandom.position, Quaternion.identity);
         if (bossIsAlone)
         {
             _noSpawn = true;
@@ -134,10 +132,7 @@ public class RoundManager : MonoBehaviour
         }
 
         var aiinstance = bossObject.GetComponent<AIInstance>();
-        aiinstance.eventAIDeath += instance =>
-        {
-            roundBlocker.SetActive(false);
-        };
+        aiinstance.eventAIDeath += instance => { roundBlocker.SetActive(false); };
         return aiinstance;
     }
 
@@ -147,9 +142,9 @@ public class RoundManager : MonoBehaviour
         {
             PlayerSpawnActive = playerSpawnPoints[0];
             _volumeTriggered = true;
-            eventRoundTriggered?.Invoke(this);
+            EventRoundTriggered?.Invoke(this);
             _needToSpawnAmount = numberOfEnemiesToSpawn;
-            foreach (var player in LevelManager.Instance.players)
+            foreach (var player in LevelManager.Players)
             {
                 if (!player.gameObject.activeSelf)
                 {
@@ -157,25 +152,20 @@ public class RoundManager : MonoBehaviour
                     player.Teleport(LevelManager.GetRandomAlivePlayers.transform.position);
                 }
             }
-          
-            
         }
-        
     }
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        
-            foreach (var VARIABLE in spawnPoint)
-            {
-                Debug.DrawLine(transform.position, VARIABLE.position, Color.magenta);
-            }
+        foreach (var VARIABLE in spawnPoint)
+        {
+            Debug.DrawLine(transform.position, VARIABLE.position, Color.magenta);
+        }
 
-            foreach (var VARIABLE in bossSpawnPoint)
-            {
-                Debug.DrawLine(transform.position, VARIABLE.position, Color.red);
-            }
-
+        foreach (var VARIABLE in bossSpawnPoint)
+        {
+            Debug.DrawLine(transform.position, VARIABLE.position, Color.red);
+        }
     }
 #endif
 }

@@ -72,28 +72,6 @@ public class ProjectileInstance : MonoBehaviour
     {
         if (collision.gameObject.layer == 6 && fromWeapon.weaponData.isGrenade)
         {
-            // var casts = Physics.SphereCastAll(transform.position, 10, Vector3.zero, 10, 0, QueryTriggerInteraction.Collide);
-            // foreach (var cast in casts)
-            // {
-            //     if (cast.collider.gameObject.layer == 6 && fromWeapon.Owner != cast.transform.gameObject)
-            //     {
-            //         var actor = cast.transform.GetComponent<IActor>();
-            //         if (actor.Team != teamEnum)
-            //         {
-            //             cast.collider.GetComponent<IActor>().DoDamage(fromWeapon.weaponData.damage);
-            //         }
-            //     }
-            //         
-            // }
-            //
-            //
-
-            // if (casts.Length != 0)
-            // {
-            //     
-            //     Destroy(gameObject);
-            // }
-                
         }
             
         OnHit();
@@ -107,9 +85,6 @@ public class ProjectileInstance : MonoBehaviour
         }
         if (fromWeapon.weaponData.projectileDestroyOnHit)
         {
-            
-              
-            
             Destroy(gameObject);
         }
         
@@ -121,24 +96,6 @@ public class ProjectileInstance : MonoBehaviour
         {
             Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
             Handles.Label(transform.position, $" WorldToScreenPoint{position }");
-            // if (_target != null)
-            // {
-            //     var direction = (_target.transform.position - transform.position).normalized;
-            //     float angle = Mathf.Abs(direction.y);
-            //     Handles.Label(transform.position, 
-            //         $"Angle {angle }");
-            //     if (IsInAttackRange())
-            //     {
-            //
-            //         Debug.DrawLine(transform.position, _target.transform.position ,Color.green);
-            //     }
-            //     else
-            //     {
-            //
-            //         Debug.DrawLine(transform.position, _target.transform.position,Color.red);
-            //     }
-            // }
-            
         }
     }
 #endif

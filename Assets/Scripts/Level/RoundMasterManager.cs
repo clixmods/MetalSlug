@@ -72,7 +72,7 @@ public class RoundMasterManager : MonoBehaviour
         boss.eventAIDeath += BossOneventAIDeath;
         _cameraMotor.rightBoundary = boss.transform.position.x -10;
         
-        _roundManagers[roundBoss].eventRoundTriggered += OneventRoundTriggered;
+        _roundManagers[roundBoss].EventRoundTriggered += OneventRoundTriggered;
     }
 
     private void OneventRoundTriggered(RoundManager roundmanager)
@@ -80,7 +80,7 @@ public class RoundMasterManager : MonoBehaviour
         
         AudioManager.PlayLoopSound(musicBgBoss ,Vector3.zero, ref _audioPlayerBgBossMusic);
         
-        roundmanager.eventRoundTriggered -= OneventRoundTriggered;
+        roundmanager.EventRoundTriggered -= OneventRoundTriggered;
     }
 
 
@@ -96,7 +96,7 @@ public class RoundMasterManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(LevelManager.Instance.State == State.Ingame)
+        if(LevelManager.Instance.State == State.InGame)
         {
             if (_audioPlayerBgBossMusic != null)
             {

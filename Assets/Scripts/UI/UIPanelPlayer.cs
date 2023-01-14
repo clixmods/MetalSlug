@@ -19,7 +19,7 @@ public class UIPanelPlayer : MonoBehaviour
         panelPlayer.SetActive(false);
         _uiPlayerAmmo ??= GetComponentInChildren<UIPlayerAmmo>();
         PlayerInstance.eventPlayerJoin += PlayerInstanceOneventPlayerJoin;
-        PlayerInstance.eventPlayerDisconnect += PlayerInstanceOneventPlayerDisconnect;
+        PlayerInstance.eventPlayerDeath += PlayerInstanceOneventPlayerDeath;
         PlayerInstance.eventPlayerFire += PlayerInstanceOneventPlayerFire;
     }
 
@@ -33,7 +33,7 @@ public class UIPanelPlayer : MonoBehaviour
         }
     }
 
-    private void PlayerInstanceOneventPlayerDisconnect(PlayerInstance newplayer)
+    private void PlayerInstanceOneventPlayerDeath(PlayerInstance newplayer)
     {
        
         if (_playerInstance == newplayer && _playerInstancesLinked.Contains(newplayer))

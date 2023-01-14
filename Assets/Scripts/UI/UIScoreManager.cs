@@ -31,7 +31,7 @@ public class UIScoreManager : MonoBehaviour
 
     private void AddScore(int amount)
     {
-        if (LevelManager.Instance.players.Count > 0)
+        if (LevelManager.Players.Count > 0)
         {
             _currentScore += amount;
             textComponentScore.text = "Score : " + _currentScore;

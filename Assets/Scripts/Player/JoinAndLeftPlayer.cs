@@ -11,7 +11,7 @@ public class JoinAndLeftPlayer : MonoBehaviour
     {
         targetbrain = this.gameObject.GetComponent<CinemachineTargetGroup>();
         PlayerInstance.eventPlayerJoin += AddPlayer;
-        PlayerInstance.eventPlayerDisconnect += RemovePlayer;
+        PlayerInstance.eventPlayerDeath += RemovePlayer;
     }
     public void AddPlayer(PlayerInstance player)
     {

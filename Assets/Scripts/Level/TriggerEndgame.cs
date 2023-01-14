@@ -36,11 +36,11 @@ public class TriggerEndgame : MonoBehaviour
     private bool AllPlayersAreInEndgameTrigger()
     {
         bool condition = true;
-        if (LevelManager.Instance.players.Count == 0)
+        if (LevelManager.Players.Count == 0)
         {
             return false;
         }
-        foreach (var player in LevelManager.Instance.players)
+        foreach (var player in LevelManager.Players)
         {
             if (!playersInTrigger.Contains(player))
             {
@@ -57,10 +57,10 @@ public class TriggerEndgame : MonoBehaviour
             LevelManager.Instance.State = State.Intermission;
             
             Debug.Log("Players are in endgameTrigger");
-            foreach (var player in LevelManager.Instance.players)
+            foreach (var player in LevelManager.Players)
             {
                 player.transform.parent = transform;
-                player.SetSleep(true);
+                player.SetSleepCharacterController(true);
             }
 
             transform.Translate(Vector3.right * Time.deltaTime * 5);
@@ -126,7 +126,7 @@ public class TriggerEndgame : MonoBehaviour
     {
         foreach (var player in playersInTrigger)
         {
-            player.SetSleep(false);
+            player.SetSleepCharacterController(false);
             player.transform.parent = null;
             playersInTrigger.Remove(player);
         }

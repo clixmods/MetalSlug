@@ -9,11 +9,16 @@ public class PlayerInstance : MonoBehaviour , IActor
 {
     #region Events
     public delegate void PlayerEvent(PlayerInstance newPlayer);
-    
     public static event PlayerEvent eventPlayerJoin;
-    public static event PlayerEvent eventPlayerDisconnect;
+    /// <summary>
+    /// Event when the player is death
+    /// </summary>
     public static event PlayerEvent eventPlayerDeath;
-    public static event PlayerEvent eventPlayerRespawn;
+    /// <summary>
+    /// Event when the player fall in last stand (coop only)
+    /// </summary>
+    public static event PlayerEvent eventPlayerDown;
+    public static event PlayerEvent eventPlayerSpawn;
     public static event PlayerEvent eventPlayerRevive;
     public static event PlayerEvent eventPlayerFire;
     public static event PlayerEvent eventIsReviving;
@@ -23,8 +28,12 @@ public class PlayerInstance : MonoBehaviour , IActor
     [Header("Weapon")]
     [SerializeField] private WeaponScriptableObject primaryWeapon;
     [SerializeField] private WeaponScriptableObject grenadeWeapon;
-    public WeaponInstance weaponInstance;
-    public WeaponInstance grenadeInstance;
+    
+    private WeaponInstance _weaponInstance;
+    private WeaponInstance _grenadeInstance;
+    public WeaponInstance weaponInstance => _weaponInstance;
+    public WeaponInstance grenadeInstance => _grenadeInstance;
+    
     public HighscoreTable highscoreTable;
     
     private PlayerInstance _playerQueJeSoigne;
@@ -131,19 +140,16 @@ public class PlayerInstance : MonoBehaviour , IActor
     }
     private void SpawnWeaponInstance()
     {
-        weaponInstance = primaryWeapon.CreateWeaponInstance(gameObject);
+        // Spawn primary weapon
+        _weaponInstance = primaryWeapon.CreateWeaponInstance(gameObject);
         if(_characterViewmodel.rightHand != null)
             weaponInstance.transform.parent = _characterViewmodel.rightHand.transform;
         weaponInstance.transform.localPosition = Vector3.zero;
-        
-        
-        grenadeInstance = grenadeWeapon.CreateWeaponInstance(gameObject);
-        
+        // Spawn grenade weapon
+        _grenadeInstance = grenadeWeapon.CreateWeaponInstance(gameObject);
         if(_characterViewmodel.leftHand != null)
             grenadeInstance.transform.parent = _characterViewmodel.leftHand.transform;
-        
         grenadeInstance.transform.localPosition = Vector3.zero;
-        
     }
 
     // start
@@ -156,7 +162,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             eventPlayerJoin?.Invoke(this);
             _isSpawned = true;
             Parachute();
-            eventPlayerRespawn?.Invoke(this);
+            eventPlayerSpawn?.Invoke(this);
             timerInvulnerability = 3;
         }
     }
@@ -164,7 +170,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     // OnDestroy
     private void OnDestroy()
     {
-        eventPlayerDisconnect?.Invoke(this);
+        eventPlayerDeath?.Invoke(this);
     }
 
     // OnTriggerEnter 
@@ -192,7 +198,6 @@ public class PlayerInstance : MonoBehaviour , IActor
                 _playerQueJeSoigne = playerInstanceCached;
                 _playerQueJeSoigne._isQuandilsefaitrevive = _isQuandilsoigne;
             }
-            //todo UI active
         }
     }
 
@@ -212,7 +217,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     // move
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (LevelManager.Instance.State != State.Ingame)
+        if (LevelManager.Instance.State != State.InGame)
         {
             _movementInput = Vector2.zero;
             _aimDir = Vector2.right;
@@ -289,7 +294,6 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             return;
         }
-
         eventPlayerFire?.Invoke(this);
         switch (context.phase)
         {
@@ -469,7 +473,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         }
     }
 
-    public void Parachute()
+    private void Parachute()
     {
         Teleport(new Vector3(RoundManager.PlayerSpawnActive.position.x, 10f, 0f));
         _gravityValue = -2f;
@@ -493,6 +497,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         {
             OnDeath();
         }
+        // Invulnerability timer 
         if (timerInvulnerability > 0)
         {
             timerInvulnerability -= Time.deltaTime;
@@ -592,9 +597,6 @@ public class PlayerInstance : MonoBehaviour , IActor
                 }
             }
             _characterViewmodel.Direction = transform.position + motion;
-            
-            
-
             // Changes the height position of the player..
             if (_jumped && _groundedPlayer)
             {
@@ -609,7 +611,10 @@ public class PlayerInstance : MonoBehaviour , IActor
         // motion
         controller.Move(_playerVelocity * Time.deltaTime);
     }
-
+    /// <summary>
+    /// This method allow the teleportation of the player to prevent charactercontroller restriction.
+    /// </summary>
+    /// <param name="position"></param>
     public void Teleport(Vector3 position)
     {
         controller.enabled = false;
@@ -617,7 +622,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         controller.enabled = true;
     }
 
-    public void SetSleep(bool value)
+    public void SetSleepCharacterController(bool value)
     {
         if (value)
         {
@@ -629,8 +634,10 @@ public class PlayerInstance : MonoBehaviour , IActor
         }
     }
   
-
-    public void Revive()
+    /// <summary>
+    /// Revive the player and reset some properties to initial values
+    /// </summary>
+    private void Revive()
     {
         eventPlayerRevive?.Invoke(this);
         _characterViewmodel.Play(AnimState.Revived);
@@ -641,21 +648,22 @@ public class PlayerInstance : MonoBehaviour , IActor
         if(damagedFx != null)
             Destroy(damagedFx.gameObject);
     }
- 
+
+    public bool IsInvulnerable
+    {
+        get => timerInvulnerability > 0;
+    }
     public TeamEnum Team => _team;
     public int Health
     {
-        get
+        get => _health;
+        private set
         {
-            return _health;
-        }
-        set
-        {
-            if (timerInvulnerability > 0)
+            // Health cannot be changed if the player is invulnerable
+            if (IsInvulnerable)
             {
                 return;
             }
-
             _health = value;
         }
     }
@@ -663,7 +671,6 @@ public class PlayerInstance : MonoBehaviour , IActor
     public void DoDamage(int amount)
     {  
         Health -= amount;
-        
         if ( Health <= 0 && !_isLastStand)
         {
             FXManager.PlayFX(_fxHit,transform.position,BehaviorAfterPlay.Nothing);
@@ -674,21 +681,21 @@ public class PlayerInstance : MonoBehaviour , IActor
     private FXManager damagedFx;
     public void OnDown()
     {
-        if (LevelManager.Instance.players.Count == 1 || LevelManager.Instance.ReviveAmount <= 0)
+        if (LevelManager.Players.Count == 1 || LevelManager.Instance.ReviveAmount <= 0)
         {
             OnDeath();
             return;
         }
         AudioManager.PlaySoundAtPosition("announcer_player_down", Vector3.zero);
-        damagedFx = FXManager.PlayFX(_fxDamaged,transform.position,BehaviorAfterPlay.Nothing);
+        damagedFx = FXManager.PlayFX(_fxDamaged,transform.position);
         _characterViewmodel.Play(AnimState.Down);
         _isLastStand = true;
     }
 
     public void OnDeath()
     {
+        // TODO : Deplacer les evenement announcer dans son propre script
         AudioManager.PlaySoundAtPosition("announcer_player_death", Vector3.zero);
-        
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
         if(damagedFx != null)
             Destroy(damagedFx.gameObject);

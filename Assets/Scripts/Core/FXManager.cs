@@ -10,6 +10,8 @@ public class FXManager : MonoBehaviour
     private ParticleSystem _particleSystem;
     public SkinnedMeshRenderer skinnedMeshRenderer;
     private BehaviorAfterPlay _behaviorAfterPlay;
+
+    #region Statics Methods
     public static FXManager InitFX(GameObject prefab,  Vector3 position, GameObject owner  = null, SkinnedMeshRenderer skinnedMeshRenderer = null)
     {
         Transform parent = null;
@@ -24,27 +26,20 @@ public class FXManager : MonoBehaviour
         if (owner != null)
         {
             parent = owner.transform; 
-             if (fxManager != null)
-             {
-                 if (parent.TryGetComponent<CharacterViewmodelManager>(out var characterViewmodelManager))
-                 {
-                     if (skinnedMeshRenderer != null)
-                     {
-                         fxManager.skinnedMeshRenderer = skinnedMeshRenderer;
-                     }
-                 }
-
-                 fxManager.transform.parent = owner.transform;
-             }
-            
-           
-
+            if (fxManager != null)
+            {
+                if (parent.TryGetComponent<CharacterViewmodelManager>(out var characterViewmodelManager))
+                {
+                    if (skinnedMeshRenderer != null)
+                    {
+                        fxManager.skinnedMeshRenderer = skinnedMeshRenderer;
+                    }
+                }
+                fxManager.transform.parent = owner.transform;
+            }
         }
         return fxManager;
-
-        
     }
-
     public static FXManager PlayFX(FXManager fxManager, Vector3 position = default, BehaviorAfterPlay behaviorAfterPlay = BehaviorAfterPlay.Nothing)
     {
         if (fxManager == null)
@@ -53,7 +48,9 @@ public class FXManager : MonoBehaviour
         }
         return fxManager.Play(position,behaviorAfterPlay);
     }
-    // Start is called before the first frame update
+
+    #endregion
+    
     void Awake()
     {
         _particleSystem = GetComponent<ParticleSystem>();
