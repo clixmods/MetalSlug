@@ -20,6 +20,7 @@ public class RoundMasterManager : MonoBehaviour
     
     [SerializeField][Aliase] private string musicBg;
     [SerializeField][Aliase] private string musicBgBoss;
+    [SerializeField][Aliase] private string bossAnnouncer;
     private AudioPlayer _audioPlayerBgMusic;
     private AudioPlayer _audioPlayerBgBossMusic;
     private float cachedVolume;
@@ -35,8 +36,12 @@ public class RoundMasterManager : MonoBehaviour
 
     private void LevelManagerOneventSessionStart()
     {
-        if(_audioPlayerBgMusic == null)
+        if (_audioPlayerBgMusic == null)
+        {
             AudioManager.PlayLoopSound(musicBg ,Vector3.zero, ref _audioPlayerBgMusic);
+            cachedVolume = _audioPlayerBgMusic.Source.volume;
+        }
+            
     }
 
     private void LevelManagerOneventResetSession()
@@ -79,6 +84,7 @@ public class RoundMasterManager : MonoBehaviour
     {
         
         AudioManager.PlayLoopSound(musicBgBoss ,Vector3.zero, ref _audioPlayerBgBossMusic);
+        AudioManager.PlaySoundAtPosition(bossAnnouncer);
         
         roundmanager.EventRoundTriggered -= OneventRoundTriggered;
     }

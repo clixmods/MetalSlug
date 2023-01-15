@@ -106,6 +106,14 @@ public class PlayerInstance : MonoBehaviour , IActor
     public GameObject FXHit;
     public GameObject FXMove;
     public GameObject FXLoopDamaged;
+
+    [Header("Alias")] 
+    [SerializeField] [Aliase] private string AliasOnMoveLoop;
+    [SerializeField] [Aliase] private string AliasOnJump;
+    [SerializeField] [Aliase] private string AliasOnLand;
+    [SerializeField] [Aliase] private string AliasOnLastStand;
+    [SerializeField] [Aliase] private string AliasOnLastStandLoop;
+    [SerializeField] [Aliase] private string AliasOnDeath;
     public bool IsQuandilsoigne => _isQuandilsoigne;
     public bool IsLastStand => _isLastStand;
     public bool IsQuandilsefaitrevive => _isQuandilsefaitrevive;
@@ -490,6 +498,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     {
         if (!_isLastStand)
         {
+            AudioManager.StopLoopSound(ref audioPlayerLoopLastStand);    
             _isQuandilsefaitrevive = false;
         }
         if (_playerQueJeSoigne != null && !_playerQueJeSoigne._isLastStand)
@@ -518,6 +527,7 @@ public class PlayerInstance : MonoBehaviour , IActor
 
         if (_isLastStand && !_isQuandilsefaitrevive)
         {
+            transform.PlayLoopSound(AliasOnLastStandLoop,ref audioPlayerLoopLastStand);       
             _isQuandilsoigne = false;
             _timerDeath -= Time.deltaTime;
         }
@@ -544,7 +554,12 @@ public class PlayerInstance : MonoBehaviour , IActor
             _groundedPlayer = controller.isGrounded;
             if (_groundedPlayer && _playerVelocity.y < 0)
             {
-                _characterViewmodel._animator.SetBool(IsFalling, false);
+                if (_characterViewmodel._animator.GetBool(IsFalling))
+                {
+                    _characterViewmodel._animator.SetBool(IsFalling, false);
+                    transform.PlaySoundAtPosition(AliasOnLand);   
+                }
+                
                 _parachute.SetActive(false);
                 // set the velocity to 0
                 _playerVelocity.y = 0f;
@@ -557,7 +572,12 @@ public class PlayerInstance : MonoBehaviour , IActor
             }
             else
             {
-                _characterViewmodel._animator.SetBool(IsFalling, true);
+                if (!_characterViewmodel._animator.GetBool(IsFalling))
+                {
+                    _characterViewmodel._animator.SetBool(IsFalling, true);    
+                    transform.PlaySoundAtPosition(AliasOnJump);   
+                }
+               
             }
             // move the player
             Vector3 move = new Vector3(_movementInput.x, 0, 0);
@@ -570,10 +590,12 @@ public class PlayerInstance : MonoBehaviour , IActor
                 controller.Move(motion);
                 if (motion.magnitude > 0)
                 {
+                    transform.PlayLoopSound(AliasOnMoveLoop,ref audioPlayerLoopMove);
                     _characterViewmodel.Play(AnimState.Move);
                 }
                 else
                 {
+                    AudioManager.StopLoopSound(ref audioPlayerLoopMove);
                     _characterViewmodel.Play(AnimState.Idle);
                 }
             }
@@ -674,14 +696,19 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     private FXManager damagedFx;
     private static readonly int IsFalling = Animator.StringToHash("IsFalling");
+    private AudioPlayer audioPlayerLoopMove;
+    private AudioPlayer audioPlayerLoopLastStand;
 
     public void OnDown()
     {
+        AudioManager.StopLoopSound(ref audioPlayerLoopMove);    
+        AudioManager.StopLoopSound(ref audioPlayerLoopLastStand);        
         if (LevelManager.Players.Count == 1 || LevelManager.Instance.ReviveAmount <= 0)
         {
             OnDeath();
             return;
         }
+        transform.PlaySoundAtPosition(AliasOnLastStand);  
         AudioManager.PlaySoundAtPosition("announcer_player_down", Vector3.zero);
         damagedFx = FXManager.PlayFX(_fxDamaged,transform.position);
         _characterViewmodel.Play(AnimState.Down);
@@ -690,9 +717,12 @@ public class PlayerInstance : MonoBehaviour , IActor
 
     public void OnDeath()
     {
+        AudioManager.StopLoopSound(ref audioPlayerLoopMove);     
+        AudioManager.StopLoopSound(ref audioPlayerLoopLastStand);        
         _isDead = true;
         // TODO : Deplacer les evenement announcer dans son propre script
         AudioManager.PlaySoundAtPosition("announcer_player_eliminated", Vector3.zero);
+        AudioManager.PlaySoundAtPosition(AliasOnDeath,transform.position);    
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
         if(damagedFx != null)
             Destroy(damagedFx.gameObject);

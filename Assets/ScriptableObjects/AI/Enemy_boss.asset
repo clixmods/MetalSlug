@@ -31,6 +31,11 @@ MonoBehaviour:
   AliasOnMove: robot_move
   AliasOnSpawn: drone_spawn
   AliasOnAmbiant: drone_turbine_loop
+  AliasOnHit: None
+  AliasOnDamaged: mech_fail
+  AliasOnDamagedLoop: sparking_loop
+  AliasOnLowHealth: robo_sparks
+  AliasOnLowHealthLoop: sparking_loop
   ScoreDead: 500
   ScoreHit: 25
   FXLoopAmbiant: {fileID: 0}

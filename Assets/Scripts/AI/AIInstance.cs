@@ -48,7 +48,9 @@ public class AIInstance : MonoBehaviour , IActor
     #endregion
     
     [SerializeField] private AIScriptableObject aiScriptableObject;
-    
+    private AudioPlayer audioPlayerOnDamagedLoop;
+    private AudioPlayer audioPlayerOnLowHealthLoop;
+
 
     #region Properties
     private float AttackRange => aiScriptableObject.minDistanceToKeepWithTarget;
@@ -334,16 +336,19 @@ public class AIInstance : MonoBehaviour , IActor
         _health -= amount;
         eventGlobalAIHit?.Invoke(this);
         FXManager.PlayFX(_fxHit,transform.position,BehaviorAfterPlay.Nothing);
-
+        transform.PlaySoundAtPosition(aiScriptableObject.AliasOnHit);
         if (aiScriptableObject.Health * 0.6f > _health)
         {
             FXManager.PlayFX(_fxDamaged,transform.position,BehaviorAfterPlay.Nothing);
-
+            transform.PlaySoundAtPosition(aiScriptableObject.AliasOnDamaged);
+            transform.PlayLoopSound(aiScriptableObject.AliasOnDamagedLoop, ref audioPlayerOnDamagedLoop);
         }
         if (aiScriptableObject.Health * 0.2f > _health)
         {
             FXManager.PlayFX(_fxLowHealth,transform.position,BehaviorAfterPlay.Nothing);
-
+            transform.PlaySoundAtPosition(aiScriptableObject.AliasOnLowHealth);
+            transform.PlayLoopSound(aiScriptableObject.AliasOnLowHealthLoop, ref audioPlayerOnLowHealthLoop);
+            AudioManager.StopLoopSound(ref audioPlayerOnDamagedLoop,StopLoopBehavior.Direct);
         }
         
         _characterViewmodel.Play(AnimState.Damaged);
@@ -377,6 +382,8 @@ public class AIInstance : MonoBehaviour , IActor
         {
             UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position, ScoreDead);
         }
+        AudioManager.StopLoopSound(ref audioPlayerOnDamagedLoop,StopLoopBehavior.Direct);
+        AudioManager.StopLoopSound(ref audioPlayerOnLowHealthLoop,StopLoopBehavior.Direct);
         if(!noDestroy)
             Destroy(gameObject);
     }

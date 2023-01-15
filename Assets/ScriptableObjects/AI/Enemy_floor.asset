@@ -31,6 +31,11 @@ MonoBehaviour:
   AliasOnMove: robot_move
   AliasOnSpawn: drone_spawn
   AliasOnAmbiant: None
+  AliasOnHit: None
+  AliasOnDamaged: None
+  AliasOnDamagedLoop: None
+  AliasOnLowHealth: None
+  AliasOnLowHealthLoop: None
   ScoreDead: 50
   ScoreHit: 10
   FXLoopAmbiant: {fileID: 0}

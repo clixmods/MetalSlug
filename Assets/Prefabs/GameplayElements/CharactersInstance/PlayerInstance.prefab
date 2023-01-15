@@ -131,8 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryWeapon: {fileID: 11400000, guid: 61afb606298922f42903058adbc7a040, type: 2}
   grenadeWeapon: {fileID: 11400000, guid: d126fc2c3720bfa42a71b9d5e63ff125, type: 2}
-  weaponInstance: {fileID: 0}
-  grenadeInstance: {fileID: 0}
   highscoreTable: {fileID: 0}
   _cameraTarget: {fileID: 0}
   _parachute: {fileID: 8800944510913469405}
@@ -150,6 +148,12 @@ MonoBehaviour:
   FXMove: {fileID: 0}
   FXLoopDamaged: {fileID: 1781305419972960173, guid: 062ced69027a3594791036bb281773a9,
     type: 3}
+  AliasOnMoveLoop: bot_step
+  AliasOnJump: fly_bot_jump
+  AliasOnLand: fly_bot_jump_land
+  AliasOnLastStand: robo_sparks_short
+  AliasOnLastStandLoop: sparking_loop
+  AliasOnDeath: robo_sparks
   _team: 1
 --- !u!114 &4180758100284577546
 MonoBehaviour:
@@ -341,6 +345,7 @@ MonoBehaviour:
   rightHand: {fileID: 4191522626488635882}
   skinnedMeshRenderer: {fileID: 4511578851617284608}
   _animator: {fileID: 9157974660039497827}
+  ManageIsFalling: 1
 --- !u!114 &4223861522295262397
 MonoBehaviour:
   m_ObjectHideFlags: 0

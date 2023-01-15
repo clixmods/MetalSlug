@@ -37,6 +37,13 @@ public class AIScriptableObject : ScriptableObject
     [Aliase] public string AliasOnMove;
     [Aliase] public string AliasOnSpawn;
     [Aliase] public string AliasOnAmbiant;
+    [Aliase] public string AliasOnHit;
+    [Aliase] public string AliasOnDamaged;
+    [Aliase] public string AliasOnDamagedLoop;
+    [Aliase] public string AliasOnLowHealth;
+    [Aliase] public string AliasOnLowHealthLoop;
+
+
     [Header("Score")]
     public int ScoreDead = 50;
     public int ScoreHit = 10;

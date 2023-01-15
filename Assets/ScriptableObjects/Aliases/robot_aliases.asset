@@ -14,4 +14,419 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DontLoad: 0
   defaultMixerGroup: {fileID: 0}
-  aliases: []
+  aliases:
+  - name: mech_fail
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 6fcc712da3a70624088f011998abd3de, type: 3}
+    - {fileID: 8300000, guid: 6f265f90ca1ae3b4087bc8f24fc4729f, type: 3}
+    - {fileID: 8300000, guid: 07bcda0a3526bde4aa2ca65beefa2c36, type: 3}
+    - {fileID: 8300000, guid: bd2f608c0bb79ca48b80bc9b3ae2a7ae, type: 3}
+    - {fileID: 8300000, guid: 856496cd311330349af0c85a5d7ce5f6, type: 3}
+    - {fileID: 8300000, guid: 1b9dcb5383cbebe44a8ddd59242c12c3, type: 3}
+    - {fileID: 8300000, guid: 4ec3fb15af2ef64489ca1501a9422bca, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 0.981
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: sparking_loop
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: e5a69dc6c7c571a45bd678ad43f1c3e0, type: 3}
+    soundType: 0
+    randomizeClips: 0
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.96314204
+    maxVolume: 1
+    isLooping: 1
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 0.916
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: robo_sparks
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: c8193df9a6950984dbfcc57c713a7294, type: 3}
+    - {fileID: 8300000, guid: 9ff5570a7ba079c498fa98ae945b3c12, type: 3}
+    - {fileID: 8300000, guid: 8c1a4162c683c1c4a8115e24db2c7c4a, type: 3}
+    - {fileID: 8300000, guid: aeca285d27305a248b63387827a7bfcd, type: 3}
+    - {fileID: 8300000, guid: 44038a79a2747b04889b0145731d13a0, type: 3}
+    - {fileID: 8300000, guid: 83ba5b566b311fd44a0f06ed016f4534, type: 3}
+    - {fileID: 8300000, guid: 1fa85ad9936deac4d98a8b5b0cc6bc5a, type: 3}
+    - {fileID: 8300000, guid: 6b17d21e09049b14e9fb95a4cc65d46e, type: 3}
+    - {fileID: 8300000, guid: 9bb7b6d607f953c429ce4ba710ae6020, type: 3}
+    - {fileID: 8300000, guid: a246619317019ad41bdf1b21827bd0b3, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: robo_sparks_short
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 72995006398f5f94c9aa0345b482d5af, type: 3}
+    - {fileID: 8300000, guid: 32bce23551067be469bef8a83ee81a0d, type: 3}
+    - {fileID: 8300000, guid: 4c6927c574ba2e74eb118fba5bfac32f, type: 3}
+    - {fileID: 8300000, guid: 0dc4bcde2051cbe46a555dc562ca5f37, type: 3}
+    - {fileID: 8300000, guid: e54eb6b29770ee24a99d5f384bc1702f, type: 3}
+    - {fileID: 8300000, guid: ccd8a3b31e4f0f2478518ea20db2b37d, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: crawl_drag
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: bd55fb66525dfd54d80208a4952a8bd3, type: 3}
+    - {fileID: 8300000, guid: 0837f40647d3f5d448c83e817913d668, type: 3}
+    - {fileID: 8300000, guid: a1e6c4ecbfbc04049a779df480d3992b, type: 3}
+    - {fileID: 8300000, guid: 29fdef38b40b65d438afd62a661fd65b, type: 3}
+    - {fileID: 8300000, guid: 8a6ebb6541efc314280fe5b02f2c7112, type: 3}
+    - {fileID: 8300000, guid: 3957f82fe5817684c9b4f68d1d31362e, type: 3}
+    - {fileID: 8300000, guid: adf8562d15ca3a740b110d0717213352, type: 3}
+    - {fileID: 8300000, guid: 0513adc669cc49441862e115e1f85ce8, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: bot_bodyfall
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 2f48a443f9e82e54f938b460fc0a5555, type: 3}
+    - {fileID: 8300000, guid: 443b6fbb8537a3744bce235244575681, type: 3}
+    - {fileID: 8300000, guid: 4b6b6e5cb8de48b449ae2698f91867ac, type: 3}
+    - {fileID: 8300000, guid: 7db6af28618c2f14b89048a25a45fa28, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: bad_step
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: cbac578506e84574b9b78c12dfa9347c, type: 3}
+    - {fileID: 8300000, guid: 52735ee60af46b54aadf2d8a9b368ee1, type: 3}
+    - {fileID: 8300000, guid: ed88d58fd8de2774dab9f1c0f6eb17f4, type: 3}
+    - {fileID: 8300000, guid: 0cda59cc7458e704a881b4560110e975, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: fly_bot_jump
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 96725a75192c184489a83b679838dad1, type: 3}
+    - {fileID: 8300000, guid: 2623829c6d8451842863c220ab13c8e7, type: 3}
+    - {fileID: 8300000, guid: 2cda6f6596b12464798e89b9d2c6001b, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1
+  - name: fly_bot_jump_land
+    description: 
+    Tag: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 3801fb5000e25d14bb07c236ee518201, type: 3}
+    - {fileID: 8300000, guid: 8ec097782e7ff4942bc6872922353aad, type: 3}
+    - {fileID: 8300000, guid: 615849a8193ee3341965b7f17b59a671, type: 3}
+    soundType: 0
+    randomizeClips: 1
+    Secondary: 
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0
+    minVolume: 0.8
+    maxVolume: 0.8
+    isLooping: 0
+    startAliase: 
+    endAliase: 
+    UseDelayLoop: 0
+    minDelayLoop: 0
+    maxDelayLoop: 0
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 0
+    isPlaceholder: 1

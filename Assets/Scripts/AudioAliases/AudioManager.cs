@@ -187,41 +187,7 @@ namespace AudioAliase
             if(ShowDebugText)Debug.LogWarning($"AudioManager : Limits exceded for _audioSource, maybe you need to increase your audioSourcePoolSize (Size = {Instance.audioSourcePoolSize})");
             return false;
         }
-        // /// <summary>
-        // /// Play multiple sounds at desired position
-        // /// </summary>
-        // /// <param name="aliasesName"></param>
-        // /// <param name="position"></param>
-        // /// <param name="waitFinish"></param>
-        // private static void PlaySoundsAtPosition(string[] aliasesName, Vector3 position, bool waitFinish = true)
-        // {
-        //     if (waitFinish)
-        //     {
-        //         if (GetAudioPlayer(out AudioPlayer audioPlayer))
-        //         {
-        //             List<Aliase> aliases = new List<Aliase>();
-        //             for (int i = 0; i < aliasesName.Length; i++)
-        //             {
-        //                 if (GetSoundByAliase(aliasesName[i], out Aliase aliase))
-        //                 {
-        //                     //aliases.Add(aliase);
-        //                     audioPlayer._clips.Enqueue(aliase);
-        //                 }
-        //             }
-        //             audioPlayer.gameObject.transform.position = position;
-        //             audioPlayer.gameObject.SetActive(true);
-        //         }
-        //
-        //         return;
-        //     }
-        //
-        //     for (int i = 0; i < aliasesName.Length; i++)
-        //     {
-        //         PlaySoundAtPosition(aliasesName[i], position);
-        //     }
-        //
-        // }
-
+        
         public static void PauseAllAudio()
         {
             foreach (AudioPlayer aS in Instance._audioSource)
@@ -315,7 +281,8 @@ namespace AudioAliase
             }
             if (string.IsNullOrEmpty(aliaseName))
             {
-                throw new InvalidAliasesException("AudioManager : No specified aliases");
+               // throw new InvalidAliasesException("AudioManager : No specified aliases");
+               return;
             }
             if (!GetSoundByAliase(aliaseName, out Aliase clip))
             {
