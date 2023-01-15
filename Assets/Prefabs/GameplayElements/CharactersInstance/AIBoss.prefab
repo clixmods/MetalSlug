@@ -174,6 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aiScriptableObject: {fileID: 11400000, guid: 91751acf55a7d2e4581de687bdccc17c, type: 2}
+  _sleep: 0
 --- !u!114 &5085471204495297174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +192,7 @@ MonoBehaviour:
   rightHand: {fileID: 6313616844088046285}
   skinnedMeshRenderer: {fileID: 3633585932450665318}
   _animator: {fileID: 1690033049477340291}
+  ManageIsFalling: 1
 --- !u!1001 &5845997242404340869
 PrefabInstance:
   m_ObjectHideFlags: 0

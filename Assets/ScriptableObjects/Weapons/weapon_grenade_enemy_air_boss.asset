@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7509bfbe866eb0478e84dcbc907553c, type: 3}
+  m_Name: weapon_grenade_enemy_air_boss
+  m_EditorClassIdentifier: 
+  fireRate: 1.52
+  startAmmo: -1
+  damage: 5
+  burst: 1
+  bulletPerBurst: 3
+  delayBurstedBullet: 0.5
+  projectileSpeed: 5
+  projectileUseGravity: 1
+  projectileDestroyOnHit: 1
+  isGrenade: 1
+  prefabMeshWeapon: {fileID: 1198069101019903048, guid: 3a45366a65f6d574fbdbb1a67878e5dd,
+    type: 3}
+  prefabProjectile: {fileID: 3476202047971693012, guid: 2726d3747f85f77428be3df4684a507d,
+    type: 3}
+  AliasOnFire: grenade_shot
+  AliasOnAfterFire: wpn_pistol_shells_out
+  AliasOnImpact: grenade_explosion
+  AliasOnDrop: None
+  AliasOnEquip: wpn_pistol_equip
+  FXFire: {fileID: 4437842826240621923, guid: a47e88c3f3e5866478f6772133274c22, type: 3}
+  FXImpact: {fileID: 6430068609007164898, guid: 388792da69ccbba458a4ffee513a92b5,
+    type: 3}

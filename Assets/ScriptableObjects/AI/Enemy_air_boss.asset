@@ -10,19 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23c2599f918281c4bb79a4b4cfbe5df6, type: 3}
-  m_Name: Enemy_air_big
+  m_Name: Enemy_air_boss
   m_EditorClassIdentifier: 
   team: 2
-  _minDistanceToKeepWithTarget: 3
-  Health: 50
+  _minDistanceToKeepWithTarget: 0
+  Health: 150
   attackRange: 20
   attackRate: 2.78
   angleAim: 0.3
-  speed: 1
-  primaryWeapon: {fileID: 11400000, guid: f87defbb07da19f40aa890e2e1c62480, type: 2}
-  grenadeWeapon: {fileID: 11400000, guid: f87defbb07da19f40aa890e2e1c62480, type: 2}
+  canReajustAim: 0
+  speed: 3
+  primaryWeapon: {fileID: 11400000, guid: dff50014ae85a6c479383a4a02d612b4, type: 2}
+  grenadeWeapon: {fileID: 11400000, guid: dff50014ae85a6c479383a4a02d612b4, type: 2}
   CanFly: 1
-  minY: 3
+  LeftRightPattern: 1
+  minY: 7
   CanLoseTarget: 0
   SightRadius: 5
   LoseSightRadius: 10
@@ -30,11 +32,19 @@ MonoBehaviour:
   AliasOnMove: None
   AliasOnSpawn: drone_spawn
   AliasOnAmbiant: drone_turbine_loop
+  AliasOnHit: None
+  AliasOnDamaged: None
+  AliasOnDamagedLoop: None
+  AliasOnLowHealth: None
+  AliasOnLowHealthLoop: None
   ScoreDead: 50
-  ScoreHit: 5
+  ScoreHit: 10
   FXLoopAmbiant: {fileID: 0}
-  FXDeath: {fileID: 265171566773142626, guid: 60a3332fdc97a864ba0f3c84403659d8, type: 3}
+  FXDeath: {fileID: 3569629722445200204, guid: 03c781b395287474da4a6fa1d6baa793, type: 3}
   FXHit: {fileID: 6942642715644864728, guid: 6411d5d61108194429956fc31e94f0a8, type: 3}
-  FXLoopLowHealth: {fileID: 0}
-  FXLoopDamaged: {fileID: 0}
+  FXLoopLowHealth: {fileID: 1781255841430832962, guid: 979ca340f40956c48b52321671df15df,
+    type: 3}
+  FXLoopDamaged: {fileID: 1781305419972960173, guid: 062ced69027a3594791036bb281773a9,
+    type: 3}
   FXMove: {fileID: 0}
+  EarthquakeOnDeath: 0

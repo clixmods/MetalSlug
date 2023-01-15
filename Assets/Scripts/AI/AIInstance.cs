@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Numerics;
 using AudioAliase;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Vector3 = UnityEngine.Vector3;
 
 [SelectionBase]
 [RequireComponent(typeof(Rigidbody))]
@@ -30,7 +32,7 @@ public class AIInstance : MonoBehaviour , IActor
     private Rigidbody _rigidbody;
     private float _minDistanceToKeepWithTarget;
     private int _health;
-    private float _speed;
+ 
     private GameObject _target;
     private WeaponInstance _currentWeapon;
     private WeaponInstance _grenadeWeapon;
@@ -51,11 +53,18 @@ public class AIInstance : MonoBehaviour , IActor
     private AudioPlayer audioPlayerOnDamagedLoop;
     private AudioPlayer audioPlayerOnLowHealthLoop;
 
+    [SerializeField] private bool _sleep;
 
     #region Properties
     private float AttackRange => aiScriptableObject.minDistanceToKeepWithTarget;
     public int ScoreDead => aiScriptableObject.ScoreDead;
     public int ScoreHit => aiScriptableObject.ScoreHit;
+    private float speed;
+    public bool Sleep
+    {
+        get => _sleep;
+        set => _sleep = value;
+    }
     #endregion
 
     /// <summary>
@@ -90,8 +99,8 @@ public class AIInstance : MonoBehaviour , IActor
         _rigidbody = GetComponent<Rigidbody>();
         SpawnWeaponInstance();
         _minDistanceToKeepWithTarget = Random.Range( aiScriptableObject.minDistanceToKeepWithTarget, aiScriptableObject.minDistanceToKeepWithTarget * 1.5f);
-        _speed = Random.Range( aiScriptableObject.speed, aiScriptableObject.speed * 1.5f);
         InitFXInstance();
+        speed = aiScriptableObject.Speed;
     }
 
     private void SpawnWeaponInstance()
@@ -143,6 +152,11 @@ public class AIInstance : MonoBehaviour , IActor
         transform.PlayLoopSound(aiScriptableObject.AliasOnAmbiant, ref LoopAmbiant);
         AIInstances.Add(this);
         _attackCooldown = 3;
+        if (aiScriptableObject.CanFly)
+        {
+            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+            _rigidbody.useGravity = false;
+        }
     }
 
     private void OnDestroy()
@@ -155,6 +169,10 @@ public class AIInstance : MonoBehaviour , IActor
     // Update is called once per frame
     void Update()
     {
+        if (Sleep)
+        {
+            return;
+        }
         if (_target != null)
         {
             ThinkMovement();
@@ -181,21 +199,50 @@ public class AIInstance : MonoBehaviour , IActor
             _target = GetNearestPlayer();
         }
     }
+
+    
+    private bool patternGoRight;
     private void ThinkMovement()
     {
         var targetPosition = _target.transform.position;
+        if (aiScriptableObject.LeftRightPattern)
+        {
+            Vector3 directionToTarget = Vector3.zero;
+            
+            if (patternGoRight)
+            {
+                var rightTarget = new Vector3(CameraMotor.RightBoudary+10, aiScriptableObject.minY, 0);
+                directionToTarget = (rightTarget - transform.position).normalized;
+                if (Vector3.Distance(transform.position, rightTarget) < 1f)
+                {
+                    patternGoRight = false;
+                }
+            }
+            else
+            {
+                var leftTarget = new Vector3(CameraMotor.LeftBoudary-10, aiScriptableObject.minY, 0);
+                directionToTarget = (leftTarget - transform.position).normalized;
+                if (Vector3.Distance(transform.position, leftTarget) < 1f)
+                {
+                    patternGoRight = true;
+                }
+            }
+            _rigidbody.velocity = new Vector3 (directionToTarget.x * speed, directionToTarget.y * speed, 0);
+            return;
+        }
         if (DistanceWithTarget() > _minDistanceToKeepWithTarget)
         {
-            var newPosition = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * _speed);
+            var newPosition = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * speed);
             if (aiScriptableObject.CanFly)
             {
+                _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
                 newPosition.y = Mathf.Clamp(newPosition.y, aiScriptableObject.minY, 10);
                 _rigidbody.MovePosition(newPosition);
             }
             else
             {
                 var directionToTarget = (targetPosition - transform.position).normalized;
-                _rigidbody.velocity = new Vector3 (directionToTarget.x * _speed, _rigidbody.velocity.y, 0);
+                _rigidbody.velocity = new Vector3 (directionToTarget.x * speed, _rigidbody.velocity.y, 0);
                
             }
 

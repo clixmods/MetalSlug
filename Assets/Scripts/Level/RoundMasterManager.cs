@@ -12,7 +12,7 @@ public class RoundMasterManager : MonoBehaviour
     [SerializeField] private List<RoundManager> _roundManagers;
     [SerializeField] private RoundManager firstRoundManager;
     [SerializeField] private GameObject[] bossEnemies;
-    
+    [SerializeField] private int bossCanAppearAtRound = 2;
     private CameraMotor _cameraMotor;
     [Header("Aliases")]
     //[SerializeField][Aliase] private string RoundBossStart;
@@ -41,7 +41,9 @@ public class RoundMasterManager : MonoBehaviour
             AudioManager.PlayLoopSound(musicBg ,Vector3.zero, ref _audioPlayerBgMusic);
             cachedVolume = _audioPlayerBgMusic.Source.volume;
         }
-            
+
+        PostLevelManagerOneventPostLevelRestart();
+
     }
 
     private void LevelManagerOneventResetSession()
@@ -70,21 +72,34 @@ public class RoundMasterManager : MonoBehaviour
     
     private void PostLevelManagerOneventPostLevelRestart()
     {
-        AudioManager.PlayLoopSound(musicBg ,Vector3.zero, ref _audioPlayerBgMusic);
-        cachedVolume = _audioPlayerBgMusic.Source.volume;
-        int roundBoss = Random.Range(1, _roundManagers.Count);
-        var boss = _roundManagers[roundBoss].SpawnBoss(bossEnemies[Random.Range(0, bossEnemies.Length)],false, true);
-        boss.eventAIDeath += BossOneventAIDeath;
-        _cameraMotor.rightBoundary = boss.transform.position.x -10;
-        
-        _roundManagers[roundBoss].EventRoundTriggered += OneventRoundTriggered;
+        if (bossCanAppearAtRound <= LevelManager.Instance.CurrentRound)
+        {
+            if (_audioPlayerBgMusic == null)
+            {
+                AudioManager.PlayLoopSound(musicBg, Vector3.zero, ref _audioPlayerBgMusic);
+                cachedVolume = _audioPlayerBgMusic.Source.volume;
+            }
+
+            int roundBoss = Random.Range(1, _roundManagers.Count);
+            var boss = _roundManagers[roundBoss].SpawnBoss(bossEnemies[Random.Range(0, bossEnemies.Length)],false, true);
+            boss.Sleep = true;
+            boss.eventAIDeath += BossOneventAIDeath;
+            _cameraMotor.rightBoundary = boss.transform.position.x -10;
+            
+            _roundManagers[roundBoss].EventRoundTriggered += OneventRoundTriggered;
+            _roundManagers[roundBoss].EventRoundTriggered += manager =>
+            {
+                boss.Sleep = false;
+            };
+        }
     }
 
-    private void OneventRoundTriggered(RoundManager roundmanager)
+    private void OneventRoundTriggered(RoundManager roundmanager = null)
     {
         
         AudioManager.PlayLoopSound(musicBgBoss ,Vector3.zero, ref _audioPlayerBgBossMusic);
         AudioManager.PlaySoundAtPosition(bossAnnouncer);
+        
         
         roundmanager.EventRoundTriggered -= OneventRoundTriggered;
     }

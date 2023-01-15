@@ -137,8 +137,8 @@ MonoBehaviour:
   boundY: 1.5
   speed: 0.15
   cameraTransform: {fileID: 5144863845005034264}
-  leftBoundary: -2
-  rightBoundary: 100
+  _leftBoundary: 0
+  _rightBoundary: 250
 --- !u!1 &6449773270195800116
 GameObject:
   m_ObjectHideFlags: 0

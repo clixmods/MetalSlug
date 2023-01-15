@@ -23,6 +23,7 @@ MonoBehaviour:
   primaryWeapon: {fileID: 11400000, guid: f87defbb07da19f40aa890e2e1c62480, type: 2}
   grenadeWeapon: {fileID: 11400000, guid: f87defbb07da19f40aa890e2e1c62480, type: 2}
   CanFly: 1
+  LeftRightPattern: 0
   minY: 3
   CanLoseTarget: 0
   SightRadius: 5
@@ -31,10 +32,15 @@ MonoBehaviour:
   AliasOnMove: None
   AliasOnSpawn: drone_spawn
   AliasOnAmbiant: drone_turbine_loop
+  AliasOnHit: None
+  AliasOnDamaged: None
+  AliasOnDamagedLoop: None
+  AliasOnLowHealth: None
+  AliasOnLowHealthLoop: None
   ScoreDead: 50
   ScoreHit: 10
   FXLoopAmbiant: {fileID: 0}
-  FXDeath: {fileID: 265171566773142626, guid: 60a3332fdc97a864ba0f3c84403659d8, type: 3}
+  FXDeath: {fileID: 3569629722445200204, guid: 03c781b395287474da4a6fa1d6baa793, type: 3}
   FXHit: {fileID: 6942642715644864728, guid: 6411d5d61108194429956fc31e94f0a8, type: 3}
   FXLoopLowHealth: {fileID: 0}
   FXLoopDamaged: {fileID: 0}

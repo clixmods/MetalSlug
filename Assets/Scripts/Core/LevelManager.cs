@@ -186,7 +186,8 @@ public class LevelManager : MonoBehaviour
         {
             foreach (var ai in AIInstance.AIInstances)
             {
-                ai.OnDown();
+                if(!ai.Sleep)
+                    ai.OnDown();
             }
         }
     }

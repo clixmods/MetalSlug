@@ -17,11 +17,29 @@ public class CameraMotor : MonoBehaviour
     // the left limit
     private float _leftBoundaryInitial;
     private float _rightBoundaryInitial;
+    [SerializeField] private float _leftBoundary;
+    [SerializeField] private float _rightBoundary;
+    public float leftBoundary
+    {
+        get => _leftBoundary;
+        set
+        {
+            _leftBoundary = value;
+            LeftBoudary = value;
+        }
+    }
     
-    public float leftBoundary;
-    // the right limit
-    public float rightBoundary;
-    
+    public float rightBoundary
+    {
+        get => _rightBoundary;
+        set
+        {
+            _rightBoundary = value;
+            RightBoudary = value;
+        }
+    }
+    public static float RightBoudary;
+    public static float LeftBoudary;
     private void Awake()
     {
         _leftBoundaryInitial = leftBoundary;

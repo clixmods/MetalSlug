@@ -15,7 +15,8 @@ public class AIScriptableObject : ScriptableObject
     public float attackRate = 0.5f;
     public float angleAim;
     public bool canReajustAim = true;
-    public float speed = 1;
+    [SerializeField] private float speed = 1;
+    public float Speed => Random.Range( speed, speed * 1.5f);
     public WeaponScriptableObject primaryWeapon;
     public WeaponScriptableObject grenadeWeapon;
     
@@ -23,6 +24,7 @@ public class AIScriptableObject : ScriptableObject
 
     [Header("Aerial Setting")] 
     public bool CanFly = false;
+    public bool LeftRightPattern;
     public float minY = 3;
 
     [Header("Detection")] 
