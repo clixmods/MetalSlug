@@ -29,7 +29,8 @@ public class UIRevivePlayerPanel : MonoBehaviour
     {
         if (_playerInstance != null && _playerInstance.IsLastStand)
         {
-            transform.position = Camera.main.WorldToScreenPoint(PlayerInstance.transform.position + _offset ) ;
+            var positionWithOffset = PlayerInstance.transform.position + _offset;
+            transform.position = positionWithOffset.GetPositionInWorldToScreenPoint() ;
             textCounter.text = Math.Round(_playerInstance.TimerDeath, 1).ToString();
             _canvasGroup.alpha = 1;
             if(_playerInstance.IsQuandilsefaitrevive)

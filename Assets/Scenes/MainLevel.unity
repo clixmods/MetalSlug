@@ -577,8 +577,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4712912006930044336, guid: b05dd5da0c397bb48a057d3a15311f6d,
         type: 3}
-      propertyPath: playOnAwake
-      value: 0
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712912006930044336, guid: b05dd5da0c397bb48a057d3a15311f6d,
+        type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5144863845005034264, guid: b05dd5da0c397bb48a057d3a15311f6d,
         type: 3}
@@ -659,6 +664,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8173291974539442207, guid: b05dd5da0c397bb48a057d3a15311f6d,
+        type: 3}
+      propertyPath: m_SortMode
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b05dd5da0c397bb48a057d3a15311f6d, type: 3}

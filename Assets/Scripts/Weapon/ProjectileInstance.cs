@@ -18,19 +18,20 @@ public class ProjectileInstance : MonoBehaviour
     const float WorldToViewportPointValueNegative = -0.5f;
     const float WorldToViewportPointValuePositive = 1.5f;
     private FXManager _fxImpact;
-    
+
+    public Rigidbody rigidbody => _rigidbody;
     
     private void Awake()
     {
         gameObject.layer = IndexLayerProjectile;
         _collider = GetComponent<Collider>();
-
+        _rigidbody = GetComponent<Rigidbody>();
     
     }
 
     private void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        
         _rigidbody.useGravity = fromWeapon.weaponData.projectileUseGravity;
         teamEnum = fromWeapon.Owner.GetComponent<IActor>().Team;
         if (fromWeapon.weaponData.isGrenade)
@@ -54,11 +55,7 @@ public class ProjectileInstance : MonoBehaviour
             Destroy(gameObject);
         }
         // Check if the object is out of the camera
-        Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
-        
-        bool isOutCameraNegative = position.x < WorldToViewportPointValueNegative || position.y < WorldToViewportPointValueNegative;
-        bool isOutCameraPositive =  position.x > WorldToViewportPointValuePositive || position.y > WorldToViewportPointValuePositive;
-        if(isOutCameraNegative || isOutCameraPositive )
+        if(transform.position.IsOutOfCameraVision(WorldToViewportPointValueNegative,WorldToViewportPointValuePositive) )
         {
             Destroy(gameObject);
         }
@@ -94,7 +91,7 @@ public class ProjectileInstance : MonoBehaviour
     {
         if (Application.isPlaying)
         {
-            Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
+            Vector3 position = transform.position.GetPositionInWorldToViewportPointCamera();
             Handles.Label(transform.position, $" WorldToScreenPoint{position }");
         }
     }

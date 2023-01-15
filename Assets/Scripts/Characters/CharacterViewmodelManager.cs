@@ -26,18 +26,13 @@ public class CharacterViewmodelManager : MonoBehaviour
     [SerializeField] private GameObject viewModel;
     public GameObject leftHand;
     public GameObject rightHand;
-
-
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public Animator _animator;
-
     public bool ManageIsFalling = true;
-    
     private static readonly int IsFalling = Animator.StringToHash("IsFalling");
-
-    private const int LOWERBODY = 1;
-    private const int UPPERBODY = 2;
-    
+    private static readonly int ShootingUp = Animator.StringToHash("ShootingUp");
+    private static readonly int Shooting = Animator.StringToHash("Shooting");
+    private static readonly int IsRunning = Animator.StringToHash("IsRunning");
     public Vector3 Direction
     {
         set
@@ -46,7 +41,6 @@ public class CharacterViewmodelManager : MonoBehaviour
             var ogRotation = transform.eulerAngles;
             transform.LookAt(direction);
             transform.eulerAngles = new Vector3(ogRotation.x, transform.eulerAngles.y, ogRotation.z);
-
         }
     }
     private void Awake()
@@ -61,7 +55,6 @@ public class CharacterViewmodelManager : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
         leftHand ??= gameObject;
         rightHand ??= gameObject;
-
     }
 
     public void Play(AnimState state)
@@ -70,28 +63,20 @@ public class CharacterViewmodelManager : MonoBehaviour
         {
             Debug.LogWarning("No Animator for this actor ", gameObject);
             return;
-            
         }
         switch (state)
         {
             case AnimState.Idle:
-                //_animator.Play("Idle", LOWERBODY );
-                _animator.SetBool("IsRunning", false);
+                _animator.SetBool(IsRunning, false);
                 break;
             case AnimState.Move:
-                _animator.SetBool("IsRunning", true);
-                // if(!_animator.GetCurrentAnimatorStateInfo(LOWERBODY).IsName("Running"))
-                //     _animator.Play("Running", LOWERBODY );
-                // if(!_animator.GetCurrentAnimatorStateInfo(UPPERBODY).IsName("Running"))
-                //     _animator.Play("Running", UPPERBODY );
+                _animator.SetBool(IsRunning, true);
                 break;
             case AnimState.Fire:
-                _animator.SetTrigger("Shooting");
-                //_animator.Play("Shooting", UPPERBODY );
+                _animator.SetTrigger(Shooting);
                 break;
             case AnimState.FireUp:
-                _animator.SetTrigger("ShootingUp");
-                //_animator.Play("Shooting", UPPERBODY );
+                _animator.SetTrigger(ShootingUp);
                 break;
             case AnimState.Damaged:
                // _animator.Play("Fall", UPPERBODY );

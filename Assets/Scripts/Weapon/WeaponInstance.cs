@@ -112,14 +112,13 @@ public class WeaponInstance : MonoBehaviour
         var projectileComponent = projectileInstance.GetComponent<ProjectileInstance>();
         projectileComponent.fromWeapon = this;
         projectileComponent.damage = weaponData.damage;
-        if (projectileInstance.TryGetComponent<Rigidbody>(out var _rigidbody))
+        if (projectileComponent.rigidbody != null)
         {
-            _rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
+            projectileComponent.rigidbody.AddForce(direction * ProjectileSpeed, ForceMode.Impulse);
             projectileInstance.transform.LookAt(transform.position + direction);
         }
        
         var fxManager = FXManager.PlayFX(_fxFire,transform.position);
-       // fxManager.transform.rotation = transform.rotation;
         if(!isBursting)
             _cooldown = FireRate;
         

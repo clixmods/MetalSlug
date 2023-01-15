@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 2
   _minDistanceToKeepWithTarget: 39.55
-  Health: 275
+  Health: 200
   attackRange: 20
   attackRate: 3
   angleAim: 0.3
+  canReajustAim: 1
   speed: 0
   primaryWeapon: {fileID: 11400000, guid: d900c05c144c01e47816245304013a16, type: 2}
   grenadeWeapon: {fileID: 11400000, guid: 4107b44caa161114b905da0d271aec0b, type: 2}

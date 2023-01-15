@@ -563,14 +563,9 @@ public class PlayerInstance : MonoBehaviour , IActor
             Vector3 move = new Vector3(_movementInput.x, 0, 0);
 
             var motion = move.normalized * Time.deltaTime * _playerSpeed;
-
-            // Check if the object is out of the camera
-            Vector3 position = Camera.main.WorldToViewportPoint(transform.position + motion);
-
-            bool isOutCameraNegative = position.x < 0.1f || position.y < 0.1f;
-            bool isOutCameraPositive = position.x > 0.9f || position.y > 0.9f;
-
-            if (!(isOutCameraNegative || isOutCameraPositive) )
+            
+            var positionWithMotion = transform.position + motion;
+            if (!positionWithMotion.IsOutOfCameraVision(0.1f,0.9f) )
             {
                 controller.Move(motion);
                 if (motion.magnitude > 0)
@@ -584,13 +579,12 @@ public class PlayerInstance : MonoBehaviour , IActor
             }
             else
             {
-                if (isOutCameraNegative)
+                if (positionWithMotion.IsOutCameraNegative(0.1f))
                 {
                     controller.Move(Vector3.right * Time.deltaTime * _playerSpeed);
                     _characterViewmodel.Play(AnimState.Move);
-                   
                 }
-                if (isOutCameraPositive)
+                if (positionWithMotion.IsOutCameraPositive(0.9f))
                 {
                     controller.Move(Vector3.left * Time.deltaTime * _playerSpeed);
                     _characterViewmodel.Play(AnimState.Move);
@@ -710,7 +704,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
+            Vector3 position = transform.position.GetPositionInWorldToViewportPointCamera();
             Handles.Label(transform.position, $" WorldToScreenPoint{position }");
         }
     #endif
