@@ -21,6 +21,7 @@ MonoBehaviour:
   projectileSpeed: 5
   projectileUseGravity: 0
   projectileDestroyOnHit: 1
+  isGrenade: 0
   prefabMeshWeapon: {fileID: 1198069101019903048, guid: 3a45366a65f6d574fbdbb1a67878e5dd,
     type: 3}
   prefabProjectile: {fileID: 3476202047971693012, guid: 23ab9c3f9c6408749987cee067ecaa65,
@@ -30,4 +31,5 @@ MonoBehaviour:
   AliasOnImpact: None
   AliasOnDrop: None
   AliasOnEquip: wpn_pistol_equip
-  FXFire: {fileID: 2913552336416776031, guid: a66038cebc8bbcd4a8bf9e5537d1425d, type: 3}
+  FXFire: {fileID: 2913552336416776031, guid: b49ae8c0efad5c549970551c0ad85889, type: 3}
+  FXImpact: {fileID: 0}

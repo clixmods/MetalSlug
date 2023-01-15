@@ -19,7 +19,7 @@ public class FXManager : MonoBehaviour
       
         if (prefab != null)
         {
-            var gameObject = Instantiate(prefab , position,  Quaternion.identity,parent);
+            var gameObject = Instantiate(prefab , position,  prefab.transform.rotation,parent);
             fxManager = gameObject.AddComponent<FXManager>();
         }
           
