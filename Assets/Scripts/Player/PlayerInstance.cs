@@ -633,6 +633,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     public void Revive()
     {
         eventPlayerRevive?.Invoke(this);
+        _movementInput = Vector2.zero;
+        _aimDir = Vector2.right;
         _characterViewmodel.Play(AnimState.Revived);
         _isLastStand = false;
         _jumped = false;

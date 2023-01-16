@@ -298,7 +298,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Grenade
+  m_text: Mine
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db978474d0b0dad47a4ef0686f90c3a9, type: 2}
   m_sharedMaterial: {fileID: 8947056213074785944, guid: db978474d0b0dad47a4ef0686f90c3a9,

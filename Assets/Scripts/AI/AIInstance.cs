@@ -158,7 +158,7 @@ public class AIInstance : MonoBehaviour , IActor
             ThinkMovement();
             ThinkAttack();
             ThinkTargetPerception();
-            if (!_target.GetComponent<PlayerInstance>().IsAlive)
+            if (_target != null && !_target.GetComponent<PlayerInstance>().IsAlive)
             {
                 _target = null;
             }    
