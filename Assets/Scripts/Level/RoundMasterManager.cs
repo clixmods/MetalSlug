@@ -48,7 +48,7 @@ public class RoundMasterManager : MonoBehaviour
 
         if(roundBoss != 0)
         {
-            _roundManagers[roundBoss].eventRoundTriggered -= OneventRoundTriggered;
+            _roundManagers[roundBoss].EventRoundTriggered -= OneventRoundTriggered;
             roundBoss = 0;
         }
     }
@@ -79,8 +79,6 @@ public class RoundMasterManager : MonoBehaviour
     
     private void PostLevelManagerOneventPostLevelRestart()
     {
-        
-      
         if (bossCanAppearAtRound <= LevelManager.Instance.CurrentRound)
         {
             if (_audioPlayerBgMusic == null)
