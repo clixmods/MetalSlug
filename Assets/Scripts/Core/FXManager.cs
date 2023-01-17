@@ -55,18 +55,15 @@ public class FXManager : MonoBehaviour
     {
         _particleSystem = GetComponent<ParticleSystem>();
     }
-
     private void Start()
     {
         _particleSystem = GetComponent<ParticleSystem>();
         var shapeParameters = _particleSystem.shape;
         if(shapeParameters.shapeType == ParticleSystemShapeType.SkinnedMeshRenderer)
         {
-            //shapeParameters.shapeType = ParticleSystemShapeType.SkinnedMeshRenderer;
             shapeParameters.skinnedMeshRenderer = skinnedMeshRenderer;
         }
     }
-
     private FXManager Play(Vector3 position, BehaviorAfterPlay behaviorAfterPlay = BehaviorAfterPlay.Nothing)
     {
         gameObject.SetActive(true);

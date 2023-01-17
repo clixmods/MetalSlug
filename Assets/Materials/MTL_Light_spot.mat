@@ -10,7 +10,6 @@ Material:
   m_Name: MTL_Light_spot
   m_Shader: {fileID: 4800000, guid: b7839dad95683814aa64166edc107ae2, type: 3}
   m_ValidKeywords:
-  - _COLORADDSUBDIFF_ON
   - _DISTORTION_ON
   - _EMISSION
   - _FADING_ON
@@ -89,15 +88,15 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _Blend: 2
+    - _Blend: 0
     - _BlendOp: 0
     - _BumpScale: 1
     - _CameraFadingEnabled: 1
-    - _CameraFarFadeDistance: 33.17
-    - _CameraNearFadeDistance: 8.62
+    - _CameraFarFadeDistance: 17.42
+    - _CameraNearFadeDistance: 6.8
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorMode: 1
+    - _ColorMode: 0
     - _Cull: 0
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -106,7 +105,7 @@ Material:
     - _DistortionEnabled: 1
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0.1
-    - _DstBlend: 1
+    - _DstBlend: 10
     - _EnvironmentReflections: 1
     - _FlipbookBlending: 1
     - _FlipbookMode: 0
@@ -122,7 +121,7 @@ Material:
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 1
-    - _SoftParticlesFarFadeDistance: 7.36
+    - _SoftParticlesFarFadeDistance: 1.44
     - _SoftParticlesNearFadeDistance: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
@@ -131,13 +130,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0.46666667}
     - _BaseColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
-    - _CameraFadeParams: {r: 8.62, g: 0.0407332, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 2.6082377, g: 1.3655695, b: 0, a: 1}
+    - _CameraFadeParams: {r: 6.8, g: 0.09416196, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.46666667}
+    - _EmissionColor: {r: 1.7411007, g: 1.1030009, b: 0.39197555, a: 1}
     - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
-    - _SoftParticleFadeParams: {r: 0, g: 0.13586956, b: 0, a: 0}
+    - _SoftParticleFadeParams: {r: 0, g: 0.6944444, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &9078914654186122284
