@@ -498,6 +498,244 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PlayerUI"",
+            ""id"": ""c9dfa6bf-789d-4046-824d-2641981e315d"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""2690b801-8e49-49a1-a566-214d043a3e18"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""baa6894b-09a9-4848-8272-d24f1895f741"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Joining"",
+                    ""type"": ""Button"",
+                    ""id"": ""7318156f-c309-4d1b-b393-5e45f8b6ab12"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot1"",
+                    ""type"": ""Button"",
+                    ""id"": ""4a2fb061-10a9-4e2e-9bb7-e7d42841348f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShootGrenade"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e9664fc-9fbc-4a0b-abb8-9a945da7f047"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Revive"",
+                    ""type"": ""Button"",
+                    ""id"": ""13121fe1-32e0-422a-89f8-03c7b8a1ed77"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d244990c-740f-488f-984d-351d5ebf3974"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7293ca4-b753-4244-9a49-92259047be20"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""c0e7465e-2df9-471a-b725-4ac7620db486"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""4c3c4ccd-8360-4cd3-a758-c2de702d4111"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""34cdab4f-9663-4af9-89e5-47c4d05767aa"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""d1175614-9421-4737-8a8a-ac6fed499347"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a14fe2d3-14a4-4a27-bc12-2778579b7f4f"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc2cb5e8-9007-4e6d-8fa1-d87a14ced694"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2afea936-29eb-429e-b0ed-74091cc0791d"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Joining"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec600215-dcec-45a1-88fc-69339c937acc"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Joining"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a7c0432-3836-41e6-b0ca-edbba0d9f5c8"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Shoot1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63b0342c-3051-426b-9455-a2304b37f67f"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Shoot1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e4fccdd-a9fa-4a7a-a757-93cdfa69cc52"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ShootGrenade"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42e8a149-08ac-44cb-af14-0855154072da"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""ShootGrenade"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6b6f563a-4e95-4f02-9a43-dbd0ca037be0"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": ""Hold(duration=3)"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Revive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2463ef81-ee10-4578-89f9-52d9e0195418"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": ""Hold(duration=3)"",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Revive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -541,6 +779,14 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Player2_Shoot1 = m_Player2.FindAction("Shoot1", throwIfNotFound: true);
         m_Player2_ShootGrenade = m_Player2.FindAction("ShootGrenade", throwIfNotFound: true);
         m_Player2_Revive = m_Player2.FindAction("Revive", throwIfNotFound: true);
+        // PlayerUI
+        m_PlayerUI = asset.FindActionMap("PlayerUI", throwIfNotFound: true);
+        m_PlayerUI_Movement = m_PlayerUI.FindAction("Movement", throwIfNotFound: true);
+        m_PlayerUI_Jump = m_PlayerUI.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerUI_Joining = m_PlayerUI.FindAction("Joining", throwIfNotFound: true);
+        m_PlayerUI_Shoot1 = m_PlayerUI.FindAction("Shoot1", throwIfNotFound: true);
+        m_PlayerUI_ShootGrenade = m_PlayerUI.FindAction("ShootGrenade", throwIfNotFound: true);
+        m_PlayerUI_Revive = m_PlayerUI.FindAction("Revive", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -742,6 +988,79 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         }
     }
     public Player2Actions @Player2 => new Player2Actions(this);
+
+    // PlayerUI
+    private readonly InputActionMap m_PlayerUI;
+    private IPlayerUIActions m_PlayerUIActionsCallbackInterface;
+    private readonly InputAction m_PlayerUI_Movement;
+    private readonly InputAction m_PlayerUI_Jump;
+    private readonly InputAction m_PlayerUI_Joining;
+    private readonly InputAction m_PlayerUI_Shoot1;
+    private readonly InputAction m_PlayerUI_ShootGrenade;
+    private readonly InputAction m_PlayerUI_Revive;
+    public struct PlayerUIActions
+    {
+        private @PlayerInputs m_Wrapper;
+        public PlayerUIActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_PlayerUI_Movement;
+        public InputAction @Jump => m_Wrapper.m_PlayerUI_Jump;
+        public InputAction @Joining => m_Wrapper.m_PlayerUI_Joining;
+        public InputAction @Shoot1 => m_Wrapper.m_PlayerUI_Shoot1;
+        public InputAction @ShootGrenade => m_Wrapper.m_PlayerUI_ShootGrenade;
+        public InputAction @Revive => m_Wrapper.m_PlayerUI_Revive;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerUI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerUIActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerUIActions instance)
+        {
+            if (m_Wrapper.m_PlayerUIActionsCallbackInterface != null)
+            {
+                @Movement.started -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnMovement;
+                @Jump.started -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnJump;
+                @Joining.started -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnJoining;
+                @Joining.performed -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnJoining;
+                @Joining.canceled -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnJoining;
+                @Shoot1.started -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnShoot1;
+                @Shoot1.performed -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnShoot1;
+                @Shoot1.canceled -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnShoot1;
+                @ShootGrenade.started -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnShootGrenade;
+                @ShootGrenade.performed -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnShootGrenade;
+                @ShootGrenade.canceled -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnShootGrenade;
+                @Revive.started -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnRevive;
+                @Revive.performed -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnRevive;
+                @Revive.canceled -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnRevive;
+            }
+            m_Wrapper.m_PlayerUIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Joining.started += instance.OnJoining;
+                @Joining.performed += instance.OnJoining;
+                @Joining.canceled += instance.OnJoining;
+                @Shoot1.started += instance.OnShoot1;
+                @Shoot1.performed += instance.OnShoot1;
+                @Shoot1.canceled += instance.OnShoot1;
+                @ShootGrenade.started += instance.OnShootGrenade;
+                @ShootGrenade.performed += instance.OnShootGrenade;
+                @ShootGrenade.canceled += instance.OnShootGrenade;
+                @Revive.started += instance.OnRevive;
+                @Revive.performed += instance.OnRevive;
+                @Revive.canceled += instance.OnRevive;
+            }
+        }
+    }
+    public PlayerUIActions @PlayerUI => new PlayerUIActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -770,6 +1089,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnRevive(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
+    {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnJoining(InputAction.CallbackContext context);
+        void OnShoot1(InputAction.CallbackContext context);
+        void OnShootGrenade(InputAction.CallbackContext context);
+        void OnRevive(InputAction.CallbackContext context);
+    }
+    public interface IPlayerUIActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);

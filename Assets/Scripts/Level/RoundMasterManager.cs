@@ -24,6 +24,7 @@ public class RoundMasterManager : MonoBehaviour
     private AudioPlayer _audioPlayerBgMusic;
     private AudioPlayer _audioPlayerBgBossMusic;
     private float cachedVolume;
+    int roundBoss;
     private void Awake()
     {
         GetValues();
@@ -44,6 +45,12 @@ public class RoundMasterManager : MonoBehaviour
 
         PostLevelManagerOneventPostLevelRestart();
 
+
+        if(roundBoss != 0)
+        {
+            _roundManagers[roundBoss].eventRoundTriggered -= OneventRoundTriggered;
+            roundBoss = 0;
+        }
     }
 
     private void LevelManagerOneventResetSession()
@@ -72,6 +79,8 @@ public class RoundMasterManager : MonoBehaviour
     
     private void PostLevelManagerOneventPostLevelRestart()
     {
+        
+      
         if (bossCanAppearAtRound <= LevelManager.Instance.CurrentRound)
         {
             if (_audioPlayerBgMusic == null)
@@ -80,7 +89,7 @@ public class RoundMasterManager : MonoBehaviour
                 cachedVolume = _audioPlayerBgMusic.Source.volume;
             }
 
-            int roundBoss = Random.Range(1, _roundManagers.Count);
+            roundBoss = Random.Range(1, _roundManagers.Count);
             var boss = _roundManagers[roundBoss].SpawnBoss(bossEnemies[Random.Range(0, bossEnemies.Length)],false, true);
             boss.Sleep = true;
             boss.eventAIDeath += BossOneventAIDeath;
