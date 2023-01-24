@@ -26,13 +26,21 @@ public class CharacterViewmodelManager : MonoBehaviour
     [SerializeField] private GameObject viewModel;
     public GameObject leftHand;
     public GameObject rightHand;
-    public SkinnedMeshRenderer skinnedMeshRenderer;
-    public Animator _animator;
+
+    private SkinnedMeshRenderer _skinnedMeshRenderer;
+    public SkinnedMeshRenderer SkinnedMeshRenderer => _skinnedMeshRenderer;
+    private Animator _animator;
     public bool ManageIsFalling = true;
-    private static readonly int IsFalling = Animator.StringToHash("IsFalling");
-    private static readonly int ShootingUp = Animator.StringToHash("ShootingUp");
-    private static readonly int Shooting = Animator.StringToHash("Shooting");
-    private static readonly int IsRunning = Animator.StringToHash("IsRunning");
+    public static readonly int IsFalling = Animator.StringToHash("IsFalling");
+    public static readonly int ShootingUp = Animator.StringToHash("ShootingUp");
+    public static readonly int Shooting = Animator.StringToHash("Shooting");
+    public static readonly int IsRunning = Animator.StringToHash("IsRunning");
+    public static readonly int ShootingDown = Animator.StringToHash("ShootingDown");
+    public static readonly int LookUp = Animator.StringToHash("LookUp");
+    public static readonly int LookDown = Animator.StringToHash("LookDown");
+    public static readonly int Down = Animator.StringToHash("Down");
+    public static readonly int Revived = Animator.StringToHash("Revived");
+
     public Vector3 Direction
     {
         set
@@ -51,12 +59,21 @@ public class CharacterViewmodelManager : MonoBehaviour
             this.enabled = false;
         }
         _rigidbody = GetComponent<Rigidbody>();
-        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        _skinnedMeshRenderer ??= GetComponentInChildren<SkinnedMeshRenderer>();
         _animator = GetComponentInChildren<Animator>();
         leftHand ??= gameObject;
         rightHand ??= gameObject;
     }
 
+    public bool GetAnimatorBool(int id)
+    {
+        return _animator.GetBool(id);
+    }
+
+    public void SetAnimatorBool(int id, bool value)
+    {
+        _animator.SetBool(id, value);
+    }
     public void Play(AnimState state)
     {
         if (_animator == null)
@@ -88,31 +105,24 @@ public class CharacterViewmodelManager : MonoBehaviour
                 //_animator.SetBool("IsFalling", true);
                 break;
             case AnimState.FireDown:
-                _animator.SetTrigger("ShootingDown");
+                _animator.SetTrigger(ShootingDown);
                 break;
             case AnimState.LookUp:
-                _animator.SetTrigger("LookUp");
+                _animator.SetTrigger(LookUp);
                 break;
             case AnimState.LookDown:
-                _animator.SetTrigger("LookDown");
+                _animator.SetTrigger(LookDown);
                 break;
             case AnimState.Down:
-                _animator.SetTrigger("Down");
+                _animator.SetTrigger(Down);
                 break;
             case AnimState.Revived:
-                _animator.SetTrigger("Revived");
+                _animator.SetTrigger(Revived);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {

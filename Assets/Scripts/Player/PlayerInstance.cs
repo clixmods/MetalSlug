@@ -1,5 +1,7 @@
 using AudioAliase;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -121,6 +123,8 @@ public class PlayerInstance : MonoBehaviour , IActor
     [SerializeField] private TeamEnum _team;
     private CharacterViewmodelManager _characterViewmodel;
 
+    [SerializeField] private LayerMask groundLayerMask;
+    float distToGround;
     private void Awake()
     {
         _characterViewmodel = GetComponent<CharacterViewmodelManager>();
@@ -129,15 +133,17 @@ public class PlayerInstance : MonoBehaviour , IActor
         timerInvulnerability = 3f;
         _timerDeath = 15f;
         InitFXInstance();
+        
+        
     }
     private void InitFXInstance()
     {
         _fxDeath = FXManager.InitFX(FXDeath,transform.position);
         _fxAmbiant= FXManager.InitFX(FXLoopAmbiant,transform.position);
-        if (_characterViewmodel.skinnedMeshRenderer != null)
+        if (_characterViewmodel.SkinnedMeshRenderer != null)
         {
-            _fxHit= FXManager.InitFX(FXHit,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
-            _fxDamaged= FXManager.InitFX(FXLoopDamaged,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
+            _fxHit= FXManager.InitFX(FXHit,transform.position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
+            _fxDamaged= FXManager.InitFX(FXLoopDamaged,transform.position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
 
         }
         else
@@ -176,6 +182,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             eventPlayerSpawn?.Invoke(this);
             timerInvulnerability = 3;
         }
+        distToGround = (controller.height/2f) + controller.skinWidth ;
     }
 
     // OnDestroy
@@ -265,7 +272,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             }
 
             // Update the crouching state.
-            if (_currentMovementInput.y < 0 && controller.isGrounded)
+            if (_currentMovementInput.y < 0 && _groundedPlayer)
             {
                 _isCrouching = true;
             }
@@ -311,7 +318,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             case InputActionPhase.Started:
                 
                 // Check the direction to shoot based on the player's current movement input and whether they are in the air.
-                if (_currentMovementInput.y < 0 && controller.isGrounded)
+                if (_currentMovementInput.y < 0 && _groundedPlayer)
                 {
                     // If the player is on the ground and pressing S, shoot the last direction.
                     if (_lastDirection < 0)
@@ -364,7 +371,7 @@ public class PlayerInstance : MonoBehaviour , IActor
                         _characterViewmodel.Play(AnimState.Fire);
                     }
                 }
-                else if (_currentMovementInput.y == 0 && _currentMovementInput.x == 0 && controller.isGrounded)
+                else if (_currentMovementInput.y == 0 && _currentMovementInput.x == 0 && _groundedPlayer)
                 {
                     // If the player is not moving and on the ground, check the last direction they moved in.
                     if (_lastDirection < 0)
@@ -384,7 +391,7 @@ public class PlayerInstance : MonoBehaviour , IActor
                         }
                     }
                 }
-                else if (_currentMovementInput.y == 0 && _currentMovementInput.x == 0 && !controller.isGrounded)
+                else if (_currentMovementInput.y == 0 && _currentMovementInput.x == 0 && !_groundedPlayer)
                 {
                     // If the player is not moving and in the air, check the last direction they moved in.
                     if (_lastDirection < 0)
@@ -489,8 +496,33 @@ public class PlayerInstance : MonoBehaviour , IActor
         Teleport(new Vector3(RoundManager.PlayerSpawnActive.position.x, 10f, 0f));
         _gravityValue = -2f;
         _parachute.SetActive(true);
-        _characterViewmodel._animator.SetBool(IsFalling, true);
+        _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, true);   
         _firstSpawn = false;
+    }
+    
+    void FixedUpdate()
+    {
+        if (_groundedPlayer)
+        {
+            if (_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
+            {
+                _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, false);
+                transform.PlaySoundAtPosition(AliasOnLand);   
+            }
+            if (_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
+            {
+                Debug.Log("FUCK");
+            }
+           
+        }
+        else
+        {
+            if (!_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
+            {
+                _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, true);   
+                transform.PlaySoundAtPosition(AliasOnJump);   
+            }
+        }
     }
 
     // update
@@ -506,6 +538,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             _playerQueJeSoigne = null;
             _isQuandilsoigne = false;
         }
+        // Check Out Of Bounds, if true go kill the player
         if (transform.position.y < -10)
         {
             OnDeath();
@@ -551,34 +584,38 @@ public class PlayerInstance : MonoBehaviour , IActor
             }
             
             // check if the player is grounded
-            _groundedPlayer = controller.isGrounded;
-            if (_groundedPlayer && _playerVelocity.y < 0)
+            _groundedPlayer = Physics.Raycast(transform.position, -Vector3.up, distToGround + Physics.defaultContactOffset, groundLayerMask );
+            if (_groundedPlayer && _playerVelocity.y <= 0)
             {
-                if (_characterViewmodel._animator.GetBool(IsFalling))
+                // if (_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
+                // {
+                //     _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, false);
+                //     transform.PlaySoundAtPosition(AliasOnLand);   
+                // }
+
+                if (_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
                 {
-                    _characterViewmodel._animator.SetBool(IsFalling, false);
-                    transform.PlaySoundAtPosition(AliasOnLand);   
+                    Debug.Log("FUCK");
                 }
-                
                 _parachute.SetActive(false);
                 // set the velocity to 0
                 _playerVelocity.y = 0f;
                 _gravityValue = -20f;
                 // if the player jump and crouch while in the air and arrive on the ground crouched then isCrouching is set to true
-                if (_currentMovementInput.y < 0 && controller.isGrounded)
+                if (_currentMovementInput.y < 0 && Physics.Raycast(transform.position, -Vector3.up, distToGround + Physics.defaultContactOffset, groundLayerMask ))
                 {
                     _isCrouching = true;
                 }
             }
-            else
-            {
-                if (!_characterViewmodel._animator.GetBool(IsFalling))
-                {
-                    _characterViewmodel._animator.SetBool(IsFalling, true);    
-                    transform.PlaySoundAtPosition(AliasOnJump);   
-                }
-               
-            }
+            // else
+            // {
+            //     if (!_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
+            //     {
+            //         _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, true);   
+            //         transform.PlaySoundAtPosition(AliasOnJump);   
+            //     }
+            //    
+            // }
             // move the player
             Vector3 move = new Vector3(_movementInput.x, 0, 0);
 
@@ -614,7 +651,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             }
             _characterViewmodel.Direction = transform.position + motion;
             // Changes the height position of the player..
-            if (_jumped && _groundedPlayer)
+            if (_jumped && Physics.Raycast(transform.position, -Vector3.up, distToGround + Physics.defaultContactOffset, groundLayerMask ))
             {
                 _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
                
@@ -740,4 +777,21 @@ public class PlayerInstance : MonoBehaviour , IActor
             Handles.Label(transform.position, $" WorldToScreenPoint{position }");
         }
     #endif
+    
+    public void GiveWeapon(WeaponScriptableObject weapon)
+    {
+        _weaponInstance = weapon.CreateWeaponInstance(gameObject);
+        if(_characterViewmodel.rightHand != null)
+            weaponInstance.transform.parent = _characterViewmodel.rightHand.transform;
+        weaponInstance.transform.localPosition = Vector3.zero;
+        if (weapon.startAmmo != -1)
+        {
+            _weaponInstance.EventNoAmmo += WeaponInstanceOnEventNoAmmo;
+        }
+    }
+
+    private void WeaponInstanceOnEventNoAmmo()
+    {
+        GiveWeapon(primaryWeapon);
+    }
 }

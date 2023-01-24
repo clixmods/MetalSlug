@@ -131,11 +131,11 @@ public class AIInstance : MonoBehaviour , IActor
     {
         _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position);
         _fxAmbiant= FXManager.InitFX(aiScriptableObject.FXLoopAmbiant,transform.position);
-        if (_characterViewmodel.skinnedMeshRenderer != null)
+        if (_characterViewmodel.SkinnedMeshRenderer != null)
         {
-            _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
-            _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
-            _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject, _characterViewmodel.skinnedMeshRenderer);
+            _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
+            _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
+            _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
         }
         else
         {

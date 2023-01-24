@@ -13,11 +13,16 @@ MonoBehaviour:
   m_Name: weapon_smg_player
   m_EditorClassIdentifier: 
   fireRate: 0.035
+  startAmmo: 100
   damage: 1
+  burst: 1
+  bulletPerBurst: 5
+  delayBurstedBullet: 0.5
   projectileSpeed: 20
   projectileUseGravity: 0
   projectileDestroyOnHit: 1
-  prefabWeapon: {fileID: 1198069101019903048, guid: 3a45366a65f6d574fbdbb1a67878e5dd,
+  isGrenade: 0
+  prefabMeshWeapon: {fileID: 1198069101019903048, guid: 3a45366a65f6d574fbdbb1a67878e5dd,
     type: 3}
   prefabProjectile: {fileID: 3476202047971693012, guid: c48ffc837a1a7c2468629768637eeef1,
     type: 3}
@@ -27,3 +32,4 @@ MonoBehaviour:
   AliasOnDrop: None
   AliasOnEquip: wpn_pistol_equip
   FXFire: {fileID: 4437842826240621923, guid: a47e88c3f3e5866478f6772133274c22, type: 3}
+  FXImpact: {fileID: 0}

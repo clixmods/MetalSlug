@@ -2,11 +2,13 @@ using System;
 using AudioAliase;
 using Unity.VisualScripting;
 using UnityEngine;
+using Object = System.Object;
 
 public class WeaponInstance : MonoBehaviour
 {
     public delegate void WeaponEvent();
     public event WeaponEvent eventWeaponFire;
+    public event WeaponEvent EventNoAmmo;
     
     public WeaponScriptableObject weaponData;
     internal float _cooldown;
@@ -51,6 +53,11 @@ public class WeaponInstance : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (weaponData.startAmmo != -1 && _currentAmmo <= 0)
+        {
+            EventNoAmmo?.Invoke();
+            Destroy(gameObject);
+        }
         if ( !isBursting &&_cooldown > 0)
             _cooldown -= Time.deltaTime;
 
