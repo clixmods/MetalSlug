@@ -32,6 +32,7 @@ public class AIInstance : MonoBehaviour , IActor
     private Rigidbody _rigidbody;
     private float _minDistanceToKeepWithTarget;
     private int _health;
+    private bool _isDead;
  
     private GameObject _target;
     private WeaponInstance _currentWeapon;
@@ -413,6 +414,8 @@ public class AIInstance : MonoBehaviour , IActor
     }
     public void OnDown(bool noDestroy = false)
     {
+        if (_isDead) return;
+        _isDead = true;
         // Do shit before death
         gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
         AudioManager.StopLoopSound(ref audioPlayerMove);

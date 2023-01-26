@@ -8,6 +8,7 @@ TagManager:
   - BossSpawnPoint
   - RoundBlocker
   - PlayerSpawnPoint
+  - Audio Aliase/voice
   layers:
   - Default
   - TransparentFX

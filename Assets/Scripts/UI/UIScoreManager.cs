@@ -14,6 +14,7 @@ public class UIScoreManager : MonoBehaviour
     void Start()
     {
         AIInstance.eventGlobalAIScore += AddScore;
+        UIPointsPlusPanel.OnMultiplierSend += AddScore;
         LevelManager.eventEndgame += LevelManager_eventEndgame;
         LevelManager.eventResetSession += LevelManagerOneventResetSession;
     }
@@ -29,7 +30,7 @@ public class UIScoreManager : MonoBehaviour
         highscoreTable.RegisterScore(CurrentScore);
     }
 
-    private void AddScore(int amount)
+    public void AddScore(int amount)
     {
         if (LevelManager.Players.Count > 0)
         {

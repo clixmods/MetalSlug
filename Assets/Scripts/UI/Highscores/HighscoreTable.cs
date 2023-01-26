@@ -5,7 +5,7 @@ using CodeMonkey.Utils;
 
 
 
-public class HighscoreTable : MonoBehaviour
+public partial class HighscoreTable : MonoBehaviour
 {
     [SerializeField] Alphabet alphabet;
     [SerializeField] private GameObject keyboard;
@@ -23,7 +23,7 @@ public class HighscoreTable : MonoBehaviour
         alphabet = keyboard.GetComponent<Alphabet>();
         string jsonString;
         Highscores highscores;
-        GetHighscore(out jsonString, out highscores);
+        GetHighScore(out jsonString, out highscores);
 
         if (highscores == null)
         {
@@ -38,27 +38,12 @@ public class HighscoreTable : MonoBehaviour
             AddHighscoreEntry(8000, "BOT");
             AddHighscoreEntry(9000, "BOT");
             AddHighscoreEntry(10000, "BOT");
-            
-
             // Reload
             jsonString = PlayerPrefs.GetString("highScoreMetalSlugLeaderBoard");
             highscores = JsonUtility.FromJson<Highscores>(jsonString);
         }
 
-        // Sort entry list by Score
-        for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
-        {
-            for (int j = i + 1; j < highscores.highscoreEntryList.Count; j++)
-            {
-                if (highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score)
-                {
-                    // Swap
-                    HighscoreEntry tmp = highscores.highscoreEntryList[i];
-                    highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
-                    highscores.highscoreEntryList[j] = tmp;
-                }
-            }
-        }
+        SortHighscore(highscores);
 
         if (highscores.highscoreEntryList.Count > 10)
         {
@@ -69,7 +54,7 @@ public class HighscoreTable : MonoBehaviour
         }
 
         highscoreEntryTransformList = new List<Transform>();
-        foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
+        foreach (HighScoreEntry highscoreEntry in highscores.highscoreEntryList)
         {
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
         }
@@ -81,10 +66,9 @@ public class HighscoreTable : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private static void GetHighscore(out string jsonString, out Highscores highscores)
+    private static void GetHighScore(out string jsonString, out Highscores highscores)
     {
         // keaboard assign
-
         jsonString = PlayerPrefs.GetString("highScoreMetalSlugLeaderBoard");
         highscores = JsonUtility.FromJson<Highscores>(jsonString);
     }
@@ -98,13 +82,13 @@ public class HighscoreTable : MonoBehaviour
         }
     }
 
-    Transform entryTransformCached;
+    UIHighscoreEntry uiHighScoreEntry;
     public void RegisterScore(int scoreValue)
     {
-        GetHighscore(out var jsonString, out var highscores);
+        GetHighScore(out var jsonString, out var highscores);
         UpdateHighscore();
         SortHighscore(highscores);
-
+        
         int currentPosition = 0;
         for (int i = 0; i < highscores.highscoreEntryList.Count - 1; i++)
         {
@@ -129,15 +113,13 @@ public class HighscoreTable : MonoBehaviour
         score = scoreValue;
         alphabet.action += OnRegister;
         var entryTransform = highscoreEntryTransformList[currentPosition - 1];
+        uiHighScoreEntry = entryTransform.GetComponent<UIHighscoreEntry>();
         alphabet.text = entryTransform.Find("nameText").GetComponent<Text>();
-        entryTransform.Find("posText").GetComponent<Text>().text = currentPosition.ToString();
-        entryTransform.Find("scoreText").GetComponent<Text>().text = score.ToString();
-
-        entryTransform.GetComponent<Animator>().SetBool("IsHighlited", true);
-        entryTransformCached = entryTransform;
+        
+        uiHighScoreEntry.SetRank(currentPosition.ToString()); 
+        uiHighScoreEntry.SetScore(score.ToString());
+        uiHighScoreEntry.SetHightlight(true);
         alphabet.action += OnAnim;
-
-        //entryTransform.Find("nameText").GetComponent<Text>().text = "";
     }
     private void OnRegister(string value)
     {
@@ -149,13 +131,12 @@ public class HighscoreTable : MonoBehaviour
     }
     private void OnAnim(string value)
     {
-        entryTransformCached.GetComponent<Animator>().SetBool("IsHighlited", false);
-
+        uiHighScoreEntry.SetHightlight(false);
         alphabet.action -= OnAnim;
-        entryTransformCached = null;
+        uiHighScoreEntry = null;
     }
 
-    private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList)
+    private void CreateHighscoreEntryTransform(HighScoreEntry highScoreEntry, Transform container, List<Transform> transformList)
     {
         float templateHeight = 31f;
         Transform entryTransform = Instantiate(entryTemplate, container);
@@ -166,8 +147,7 @@ public class HighscoreTable : MonoBehaviour
 
         int rank = transformList.Count + 1;
         
-        /////////////////////////////////////////////
-        SetValueOnEntry(rank, highscoreEntryComponent, highscoreEntry, entryTransform);
+        SetValueOnEntry(rank, highscoreEntryComponent, highScoreEntry, entryTransform);
 
         transformList.Add(entryTransform);
     }
@@ -188,7 +168,6 @@ public class HighscoreTable : MonoBehaviour
             }
         }
         // Clear each line
-
         for (int i = 0; i < highscoreEntryTransformList.Count; i++)
         {
             var entryTransform = highscoreEntryTransformList[i];
@@ -214,7 +193,7 @@ public class HighscoreTable : MonoBehaviour
         }
     }
 
-    private static void SetValueOnEntry(int rank, UIHighscoreEntry highscoreEntryComponent, HighscoreEntry highscoreEntry,
+    private static void SetValueOnEntry(int rank, UIHighscoreEntry highscoreEntryComponent, HighScoreEntry highScoreEntry,
         Transform entryTransform)
     {
         string rankString;
@@ -236,9 +215,9 @@ public class HighscoreTable : MonoBehaviour
         }
 
         highscoreEntryComponent.SetRank(rankString);
-        int score = highscoreEntry.score;
+        int score = highScoreEntry.score;
         highscoreEntryComponent.SetScore(score.ToString());
-        string name = highscoreEntry.name;
+        string name = highScoreEntry.name;
         highscoreEntryComponent.SetName(name);
         // Set background visible odds and evens, easier to read
         entryTransform.Find("background").gameObject.SetActive(rank % 2 == 1);
@@ -273,7 +252,7 @@ public class HighscoreTable : MonoBehaviour
                 if (highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score)
                 {
                     // Swap
-                    HighscoreEntry tmp = highscores.highscoreEntryList[i];
+                    HighScoreEntry tmp = highscores.highscoreEntryList[i];
                     highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
                     highscores.highscoreEntryList[j] = tmp;
                 }
@@ -284,7 +263,7 @@ public class HighscoreTable : MonoBehaviour
     public void AddHighscoreEntry(int score, string name)
     {
         // Create HighscoreEntry
-        HighscoreEntry highscoreEntry = new HighscoreEntry { score = score, name = name };
+        HighScoreEntry highScoreEntry = new HighScoreEntry { score = score, name = name };
 
         // Load saved Highscores
         string jsonString = PlayerPrefs.GetString("highScoreMetalSlugLeaderBoard");
@@ -295,12 +274,12 @@ public class HighscoreTable : MonoBehaviour
             // There's no stored table, initialize
             highscores = new Highscores()
             {
-                highscoreEntryList = new List<HighscoreEntry>()
+                highscoreEntryList = new List<HighScoreEntry>()
             };
         }
 
         // Add new entry to Highscores
-        highscores.highscoreEntryList.Add(highscoreEntry);
+        highscores.highscoreEntryList.Add(highScoreEntry);
 
         // Save updated Highscores
         string json = JsonUtility.ToJson(highscores);
@@ -317,20 +296,9 @@ public class HighscoreTable : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    private class Highscores
-    {
-        public List<HighscoreEntry> highscoreEntryList;
-    }
-
     /*
      * Represents a single High score entry
      * */
-    [System.Serializable]
-    private class HighscoreEntry
-    {
-        public int score;
-        public string name;
-    }
     /*IEnumerator LerpFunction(Color endValue, float duration, Text textToFade)
     {
         float time = 0;

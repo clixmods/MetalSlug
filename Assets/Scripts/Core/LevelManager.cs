@@ -67,6 +67,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField][Aliase] private string RoundStart;
     [SerializeField][Aliase] private string RoundEnd;
     [SerializeField][Aliase] private string Gameover;
+    [SerializeField][Aliase] private string AllPlayersDead;
     private State _state = State.Menu;
     public State State { get => _state; set => _state = value; }
     public int CurrentRound
@@ -184,6 +185,7 @@ public class LevelManager : MonoBehaviour
 
         if (GetAlivePlayers.Count == 0)
         {
+            AudioManager.PlaySoundAtPosition(Instance.AllPlayersDead);
             foreach (var ai in AIInstance.AIInstances)
             {
                 if(!ai.Sleep)
@@ -285,6 +287,7 @@ public class LevelManager : MonoBehaviour
         {
             State = State.GameOver;
             Debug.Log("ENDGAME");
+            AudioManager.PlaySoundAtPosition(Gameover);
             eventEndgame?.Invoke();
             // Execute endgame function here
         }
