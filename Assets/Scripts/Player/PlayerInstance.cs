@@ -586,17 +586,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             // check if the player is grounded
             _groundedPlayer = Physics.Raycast(transform.position, -Vector3.up, distToGround + Physics.defaultContactOffset, groundLayerMask );
             if (_groundedPlayer && _playerVelocity.y <= 0)
-            {
-                // if (_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
-                // {
-                //     _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, false);
-                //     transform.PlaySoundAtPosition(AliasOnLand);   
-                // }
-
-                if (_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
-                {
-                    Debug.Log("FUCK");
-                }
+            { 
                 _parachute.SetActive(false);
                 // set the velocity to 0
                 _playerVelocity.y = 0f;
@@ -607,15 +597,6 @@ public class PlayerInstance : MonoBehaviour , IActor
                     _isCrouching = true;
                 }
             }
-            // else
-            // {
-            //     if (!_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
-            //     {
-            //         _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, true);   
-            //         transform.PlaySoundAtPosition(AliasOnJump);   
-            //     }
-            //    
-            // }
             // move the player
             Vector3 move = new Vector3(_movementInput.x, 0, 0);
 
