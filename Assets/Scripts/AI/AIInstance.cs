@@ -149,6 +149,7 @@ public class AIInstance : MonoBehaviour , IActor
     // Start is called before the first frame update
     void Start()
     {
+        
         _health = aiScriptableObject.Health;
         transform.PlayLoopSound(aiScriptableObject.AliasOnAmbiant, ref LoopAmbiant);
         AIInstances.Add(this);

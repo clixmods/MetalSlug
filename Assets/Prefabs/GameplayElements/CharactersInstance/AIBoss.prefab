@@ -190,8 +190,7 @@ MonoBehaviour:
   viewModel: {fileID: 2051001566862820427}
   leftHand: {fileID: 1364063067981408863}
   rightHand: {fileID: 6313616844088046285}
-  skinnedMeshRenderer: {fileID: 3633585932450665318}
-  _animator: {fileID: 1690033049477340291}
+  _skinnedMeshRenderer: {fileID: 3633585932450665318}
   ManageIsFalling: 1
 --- !u!1001 &5845997242404340869
 PrefabInstance:

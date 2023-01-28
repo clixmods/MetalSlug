@@ -127,8 +127,7 @@ MonoBehaviour:
   viewModel: {fileID: 2218362270986727645}
   leftHand: {fileID: 2869646918322721847}
   rightHand: {fileID: 5142870921054361401}
-  skinnedMeshRenderer: {fileID: 8085809974166026884}
-  _animator: {fileID: 2988758793751001137}
+  _skinnedMeshRenderer: {fileID: 8085809974166026884}
   ManageIsFalling: 1
 --- !u!1 &6559013725505088492
 GameObject:
@@ -9844,12 +9843,6 @@ GameObject:
 --- !u!1 &2869646918322721847 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5357801425883923033, guid: f020fa6960c7ac4448e392cade08a3d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 7893038462093170286}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &2988758793751001137 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4968456514274946655, guid: f020fa6960c7ac4448e392cade08a3d3,
     type: 3}
   m_PrefabInstance: {fileID: 7893038462093170286}
   m_PrefabAsset: {fileID: 0}

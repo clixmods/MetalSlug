@@ -13,6 +13,7 @@ public class PowerupInstance : MonoBehaviour, IPowerupInstance
     #endregion
     
     private bool _isGrabbed;
+    public bool destroyOnGrab;
     [Header("Aliases")]
     [SerializeField][Aliase] private string aliasOnSpawn;
     [SerializeField][Aliase] private string aliasOnIdleLoop;
@@ -55,9 +56,11 @@ public class PowerupInstance : MonoBehaviour, IPowerupInstance
 
     public virtual void OnGrab(PlayerInstance playerInstance)
     {
-        transform.PlaySoundAtPosition(aliasOnSpawn);
+        transform.PlaySoundAtPosition(aliasOnGrab);
         AudioManager.StopLoopSound(ref _audioPlayerLoopIdle, StopLoopBehavior.FinishCurrentPlay);
         onPowerupPickup?.Invoke(this);
-        Destroy(gameObject);
+        if(destroyOnGrab)
+            Destroy(gameObject);
     }
+    
 }

@@ -27,7 +27,7 @@ public class CharacterViewmodelManager : MonoBehaviour
     public GameObject leftHand;
     public GameObject rightHand;
 
-    private SkinnedMeshRenderer _skinnedMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
     public SkinnedMeshRenderer SkinnedMeshRenderer => _skinnedMeshRenderer;
     private Animator _animator;
     public bool ManageIsFalling = true;

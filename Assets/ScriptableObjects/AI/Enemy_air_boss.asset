@@ -37,11 +37,11 @@ MonoBehaviour:
   AliasOnDamagedLoop: None
   AliasOnLowHealth: None
   AliasOnLowHealthLoop: None
-  ScoreDead: 50
+  ScoreDead: 750
   ScoreHit: 10
   FXLoopAmbiant: {fileID: 0}
   FXDeath: {fileID: 3569629722445200204, guid: 03c781b395287474da4a6fa1d6baa793, type: 3}
-  FXHit: {fileID: 6942642715644864728, guid: 6411d5d61108194429956fc31e94f0a8, type: 3}
+  FXHit: {fileID: 6942642715644864728, guid: 0492e014f86b7334aa2e148da09d900f, type: 3}
   FXLoopLowHealth: {fileID: 1781255841430832962, guid: 979ca340f40956c48b52321671df15df,
     type: 3}
   FXLoopDamaged: {fileID: 1781305419972960173, guid: 062ced69027a3594791036bb281773a9,

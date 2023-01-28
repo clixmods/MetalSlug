@@ -966,6 +966,17 @@ MonoBehaviour:
   _text: {fileID: 430049574164779912}
   _canvasGroup: {fileID: 393493536701099270}
   positionWorld: {x: 0, y: 0, z: 0}
+  AliasOn10: 
+  AliasOn20: 
+  AliasOn30: 
+  AliasOn40: 
+  AliasOn50: 
+  AliasOn60: 
+  AliasOn70: 
+  AliasOn80: 
+  AliasOn90: 
+  AliasOn100: 
+  LoseMultiplier: 
 --- !u!225 &393493536701099270
 CanvasGroup:
   m_ObjectHideFlags: 0
