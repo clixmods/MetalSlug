@@ -33,6 +33,12 @@ public class RoundMasterManager : MonoBehaviour
         PlayerInstance.eventPlayerJoin += WaitPlayerToStart;
         LevelManager.eventResetSession += LevelManagerOneventResetSession;
         LevelManager.eventSessionStart  += LevelManagerOneventSessionStart;
+        LevelManager.eventEndgame += LevelManagerOneventEndgame;
+    }
+
+    private void LevelManagerOneventEndgame()
+    {
+        AudioManager.StopLoopSound(ref _audioPlayerBgMusic, StopLoopBehavior.Direct);
     }
 
     private void LevelManagerOneventSessionStart()
