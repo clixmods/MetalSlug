@@ -54,16 +54,16 @@ public class UIPointsPlusPanel : MonoBehaviour
        Instance._multiplier++;
        switch (Instance._multiplier)
        {
-           case 20: AudioManager.PlaySoundAtPosition(Instance.AliasOn10); break;
-           case 50: AudioManager.PlaySoundAtPosition(Instance.AliasOn20); break;
-           case 80: AudioManager.PlaySoundAtPosition(Instance.AliasOn30); break;
-           case 100: AudioManager.PlaySoundAtPosition(Instance.AliasOn40); break;
-           case 120: AudioManager.PlaySoundAtPosition(Instance.AliasOn50); break;
-           case 150: AudioManager.PlaySoundAtPosition(Instance.AliasOn60); break;
-           case 180: AudioManager.PlaySoundAtPosition(Instance.AliasOn70); break;
-           case 200: AudioManager.PlaySoundAtPosition(Instance.AliasOn80); break;
-           case 250: AudioManager.PlaySoundAtPosition(Instance.AliasOn90); break;
-           case 300: AudioManager.PlaySoundAtPosition(Instance.AliasOn100); break;
+           case 20: AudioManager.PlayAnnouncer(Instance.AliasOn10); break;
+           case 50: AudioManager.PlayAnnouncer(Instance.AliasOn20); break;
+           case 80: AudioManager.PlayAnnouncer(Instance.AliasOn30); break;
+           case 100: AudioManager.PlayAnnouncer(Instance.AliasOn40); break;
+           case 120: AudioManager.PlayAnnouncer(Instance.AliasOn50); break;
+           case 150: AudioManager.PlayAnnouncer(Instance.AliasOn60); break;
+           case 180: AudioManager.PlayAnnouncer(Instance.AliasOn70); break;
+           case 200: AudioManager.PlayAnnouncer(Instance.AliasOn80); break;
+           case 250: AudioManager.PlayAnnouncer(Instance.AliasOn90); break;
+           case 300: AudioManager.PlayAnnouncer(Instance.AliasOn100); break;
            default : break;
        }
        

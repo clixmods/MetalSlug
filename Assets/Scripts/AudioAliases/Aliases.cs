@@ -21,6 +21,23 @@ namespace AudioAliase
             
             //AudioManager.AddAliases(this);
         }
+
+        private void OnDisable()
+        {
+            foreach (var VARIABLE in aliases)
+            {
+                VARIABLE.audioPlayers.Clear();
+            }
+        }
+
+        private void OnEnable()
+        {
+            foreach (var VARIABLE in aliases)
+            {
+                VARIABLE.audioPlayers.Clear();
+            }
+        }
+
         private void Awake()
         {
             //AudioManager.AddAliases(this);

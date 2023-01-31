@@ -30,6 +30,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 3
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -56,6 +57,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: drone_death
     description: 
     Tag: 
@@ -78,6 +80,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 3
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -104,6 +107,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: drone_fire
     description: 
     Tag: 
@@ -120,6 +124,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -146,6 +151,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: drone_spawn
     description: 
     Tag: 
@@ -161,6 +167,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -187,6 +194,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: drone_turbine_loop
     description: 
     Tag: 
@@ -203,6 +211,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 1
     maxVolume: 1
+    limitCount: 3
     isLooping: 1
     startAliase: 
     endAliase: 
@@ -229,6 +238,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: drone_turbine_loop_dist
     description: 
     Tag: 
@@ -245,6 +255,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 1
     startAliase: 
     endAliase: 
@@ -271,6 +282,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: drone_turbine_loop_lfe
     description: 
     Tag: 
@@ -287,6 +299,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 1
     startAliase: 
     endAliase: 
@@ -313,6 +326,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: drone_reload
     description: 
     Tag: 
@@ -329,6 +343,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -355,3 +370,4 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []

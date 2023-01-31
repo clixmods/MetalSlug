@@ -29,8 +29,9 @@ MonoBehaviour:
     bypassReverbZones: 0
     priority: 0
     volume: 0
-    minVolume: 0.24817929
-    maxVolume: 0.2509804
+    minVolume: 0.09581022
+    maxVolume: 0.10609263
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -57,6 +58,8 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers:
+    - {fileID: 0}
   - name: pointpickup
     description: 
     Tag: 
@@ -73,6 +76,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -99,3 +103,4 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []

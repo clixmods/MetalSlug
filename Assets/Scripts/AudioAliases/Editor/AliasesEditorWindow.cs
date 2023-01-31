@@ -93,11 +93,6 @@ namespace Audio.Editor
 
             }
         }
-        void PlaySound()
-        {
-            //_audioSource.Play();
-            //AudioManager.PlaySoundAtPosition(, Vector3.zero);
-        }
         void UpdateAliasesFileList()
         {
             serializedObject = new List<SerializedObject>();
@@ -132,7 +127,6 @@ namespace Audio.Editor
             // First Begin horizontal to draw : left to right
             using (new GUILayout.HorizontalScope())
             {
-             
                 DrawLeftPanel();
                 DrawMiddlePanel();
                 DrawRightPanel();
@@ -446,6 +440,8 @@ namespace Audio.Editor
             DrawField("bypassListenerEffects", true);
             DrawField("bypassReverbZones", true);
             DrawField("priority", true);
+            
+            DrawField("limitCount", true);
 
             // draw volume field
             SerializedProperty minVolume = currentElemFromArraySelected.FindPropertyRelative("minVolume");

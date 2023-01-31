@@ -18,7 +18,8 @@ MonoBehaviour:
   - name: music_bg
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: 2411449995076256132, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: ff6860df8114be7438536bb964cdc19e, type: 3}
     soundType: 0
@@ -29,8 +30,9 @@ MonoBehaviour:
     bypassReverbZones: 0
     priority: 0
     volume: 0
-    minVolume: 0.31117824
-    maxVolume: 0.31722057
+    minVolume: 0.8
+    maxVolume: 0.8
+    limitCount: 0
     isLooping: 1
     startAliase: 
     endAliase: 
@@ -57,10 +59,13 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers:
+    - {fileID: 0}
   - name: music_bg_boss
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: 2411449995076256132, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: d820e06a0721bfe478a6772b3d9fee84, type: 3}
     soundType: 0
@@ -73,6 +78,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.25
     maxVolume: 0.25
+    limitCount: 0
     isLooping: 1
     startAliase: round_boss_start
     endAliase: round_boss_end
@@ -99,3 +105,4 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []

@@ -111,8 +111,8 @@ public class RoundMasterManager : MonoBehaviour
     {
         
         AudioManager.PlayLoopSound(musicBgBoss ,Vector3.zero, ref _audioPlayerBgBossMusic);
-        AudioManager.PlaySoundAtPosition(bossAnnouncer);
-        
+        //AudioManager.PlaySoundAtPosition(bossAnnouncer);
+        AudioManager.PlayAnnouncer(bossAnnouncer);
         
         roundmanager.EventRoundTriggered -= OneventRoundTriggered;
     }

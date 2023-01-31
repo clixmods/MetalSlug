@@ -18,7 +18,8 @@ MonoBehaviour:
   - name: wpn_pistol_shot
     description: 
     Tag: Audio Aliase/Weapon
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -8398027556170313759, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 3c2e6ee5e5abdbf42a2bd7feb6e71daa, type: 3}
     - {fileID: 8300000, guid: 7c3ea16b90143784f971117add6183cb, type: 3}
@@ -34,8 +35,9 @@ MonoBehaviour:
     bypassReverbZones: 0
     priority: 0
     volume: 0
-    minVolume: 0.92152464
-    maxVolume: 0.9461884
+    minVolume: 0.9869565
+    maxVolume: 1
+    limitCount: 10
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -62,10 +64,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: wpn_pistol_mech
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -8398027556170313759, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 7cdb84fdf1ccd284ebde950c0db401ae, type: 3}
     - {fileID: 8300000, guid: a1240d4e20c727a45a7045187b8f1722, type: 3}
@@ -83,6 +87,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.7596413
     maxVolume: 0.8246637
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -109,10 +114,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: wpn_pistol_sub
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -8398027556170313759, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 56088fe664b02d44aa4c3e6c9bd23a0c, type: 3}
     soundType: 0
@@ -123,8 +130,9 @@ MonoBehaviour:
     bypassReverbZones: 0
     priority: 0
     volume: 0
-    minVolume: 1
+    minVolume: 0.9750624
     maxVolume: 1
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -134,7 +142,7 @@ MonoBehaviour:
     minPitch: 1
     maxPitch: 1.01
     stereoPan: 0
-    spatialBlend: 0.806
+    spatialBlend: 1
     reverbZoneMix: 1
     dopplerLevel: 1
     Spread: 1
@@ -151,10 +159,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: wpn_pistol_equip
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -8398027556170313759, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: d3ce3c65685a1ad4faba79075cfd32e3, type: 3}
     soundType: 0
@@ -167,6 +177,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.92825115
     maxVolume: 1
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -176,7 +187,7 @@ MonoBehaviour:
     minPitch: 1
     maxPitch: 1.01
     stereoPan: 0
-    spatialBlend: 0.932
+    spatialBlend: 1
     reverbZoneMix: 1
     dopplerLevel: 1
     Spread: 1
@@ -193,10 +204,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: wpn_pistol_shake
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -8398027556170313759, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: a919b002b3a3e894f871fb71d75a97d6, type: 3}
     soundType: 0
@@ -209,6 +222,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -235,10 +249,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: wpn_pistol_shells_in
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -8398027556170313759, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: e6d912af475ebb343aa2ebcb0f30808f, type: 3}
     soundType: 0
@@ -251,6 +267,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.9434978
     maxVolume: 1
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -260,7 +277,7 @@ MonoBehaviour:
     minPitch: 1
     maxPitch: 1.01
     stereoPan: 0
-    spatialBlend: 0.961
+    spatialBlend: 1
     reverbZoneMix: 1
     dopplerLevel: 1
     Spread: 1
@@ -277,10 +294,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: wpn_pistol_shells_out
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -8398027556170313759, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: d06c65e6a849fd4459a8a5729baf8efc, type: 3}
     - {fileID: 8300000, guid: d77a8fd8b3992084391b748f6d5071aa, type: 3}
@@ -295,6 +314,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.28654715
     maxVolume: 0.3183856
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -321,6 +341,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: wpn_minigun_loop_fire
     description: 
     Tag: 
@@ -337,6 +358,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.82242155
     maxVolume: 1
+    limitCount: 0
     isLooping: 1
     startAliase: wpn_minigun_loop_start
     endAliase: wpn_minigun_loop_end
@@ -363,6 +385,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: wpn_minigun_loop_start
     description: 
     Tag: 
@@ -379,6 +402,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -405,6 +429,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: wpn_minigun_loop_end
     description: 
     Tag: 
@@ -421,6 +446,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -447,3 +473,4 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []

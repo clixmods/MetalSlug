@@ -16,9 +16,10 @@ MonoBehaviour:
   defaultMixerGroup: {fileID: 0}
   aliases:
   - name: round_start
-    description: 
+    description: Start sound of round
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: 2411449995076256132, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 47f8d279374ced248beaabe8396031e9, type: 3}
     - {fileID: 8300000, guid: 0eba70f65cf8a29419f042ab5df9b6dd, type: 3}
@@ -32,8 +33,9 @@ MonoBehaviour:
     bypassReverbZones: 0
     priority: 0
     volume: 0
-    minVolume: 0.8
-    maxVolume: 0.8
+    minVolume: 0.7531172
+    maxVolume: 0.75810474
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -60,10 +62,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: round_end
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: 2411449995076256132, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 6b283cb9b00e13845ae64509fda977ae, type: 3}
     soundType: 0
@@ -76,6 +80,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -102,10 +107,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: round_intro
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: 2411449995076256132, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 5caab5b803a67b84b82cc9d45c1c1293, type: 3}
     soundType: 0
@@ -118,6 +125,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -144,10 +152,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: gameover
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: 2411449995076256132, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 6272606b607f9ef43a378de82f79afee, type: 3}
     soundType: 0
@@ -160,6 +170,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -186,10 +197,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: round_boss_start
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: 2411449995076256132, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 6c2448b9fadd1dc409c6095da9529ba5, type: 3}
     soundType: 0
@@ -202,6 +215,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -228,10 +242,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: round_boss_end
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: 2411449995076256132, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: bee6f44ab0e105c4ba6125786cf994e2, type: 3}
     soundType: 0
@@ -244,6 +260,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.45964128
     maxVolume: 0.46860987
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -270,6 +287,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: round_noPlayers
     description: 
     Tag: 
@@ -284,8 +302,9 @@ MonoBehaviour:
     bypassReverbZones: 0
     priority: 0
     volume: 0
-    minVolume: 0.25490192
-    maxVolume: 0.26610643
+    minVolume: 0.0853367
+    maxVolume: 0.10088904
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -312,6 +331,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: round_AlonePlayerSpawn
     description: 
     Tag: 
@@ -329,6 +349,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -355,3 +376,4 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []

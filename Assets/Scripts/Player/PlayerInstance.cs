@@ -729,7 +729,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             return;
         }
         transform.PlaySoundAtPosition(AliasOnLastStand);  
-        AudioManager.PlaySoundAtPosition("announcer_player_down", Vector3.zero);
+        AudioManager.PlayAnnouncer("announcer_player_down");
         damagedFx = FXManager.PlayFX(_fxDamaged,transform.position);
         _characterViewmodel.Play(AnimState.Down);
         _isLastStand = true;
@@ -741,7 +741,7 @@ public class PlayerInstance : MonoBehaviour , IActor
         AudioManager.StopLoopSound(ref audioPlayerLoopLastStand);        
         _isDead = true;
         // TODO : Deplacer les evenement announcer dans son propre script
-        AudioManager.PlaySoundAtPosition("announcer_player_eliminated", Vector3.zero);
+        AudioManager.PlayAnnouncer("announcer_player_eliminated");
         AudioManager.PlaySoundAtPosition(AliasOnDeath,transform.position);    
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
         if(damagedFx != null)

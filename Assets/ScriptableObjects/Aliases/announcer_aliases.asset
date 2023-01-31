@@ -18,7 +18,8 @@ MonoBehaviour:
   - name: announcer_player_down
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: d6722190e28624e4b970944e445f1782, type: 3}
     soundType: 0
@@ -29,8 +30,9 @@ MonoBehaviour:
     bypassReverbZones: 0
     priority: 0
     volume: 0
-    minVolume: 0.049327344
-    maxVolume: 0.049327344
+    minVolume: 0.21459346
+    maxVolume: 0.2482069
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -57,10 +59,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_player_eliminated
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 7cda654b288a3444ba2375deed063b9d, type: 3}
     soundType: 0
@@ -73,6 +77,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.26525682
     maxVolume: 0.30755287
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -99,10 +104,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_player_extralife
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: d9edaac5b7bae8a4ab3a5ec97e5af847, type: 3}
     soundType: 0
@@ -115,6 +122,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -141,10 +149,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_boss_aproaching
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 2b8295af9701ae1489bb0c47fe0cc091, type: 3}
     - {fileID: 8300000, guid: 80be5fcacd37f1c4387bc276af821774, type: 3}
@@ -156,8 +166,9 @@ MonoBehaviour:
     bypassReverbZones: 0
     priority: 0
     volume: 0
-    minVolume: 0.2
-    maxVolume: 0.2
+    minVolume: 0.8
+    maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -184,10 +195,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_special_weapon_available
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 5df23f4b86ce9a84cb9d9b4a71fdd38b, type: 3}
     - {fileID: 8300000, guid: c35f72dbf3bb47947944e7220b87da89, type: 3}
@@ -200,8 +213,9 @@ MonoBehaviour:
     bypassReverbZones: 0
     priority: 0
     volume: 0
-    minVolume: 0.2
-    maxVolume: 0.2
+    minVolume: 0.8
+    maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -228,10 +242,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_mutliplier_brutal
     description: 
     Tag: Audio Aliase/voice
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 0e066294ae25cbd48ae1b97bf7b1efed, type: 3}
     soundType: 0
@@ -244,6 +260,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -270,10 +287,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_mutliplier_insane
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: e74847bfe489832469d5212ff935f080, type: 3}
     soundType: 0
@@ -286,6 +305,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -312,10 +332,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_mutliplier_merciless
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 0350781cd77bb264996ac8a40de029fb, type: 3}
     soundType: 0
@@ -328,6 +350,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -354,10 +377,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_mutliplier_building
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 8560e4e12ae36a54784338bc62ceb227, type: 3}
     soundType: 0
@@ -370,6 +395,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -396,10 +422,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_mutliplier_charging
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 3bdaaa856f25e694bbf38a84be132431, type: 3}
     soundType: 0
@@ -412,6 +440,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -438,10 +467,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_mutliplier_climing
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 5c93742eefcdff8469e06cd0d435f8d5, type: 3}
     soundType: 0
@@ -454,6 +485,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 0
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -480,10 +512,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_mutliplier_increasing
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 27a3e89689ab9a64ba26de14545c2b06, type: 3}
     soundType: 0
@@ -496,6 +530,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 1
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -522,10 +557,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_mutliplier_rising
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 9b3a9c45367c4d14b9977d8cccea0d27, type: 3}
     soundType: 0
@@ -538,6 +575,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 3
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -564,10 +602,12 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []
   - name: announcer_mutliplier_sadistic
     description: 
     Tag: 
-    MixerGroup: {fileID: 0}
+    MixerGroup: {fileID: -2999780177304283121, guid: a5ee341c990cf1c49833616359ae6377,
+      type: 2}
     audio:
     - {fileID: 8300000, guid: 1a613e84a971a0541b577409aed8b0cd, type: 3}
     soundType: 0
@@ -580,6 +620,7 @@ MonoBehaviour:
     volume: 0
     minVolume: 0.8
     maxVolume: 0.8
+    limitCount: 1
     isLooping: 0
     startAliase: 
     endAliase: 
@@ -606,3 +647,4 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
+    audioPlayers: []

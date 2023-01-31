@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using Random = UnityEngine.Random;
@@ -7,6 +8,7 @@ namespace AudioAliase
     [System.Serializable]
     public class Aliase
     {
+       
         public string name;
         public string description;
 
@@ -36,6 +38,13 @@ namespace AudioAliase
         public float minVolume = 0.8f;
         public float maxVolume = 0.8f;
 
+        public int limitCount;
+        /* Futur implementation
+         * public float FadeIn;
+         * public float FadeOut;
+         * public float Probability;
+         * public Alias StopAlias
+         */
         public bool isLooping;
         public string startAliase;
         public string endAliase;
@@ -72,6 +81,8 @@ namespace AudioAliase
 
         public bool isInit;
         public bool isPlaceholder = true;
+        [Header("Instance")] 
+        public List<AudioPlayer> audioPlayers;
 
         public AudioClip Audio
         {
@@ -113,6 +124,14 @@ namespace AudioAliase
             MaxDistance = 500;
         }
 
+        public bool IsPlayable()
+        {
+            if (limitCount == 0)
+                return true;
+
+            return limitCount > audioPlayers.Count;
+        }
+        
     }
 
 }
