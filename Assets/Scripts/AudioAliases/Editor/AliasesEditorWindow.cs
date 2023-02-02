@@ -27,6 +27,14 @@ namespace Audio.Editor
         /// List of all aliases created in the project for selection with none value
         /// </summary>
         private List<string> _aliasesOptions;
+        /// <summary>
+        /// List of all start aliases (used in loop) created in the project for selection with none value
+        /// </summary>
+        private List<string> _startLoopAliasesOptions;
+        /// <summary>
+        /// List of all end aliases (used in loop) created in the project for selection with none value
+        /// </summary>
+        private List<string> _endLoopAliasesOptions;
         // Constant string
         private const string TAG_MNGR_ASSET = "ProjectSettings/TagManager.asset";
         private const string ASSET_ALREADY_EXIST = "An asset exists already with the name, change it";
@@ -142,15 +150,33 @@ namespace Audio.Editor
         {
             
             _aliases = new List<string>();
+            
             _aliasesOptions = new List<string>();
             _aliasesOptions.Add("None");
+            
+            _startLoopAliasesOptions = new List<string>();
+            _startLoopAliasesOptions.Add("None");
+            
+            _endLoopAliasesOptions = new List<string>();
+            _endLoopAliasesOptions.Add("None");
+            
             foreach (SerializedObject o in serializedObject)
             {
                 var aliasesListProp = o.FindProperty(AliasesPropertyName);
+                
                 foreach (SerializedProperty p in aliasesListProp)
                 {
-                    _aliases.Add(p.FindPropertyRelative("name").stringValue);
-                    _aliasesOptions.Add(p.FindPropertyRelative("name").stringValue);
+                    var aliasName = p.FindPropertyRelative("name").stringValue;
+                    _aliases.Add(aliasName);
+                    _aliasesOptions.Add(aliasName);
+                    if (p.FindPropertyRelative("soundType").enumValueIndex == (int) SoundType.Start)
+                    {
+                        _startLoopAliasesOptions.Add(aliasName);
+                    }
+                    else if (p.FindPropertyRelative("soundType").enumValueIndex == (int) SoundType.End)
+                    {
+                        _endLoopAliasesOptions.Add(aliasName);
+                    }
                 }
             }
             Debug.Log(_aliasesOptions.Count);
@@ -416,21 +442,21 @@ namespace Audio.Editor
                     tagProp.stringValue = _tags[selectedTag];
             }
             DrawField("MixerGroup", true);
+            DrawField("soundType",true);
             DrawField("audio", true);
             DrawField("randomizeClips", true);
-            int GetIndexFromName(string strToSearch)
+            int GetIndexFromName(string strToSearch, List<string> array)
             {
-                for (int i = 0; i < _aliasesOptions.Count; i++)
+                for (int i = 0; i < array.Count; i++)
                 {
-                    if (_aliasesOptions[i] == strToSearch)
+                    if (array[i] == strToSearch)
                         return i;
                 }
                 return 0;
             }
             var secondaryProp = currentElemFromArraySelected.FindPropertyRelative("Secondary");
-            int selectedAll = GetIndexFromName(secondaryProp.stringValue);
+            int selectedAll = GetIndexFromName(secondaryProp.stringValue , _aliasesOptions);
             selectedAll = EditorGUILayout.Popup("Secondary", selectedAll, _aliasesOptions.ToArray());
-           
             if (selectedAll == 0)
                 secondaryProp.stringValue = string.Empty;
             else
@@ -449,37 +475,33 @@ namespace Audio.Editor
             DrawMinMaxSlider(minVolume, maxVolume, 0,1,"Volume");
             
             float widthLabel = 75;
+            // Only root sound can be looped sound
+            if (currentElemFromArraySelected.FindPropertyRelative("soundType").enumValueIndex == (int) SoundType.Root)
+            {
+                // Loop part
+                SerializedProperty sP = currentElemFromArraySelected.FindPropertyRelative("isLooping");
+                sP.boolValue = EditorGUILayout.BeginToggleGroup("Is Looping", sP.boolValue);
+                SerializedProperty minDelayLoop = currentElemFromArraySelected.FindPropertyRelative("minDelayLoop");
+                SerializedProperty maxDelayLoop  = currentElemFromArraySelected.FindPropertyRelative("maxDelayLoop");
+                DrawMinMaxSlider(minDelayLoop, maxDelayLoop, 0,60,"Delay Loop");
+                var startProp = currentElemFromArraySelected.FindPropertyRelative("startAliase");
+                int selectedStartAll = GetIndexFromName(startProp.stringValue ,_startLoopAliasesOptions);
+                selectedStartAll = EditorGUILayout.Popup("Start Aliase", selectedStartAll, _startLoopAliasesOptions.ToArray());
+                if (selectedStartAll == 0)
+                    startProp.stringValue = string.Empty;
+                else
+                    startProp.stringValue = _startLoopAliasesOptions[selectedStartAll];
+                var endProp = currentElemFromArraySelected.FindPropertyRelative("endAliase");
+                int selectedendAll = GetIndexFromName(endProp.stringValue, _endLoopAliasesOptions);
+                selectedendAll = EditorGUILayout.Popup("End Aliase", selectedendAll, _endLoopAliasesOptions.ToArray());
+                if (selectedendAll == 0)
+                    endProp.stringValue = string.Empty;
+                else
+                    endProp.stringValue = _endLoopAliasesOptions[selectedendAll];
             
-            SerializedProperty sP = currentElemFromArraySelected.FindPropertyRelative("isLooping");
-            sP.boolValue = EditorGUILayout.BeginToggleGroup("Is Looping", sP.boolValue);
-            
-            SerializedProperty minDelayLoop = currentElemFromArraySelected.FindPropertyRelative("minDelayLoop");
-            SerializedProperty maxDelayLoop  = currentElemFromArraySelected.FindPropertyRelative("maxDelayLoop");
-            DrawMinMaxSlider(minDelayLoop, maxDelayLoop, 0,60,"Delay Loop");
-            
-            //myBool = EditorGUILayout.Toggle("Toggle", myBool);
-            //myFloat = EditorGUILayout.Slider("Slider", myFloat, -3, 3);
-           // DrawField("startAliase", true);
-           // DrawField("endAliase", true);
-            
-            var startProp = currentElemFromArraySelected.FindPropertyRelative("startAliase");
-            int selectedStartAll = GetIndexFromName(startProp.stringValue);
-            selectedStartAll = EditorGUILayout.Popup("Start Aliase", selectedStartAll, _aliasesOptions.ToArray());
-           
-            if (selectedStartAll == 0)
-                startProp.stringValue = string.Empty;
-            else
-                startProp.stringValue = _aliasesOptions[selectedStartAll];
-            
-            var endProp = currentElemFromArraySelected.FindPropertyRelative("endAliase");
-            int selectedendAll = GetIndexFromName(endProp.stringValue);
-            selectedendAll = EditorGUILayout.Popup("End Aliase", selectedendAll, _aliasesOptions.ToArray());
-            if (selectedendAll == 0)
-                endProp.stringValue = string.Empty;
-            else
-                endProp.stringValue = _aliasesOptions[selectedendAll];
-            
-            EditorGUILayout.EndToggleGroup();
+                EditorGUILayout.EndToggleGroup();
+            }
+
             
             SerializedProperty minPitch = currentElemFromArraySelected.FindPropertyRelative("minPitch");
             SerializedProperty maxPitch = currentElemFromArraySelected.FindPropertyRelative("maxPitch");
@@ -579,9 +601,13 @@ namespace Audio.Editor
                 
             EditorGUILayout.PrefixLabel(prefixLabel);
             EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(false));
+            
             minValue = EditorGUILayout.FloatField(minValue, GUILayout.Width(widthLabel));
+            
             EditorGUILayout.MinMaxSlider(ref minValue, ref maxValue, minLimit, maxLimit);
+            
             maxValue = EditorGUILayout.FloatField(maxValue, GUILayout.Width(widthLabel));
+            
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(false));
             EditorGUILayout.LabelField(minLabel);

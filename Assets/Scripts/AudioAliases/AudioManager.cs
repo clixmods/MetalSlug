@@ -9,8 +9,8 @@ namespace AudioAliase
 {
     public enum SoundType
     {
-        Start,
         Root,
+        Start,
         End,
     }
 
@@ -145,7 +145,7 @@ namespace AudioAliase
             if (alias != null && alias.audio.Length == 0)
             {
                 if(ShowDebugText)
-                Debug.LogError("[AudioManager] : Aliase: " + name + " contains no sounds.");
+                    Debug.LogError("[AudioManager] : Aliase: " + name + " contains no sounds.");
                 return false;
             }
 
