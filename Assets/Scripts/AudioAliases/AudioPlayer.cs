@@ -80,7 +80,7 @@ namespace AudioAliase
                 if(lastAliasPlayed == null)  gameObject.SetActive(false);
                 FollowTransform();
                 // Audio play have finish the play
-                if (_timePlayed >= (Source.clip.length* Source.pitch ) + _delayLoop)
+                if (_timePlayed  >= (Source.clip.length* Source.pitch ) + _delayLoop)
                 {
                     if (_isStopping)
                     {
@@ -89,10 +89,12 @@ namespace AudioAliase
                         return;
                     }
                         
-                    if (lastAliasPlayed.isLooping)
+                    if (lastAliasPlayed.isLooping )
                     {
                         SetupAudioSource(lastAliasPlayed);
-                        Source.Play();
+                        if (_delayLoop != 0)
+                            Source.Play();
+                        
                         _timePlayed = 0;
                     }
                     else // End of the sound
@@ -152,8 +154,10 @@ namespace AudioAliase
             _state = CurrentlyPlaying.Base; // Sinon ca fait le bug du next sound pas def
             //Setup the base aliase
             SetupAudioSource(aliasToPlay);
-            Source.clip = aliasToPlay.Audio; 
+            Source.clip = aliasToPlay.Audio;
             Source.Play();
+            
+            
         }
         private void Play(string onStartAliasToPlay)
         {
@@ -244,10 +248,16 @@ namespace AudioAliase
             audiosource.volume = Random.Range(alias.minVolume, alias.maxVolume);
             if ( alias.isLooping)
             {
+                
                 _delayLoop = alias.DelayLoop;
+                if (_delayLoop == 0)
+                {
+                    Source.loop = true;
+                }
             }
             else
             {
+                Source.loop = false;
                 _delayLoop = 0;
             }
               

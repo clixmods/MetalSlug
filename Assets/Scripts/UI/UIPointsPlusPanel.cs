@@ -44,10 +44,8 @@ public class UIPointsPlusPanel : MonoBehaviour
     }
 
     public static void CreateUIPointsPlus(GameObject canvasGameObject, Vector3 position, int scoreValue)
-    {
-       // var objectui =  Instantiate(prefab,position.GetPositionInWorldToScreenPoint(), Quaternion.identity, canvasGameObject.transform);
-       // var component = objectui.GetComponent<UIPointsPlusPanel>();
-       Instance.gameObject.SetActive(true);
+    { 
+        Instance.gameObject.SetActive(true);
        Instance.score += scoreValue;
        Instance.positionWorld = position;
        Instance.time = 0;
@@ -106,8 +104,7 @@ public class UIPointsPlusPanel : MonoBehaviour
         if (LevelManager.Instance.State == State.InGame)
         {
             if(time < lifeTime)
-            {   
-                //transform.position = positionWorld.GetPositionInWorldToScreenPoint();
+            {
                 _canvasGroup.alpha = 1 - (time/lifeTime);
                 transform.localScale = new Vector3(_canvasGroup.alpha,_canvasGroup.alpha,_canvasGroup.alpha);
                 time += Time.deltaTime;

@@ -360,8 +360,8 @@ MonoBehaviour:
     maxVolume: 1
     limitCount: 0
     isLooping: 1
-    startAliase: wpn_minigun_loop_start
-    endAliase: wpn_minigun_loop_end
+    startAliase: 
+    endAliase: 
     UseDelayLoop: 0
     minDelayLoop: 0
     maxDelayLoop: 0

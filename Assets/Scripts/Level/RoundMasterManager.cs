@@ -89,15 +89,15 @@ public class RoundMasterManager : MonoBehaviour
             }
 
             roundBoss = Random.Range(1, _roundManagers.Count);
-            var boss = _roundManagers[roundBoss].SpawnBoss(bossEnemies[Random.Range(0, bossEnemies.Length)],false, true);
-            boss.Sleep = true;
+            var boss = _roundManagers[roundBoss].SpawnBoss(bossEnemies[Random.Range(0, bossEnemies.Length)],false, false);
+            boss.IsSleeping = true;
             boss.eventAIDeath += BossOneventAIDeath;
             _cameraMotor.rightBoundary = boss.transform.position.x -10;
             
             _roundManagers[roundBoss].EventRoundTriggered += OneventRoundTriggered;
             _roundManagers[roundBoss].EventRoundTriggered += manager =>
             {
-                boss.Sleep = false;
+                boss.IsSleeping = false;
             };
         }
     }

@@ -571,7 +571,7 @@ public class PlayerInstance : MonoBehaviour , IActor
             return;
         }
 
-
+        Vector3 motion = Vector3.zero;
         if (!_isLastStand)
         {
             if (_aimDir.y > 0)
@@ -584,7 +584,8 @@ public class PlayerInstance : MonoBehaviour , IActor
             }
             
             // check if the player is grounded
-            _groundedPlayer = Physics.Raycast(transform.position, -Vector3.up, distToGround + Physics.defaultContactOffset, groundLayerMask );
+            //_groundedPlayer = Physics.Raycast(transform.position, -Vector3.up, distToGround + Physics.defaultContactOffset, groundLayerMask );
+            _groundedPlayer = controller.isGrounded;
             if (_groundedPlayer && _playerVelocity.y <= 0)
             { 
                 _parachute.SetActive(false);
@@ -600,12 +601,12 @@ public class PlayerInstance : MonoBehaviour , IActor
             // move the player
             Vector3 move = new Vector3(_movementInput.x, 0, 0);
 
-            var motion = move.normalized * Time.deltaTime * _playerSpeed;
+             motion = move.normalized  * _playerSpeed;
             
             var positionWithMotion = transform.position + motion;
-            if (!positionWithMotion.IsOutOfCameraVision(0.1f,0.9f) )
+            if (!positionWithMotion.IsOutOfCameraVision(-0.1f,1.1f) )
             {
-                controller.Move(motion);
+                //controller.Move(motion);
                 if (motion.magnitude > 0)
                 {
                     transform.PlayLoopSound(AliasOnMoveLoop,ref audioPlayerLoopMove);
@@ -619,28 +620,32 @@ public class PlayerInstance : MonoBehaviour , IActor
             }
             else
             {
-                if (positionWithMotion.IsOutCameraNegative(0.1f))
+                if (positionWithMotion.IsOutCameraNegative(-0.1f))
                 {
-                    controller.Move(Vector3.right * Time.deltaTime * _playerSpeed);
+                    motion += Vector3.right * _playerSpeed;
+                   // controller.Move(Vector3.right * Time.deltaTime * _playerSpeed);
                     _characterViewmodel.Play(AnimState.Move);
                 }
-                if (positionWithMotion.IsOutCameraPositive(0.9f))
+                if (positionWithMotion.IsOutCameraPositive(1.1f))
                 {
-                    controller.Move(Vector3.left * Time.deltaTime * _playerSpeed);
+                    motion += Vector3.left * _playerSpeed;
+                    //controller.Move(Vector3.left * Time.deltaTime * _playerSpeed);
                     _characterViewmodel.Play(AnimState.Move);
                 }
             }
             _characterViewmodel.Direction = transform.position + motion;
             // Changes the height position of the player..
-            if (_jumped && Physics.Raycast(transform.position, -Vector3.up, distToGround + Physics.defaultContactOffset, groundLayerMask ))
+            if (_jumped && _groundedPlayer)
             {
                 _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
             }
         }
         // add gravity to the player
         _playerVelocity.y += _gravityValue * Time.deltaTime;
+        _playerVelocity.y = Mathf.Clamp(_playerVelocity.y, -20, 20);
         // motion
-        controller.Move(_playerVelocity * Time.deltaTime);
+        motion += _playerVelocity;
+        controller.Move(motion * Time.deltaTime);
     }
     /// <summary>
     /// This method allow the teleportation of the player to prevent charactercontroller restriction.

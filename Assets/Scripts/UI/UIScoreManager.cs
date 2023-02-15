@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Powerup;
 using UnityEngine;
 using TMPro;
 
@@ -13,10 +14,31 @@ public class UIScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AIInstance.eventGlobalAIScore += AddScore;
         UIPointsPlusPanel.OnMultiplierSend += AddScore;
         LevelManager.eventEndgame += LevelManager_eventEndgame;
         LevelManager.eventResetSession += LevelManagerOneventResetSession;
+        AIInstance.EventAISpawn += AIInstanceOnEventAISpawn;
+        PowerupPoint.OnGrabPoint += OnPowerupPickup;
+    }
+    private void OnPowerupPickup(int value)
+    {
+        AddScore(value);
+    }
+
+    private void AIInstanceOnEventAISpawn(AIInstance aiinstance)
+    {
+        aiinstance.eventAIDeath += AiinstanceOneventAIDeath;
+        aiinstance.eventAIHit += AiinstanceOneventAIHit;
+    }
+
+    private void AiinstanceOneventAIHit(AIInstance aiinstance)
+    {
+        AddScore(aiinstance.AIData.ScoreHit);
+    }
+
+    private void AiinstanceOneventAIDeath(AIInstance aiinstance)
+    {
+        AddScore(aiinstance.AIData.ScoreDead);
     }
 
     private void LevelManagerOneventResetSession()
@@ -36,7 +58,7 @@ public class UIScoreManager : MonoBehaviour
         {
             _currentScore += amount;
             textComponentScore.text = "Score : " + _currentScore;
+            UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position, amount);
         }
-        
     }
 }

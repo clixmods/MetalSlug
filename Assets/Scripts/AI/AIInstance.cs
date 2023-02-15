@@ -20,12 +20,13 @@ public class AIInstance : MonoBehaviour , IActor
     #region Events
     public delegate void CallbackAIDamage(AIInstance aiInstance);
     public delegate void CallbackAIScore(int score);
+    public static event CallbackAIDamage EventAISpawn;
     public static event CallbackAIDamage eventGlobalAIDeath;
-    
     public event CallbackAIDamage eventAIDeath;
+    public event CallbackAIDamage eventAIHit;
     public static event CallbackAIDamage eventGlobalAIHit;
 
-    public static event CallbackAIScore eventGlobalAIScore;
+   // public static event CallbackAIScore eventGlobalAIScore;
     #endregion
     
     #region CachedVariables
@@ -54,17 +55,21 @@ public class AIInstance : MonoBehaviour , IActor
     private AudioPlayer audioPlayerOnDamagedLoop;
     private AudioPlayer audioPlayerOnLowHealthLoop;
 
-    [SerializeField] private bool _sleep;
+    [SerializeField] private bool isSleeping;
+    private float speed;
 
     #region Properties
+  
+    public TeamEnum Team => aiScriptableObject.team;
+    public int Health => _health;
+    public AIScriptableObject AIData => aiScriptableObject;
     private float AttackRange => aiScriptableObject.minDistanceToKeepWithTarget;
     public int ScoreDead => aiScriptableObject.ScoreDead;
     public int ScoreHit => aiScriptableObject.ScoreHit;
-    private float speed;
-    public bool Sleep
+    public bool IsSleeping
     {
-        get => _sleep;
-        set => _sleep = value;
+        get => isSleeping;
+        set => isSleeping = value;
     }
     #endregion
 
@@ -103,7 +108,6 @@ public class AIInstance : MonoBehaviour , IActor
         InitFXInstance();
         speed = aiScriptableObject.Speed;
     }
-
     private void SpawnWeaponInstance()
     {
         _currentWeapon = aiScriptableObject.primaryWeapon.CreateWeaponInstance(gameObject);
@@ -127,29 +131,28 @@ public class AIInstance : MonoBehaviour , IActor
             _characterViewmodel.Play(AnimState.Grenade);
         };
     }
-
     private void InitFXInstance()
     {
-        _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,transform.position);
-        _fxAmbiant= FXManager.InitFX(aiScriptableObject.FXLoopAmbiant,transform.position);
+        var position = transform.position;
+        _fxDeath = FXManager.InitFX(aiScriptableObject.FXDeath,position);
+        _fxAmbiant= FXManager.InitFX(aiScriptableObject.FXLoopAmbiant,position);
         if (_characterViewmodel.SkinnedMeshRenderer != null)
         {
-            _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
-            _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
-            _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
+            _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
+            _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
+            _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,position,gameObject, _characterViewmodel.SkinnedMeshRenderer);
         }
         else
         {
-            _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,transform.position,gameObject);
-            _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,transform.position,gameObject);
-            _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,transform.position,gameObject);
+            _fxHit= FXManager.InitFX(aiScriptableObject.FXHit,position,gameObject);
+            _fxDamaged= FXManager.InitFX(aiScriptableObject.FXLoopDamaged,position,gameObject);
+            _fxLowHealth= FXManager.InitFX(aiScriptableObject.FXLoopLowHealth,position,gameObject);
         }
         _fxMove= FXManager.InitFX(aiScriptableObject.FXMove,transform.position);
     }
     // Start is called before the first frame update
     void Start()
     {
-        
         _health = aiScriptableObject.Health;
         transform.PlayLoopSound(aiScriptableObject.AliasOnAmbiant, ref LoopAmbiant);
         AIInstances.Add(this);
@@ -159,6 +162,7 @@ public class AIInstance : MonoBehaviour , IActor
             _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
             _rigidbody.useGravity = false;
         }
+        EventAISpawn?.Invoke(this);
     }
 
     private void OnDestroy()
@@ -169,9 +173,9 @@ public class AIInstance : MonoBehaviour , IActor
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Sleep)
+        if (IsSleeping)
         {
             return;
         }
@@ -377,9 +381,7 @@ public class AIInstance : MonoBehaviour , IActor
         return angle < aiScriptableObject.angleAim;
     }
 
-  
-    public TeamEnum Team => aiScriptableObject.team;
-    public int Health => _health;
+
     public void DoDamage(int amount)
     {
         _health -= amount;
@@ -406,14 +408,15 @@ public class AIInstance : MonoBehaviour , IActor
             OnDown();
             return;
         }
-        eventGlobalAIScore?.Invoke(aiScriptableObject.ScoreHit);
+        eventAIHit?.Invoke(this);
     }
 
     public void OnDown()
     {
         OnDown(false);
     }
-    public void OnDown(bool noDestroy = false)
+
+    private void OnDown(bool noDestroy = false)
     {
         if (_isDead) return;
         _isDead = true;
@@ -421,7 +424,6 @@ public class AIInstance : MonoBehaviour , IActor
         gameObject.PlaySoundAtPosition(aiScriptableObject.AliasOnDeath);
         AudioManager.StopLoopSound(ref audioPlayerMove);
         eventGlobalAIDeath?.Invoke(this);
-        eventGlobalAIScore?.Invoke(aiScriptableObject.ScoreDead);
         eventAIDeath?.Invoke(this);
         if (aiScriptableObject.EarthquakeOnDeath)
         {
@@ -429,10 +431,6 @@ public class AIInstance : MonoBehaviour , IActor
             // CameraShake.ShakeMe();
         }
         FXManager.PlayFX(_fxDeath,transform.position,BehaviorAfterPlay.DestroyAfterPlay);
-        if (LevelManager.Players.Count > 0)
-        {
-            UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position, ScoreDead);
-        }
         AudioManager.StopLoopSound(ref audioPlayerOnDamagedLoop,StopLoopBehavior.Direct);
         AudioManager.StopLoopSound(ref audioPlayerOnLowHealthLoop,StopLoopBehavior.Direct);
         if(!noDestroy)
