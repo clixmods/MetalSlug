@@ -11384,7 +11384,7 @@ MonoBehaviour:
   bossEnemies:
   - {fileID: 6419309596634729336, guid: 8fa67d0b1c50e9e4abdc872c1e76c2b5, type: 3}
   - {fileID: 7066388235543545524, guid: e4b35f09c03635d45afade7268a510a7, type: 3}
-  bossCanAppearAtRound: 2
+  bossCanAppearAtRound: 1
   musicBg: music_bg
   musicBgBoss: music_bg_boss
   bossAnnouncer: announcer_boss_aproaching

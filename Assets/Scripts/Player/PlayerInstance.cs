@@ -502,27 +502,7 @@ public class PlayerInstance : MonoBehaviour , IActor
     
     void FixedUpdate()
     {
-        if (_groundedPlayer)
-        {
-            if (_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
-            {
-                _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, false);
-                transform.PlaySoundAtPosition(AliasOnLand);   
-            }
-            if (_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
-            {
-                Debug.Log("FUCK");
-            }
-           
-        }
-        else
-        {
-            if (!_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
-            {
-                _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, true);   
-                transform.PlaySoundAtPosition(AliasOnJump);   
-            }
-        }
+        
     }
 
     // update
@@ -646,7 +626,30 @@ public class PlayerInstance : MonoBehaviour , IActor
         // motion
         motion += _playerVelocity;
         controller.Move(motion * Time.deltaTime);
+        if (_groundedPlayer)
+        {
+            if (_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
+            {
+                _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, false);
+                transform.PlaySoundAtPosition(AliasOnLand);   
+            }
+            if (_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
+            {
+                Debug.Log("FUCK");
+            }
+           
+        }
+        else
+        {
+            if (!_characterViewmodel.GetAnimatorBool(CharacterViewmodelManager.IsFalling))
+            {
+                _characterViewmodel.SetAnimatorBool(CharacterViewmodelManager.IsFalling, true);   
+                transform.PlaySoundAtPosition(AliasOnJump);   
+            }
+        }
     }
+    
+    
     /// <summary>
     /// This method allow the teleportation of the player to prevent charactercontroller restriction.
     /// </summary>
