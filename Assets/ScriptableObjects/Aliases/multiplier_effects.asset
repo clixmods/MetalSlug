@@ -58,8 +58,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
-    audioPlayers:
-    - {fileID: 0}
+    audioPlayers: []
   - name: pointpickup
     description: 
     Tag: 

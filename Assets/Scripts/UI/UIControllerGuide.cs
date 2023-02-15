@@ -40,8 +40,6 @@ public class UIControllerGuide : MonoBehaviour
     }
     void OnButtonPressed(InputControl button)
     {
-        Debug.Log(button.name);
-        Debug.Log(button.device);
         for (int i = 0; i < panelsController.Length; i++)
         {
             if (!panelsController[i]._inputControlScheme.SupportsDevice(button.device))
@@ -54,7 +52,6 @@ public class UIControllerGuide : MonoBehaviour
                 _currentTimer = 0;
                 panelsController[i].UIRelatedToController.SetActive(true);
             }
-                
         }
     }
     // Start is called before the first frame update

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 
@@ -19,8 +20,8 @@ namespace AudioAliase
     [RequireComponent(typeof(AudioSource))]
     public class AudioPlayer : MonoBehaviour
     {
-        public Queue<Aliase> _clips = new();
-        [SerializeReference] private Aliase _lastAliasePlayed;
+        public Queue<Alias> _clips = new();
+        [FormerlySerializedAs("_lastAliasePlayed")] [SerializeReference] private Alias lastAliasPlayed;
         [SerializeField] private bool forceStop;
         
         private bool _isStopping;
@@ -31,7 +32,7 @@ namespace AudioAliase
         
         private bool _startWasPlayed;
         // TODO : Not good to use aliase in properties because it will be copied (serialize shit), we need to use simply string
-        private Aliase _nextSound;
+        private Alias _nextSound;
         private Transform _transformToFollow;
         private float _timePlayed = 0;
         private CurrentlyPlaying _state = CurrentlyPlaying.Start;
@@ -76,7 +77,7 @@ namespace AudioAliase
             // Update is called once per frame
             private void Update()
             {
-                if(_lastAliasePlayed == null)  gameObject.SetActive(false);
+                if(lastAliasPlayed == null)  gameObject.SetActive(false);
                 FollowTransform();
                 // Audio play have finish the play
                 if (_timePlayed >= (Source.clip.length* Source.pitch ) + _delayLoop)
@@ -88,9 +89,9 @@ namespace AudioAliase
                         return;
                     }
                         
-                    if (_lastAliasePlayed.isLooping)
+                    if (lastAliasPlayed.isLooping)
                     {
-                        SetupAudioSource(_lastAliasePlayed);
+                        SetupAudioSource(lastAliasPlayed);
                         Source.Play();
                         _timePlayed = 0;
                     }
@@ -127,7 +128,7 @@ namespace AudioAliase
             private void Reset()
             {
                 Source.Stop();
-                _lastAliasePlayed = null;
+                lastAliasPlayed = null;
                 _transformToFollow = null;
                 _state = CurrentlyPlaying.Start;
                 _timePlayed = 0;
@@ -137,21 +138,21 @@ namespace AudioAliase
 
         #endregion
         
-        private void Play(Aliase aliaseToPlay)
+        private void Play(Alias aliasToPlay)
         {
             // If a start aliase is available, we need to play it before the base aliase
-            if (_state == CurrentlyPlaying.Start && AudioManager.GetSoundByAliase(aliaseToPlay.startAliase, out Aliase startLoop))
+            if (_state == CurrentlyPlaying.Start && AudioManager.GetSoundByAliase(aliasToPlay.startAliase, out Alias startLoop))
             {
                 SetupAudioSource(startLoop);
                 Source.clip = startLoop.Audio;
                 Source.Play();
-                _nextSound = aliaseToPlay;
+                _nextSound = aliasToPlay;
                 return;
             }
             _state = CurrentlyPlaying.Base; // Sinon ca fait le bug du next sound pas def
             //Setup the base aliase
-            SetupAudioSource(aliaseToPlay);
-            Source.clip = aliaseToPlay.Audio; 
+            SetupAudioSource(aliasToPlay);
+            Source.clip = aliasToPlay.Audio; 
             Source.Play();
         }
         private void Play(string onStartAliasToPlay)
@@ -159,12 +160,12 @@ namespace AudioAliase
             AudioManager.GetSoundByAliase(onStartAliasToPlay, out var aliase);
             Play(aliase);
         }
-        public void Setup(Aliase aliaseToPlay , Vector3 position )
+        public void Setup(Alias aliasToPlay , Vector3 position )
         {
             transform.position = position;
             gameObject.SetActive(true);
             Reset();
-            Play(aliaseToPlay);
+            Play(aliasToPlay);
         }
         private void FollowTransform()
         {
@@ -175,8 +176,8 @@ namespace AudioAliase
         }
         public void StopSound(StopLoopBehavior stopLoopBehavior)
         {
-            if(_lastAliasePlayed != null && _lastAliasePlayed.audioPlayers.Contains(this))
-                _lastAliasePlayed.audioPlayers.Remove(this);
+            if(lastAliasPlayed != null && lastAliasPlayed.audioPlayers.Contains(this))
+                lastAliasPlayed.audioPlayers.Remove(this);
             
             _stopLoopBehavior = stopLoopBehavior;
             if (_state == CurrentlyPlaying.Start)
@@ -198,8 +199,8 @@ namespace AudioAliase
             }
             
             if (_state == CurrentlyPlaying.Base
-                && !string.IsNullOrEmpty(_lastAliasePlayed.endAliase)
-                && AudioManager.GetSoundByAliase(_lastAliasePlayed.endAliase, out Aliase stopLoop) )
+                && !string.IsNullOrEmpty(lastAliasPlayed.endAliase)
+                && AudioManager.GetSoundByAliase(lastAliasPlayed.endAliase, out Alias stopLoop) )
             {
                 SetupAudioSource(stopLoop);
                 Source.clip = stopLoop.Audio;
@@ -223,47 +224,47 @@ namespace AudioAliase
 
             _state++;
         }
-        public void SetupAudioSource(Aliase aliase)
+        public void SetupAudioSource(Alias alias)
         {
-            if (aliase == null)
+            if (alias == null)
             {
                 if(AudioManager.ShowDebugText) Debug.LogError("What the fuck ?");
             }
-            if(_lastAliasePlayed != null && _lastAliasePlayed.audioPlayers.Contains(this))
-                _lastAliasePlayed.audioPlayers.Remove(this);
+            if(lastAliasPlayed != null && lastAliasPlayed.audioPlayers.Contains(this))
+                lastAliasPlayed.audioPlayers.Remove(this);
             
-            if(!aliase.audioPlayers.Contains(this))
-                aliase.audioPlayers.Add(this);
+            if(!alias.audioPlayers.Contains(this))
+                alias.audioPlayers.Add(this);
             
             _timePlayed = 0;
             _isStopping = false;
            
-            _lastAliasePlayed = aliase;
+            lastAliasPlayed = alias;
             var audiosource = Source;
-            audiosource.volume = Random.Range(aliase.minVolume, aliase.maxVolume);
-            if ( aliase.isLooping)
+            audiosource.volume = Random.Range(alias.minVolume, alias.maxVolume);
+            if ( alias.isLooping)
             {
-                _delayLoop = aliase.DelayLoop;
+                _delayLoop = alias.DelayLoop;
             }
             else
             {
                 _delayLoop = 0;
             }
               
-            audiosource.pitch = Random.Range(aliase.minPitch, aliase.maxPitch);
-            audiosource.spatialBlend = aliase.spatialBlend;
-            if (aliase.MixerGroup != null)
-                audiosource.outputAudioMixerGroup = aliase.MixerGroup;
+            audiosource.pitch = Random.Range(alias.minPitch, alias.maxPitch);
+            audiosource.spatialBlend = alias.spatialBlend;
+            if (alias.MixerGroup != null)
+                audiosource.outputAudioMixerGroup = alias.MixerGroup;
 
-            switch (aliase.CurveType)
+            switch (alias.CurveType)
             {
                 case AudioRolloffMode.Logarithmic:
                 case AudioRolloffMode.Linear:
-                    audiosource.rolloffMode = aliase.CurveType;
+                    audiosource.rolloffMode = alias.CurveType;
                     break;
                 case AudioRolloffMode.Custom:
-                    audiosource.rolloffMode = aliase.CurveType;
-                    audiosource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, aliase.distanceCurve);
+                    audiosource.rolloffMode = alias.CurveType;
+                    audiosource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, alias.distanceCurve);
                     break;
 
             }

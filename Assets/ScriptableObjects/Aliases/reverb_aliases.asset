@@ -17,7 +17,7 @@ MonoBehaviour:
   aliases:
   - name: wpn_reverb_pistol
     description: 
-    Tag: 
+    Tag: Audio Aliase/Reverb
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: 7a8ab71f5ed41cf4e8b5e8b26e037c15, type: 3}

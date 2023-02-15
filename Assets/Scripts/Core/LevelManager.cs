@@ -52,6 +52,7 @@ public class LevelManager : MonoBehaviour
     public static event EventHandler eventSessionStart;
     public static event EventHandler eventResetSession;
     public static event EventHandler eventEndgame;
+    public static event EventHandler eventRespawnPointUsed;
     
     #endregion
     private List<PlayerInstance> players = new List<PlayerInstance>();
@@ -92,6 +93,7 @@ public class LevelManager : MonoBehaviour
                 PlayerInputManager.instance.DisableJoining();
             }
             respawnAmount = value;
+            eventRespawnPointUsed?.Invoke();
         }
     }
     public int ReviveAmount

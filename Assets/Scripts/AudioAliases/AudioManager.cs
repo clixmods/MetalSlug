@@ -24,11 +24,11 @@ namespace AudioAliase
         {
             AudioManager.PlayLoopSound(aliaseName, gameObject.transform, ref audioPlayerLoop);
         }
-        public static Aliase PlaySoundAtPosition(this GameObject gameObject, string aliaseName)
+        public static Alias PlaySoundAtPosition(this GameObject gameObject, string aliaseName)
         {
             return AudioManager.PlaySoundAtPosition(aliaseName, gameObject.transform.position);
         }
-        public static Aliase PlaySoundAtPosition(this Transform transform, string aliaseName)
+        public static Alias PlaySoundAtPosition(this Transform transform, string aliaseName)
         {
             return AudioManager.PlaySoundAtPosition(aliaseName, transform.position);
         }
@@ -119,7 +119,7 @@ namespace AudioAliase
             }
         }
 
-        public static bool GetSoundByAliase(string name, out Aliase alias)
+        public static bool GetSoundByAliase(string name, out Alias alias)
         {
             alias = null;
             if (name == AliasNameNull || string.IsNullOrEmpty(name)) 
@@ -127,7 +127,7 @@ namespace AudioAliase
             
             for (int i = 0; i < aliasesArray.Length; i++)
             {
-                foreach (Aliase tempalias in aliasesArray[i].aliases)
+                foreach (Alias tempalias in aliasesArray[i].aliases)
                 {
                     if (tempalias.name == name)
                     {
@@ -157,7 +157,6 @@ namespace AudioAliase
 
             return true;
         }
-
         private static AudioSource GetAudioSource()
         {
             foreach (AudioPlayer aS in Instance._audioSource)
@@ -169,7 +168,6 @@ namespace AudioAliase
             }
             return null;
         }
-
         public static bool GetAudioPlayer(out AudioPlayer audioPlayer)
         {
             audioPlayer = null;
@@ -184,8 +182,6 @@ namespace AudioAliase
             if(ShowDebugText)Debug.LogWarning($"AudioManager : Limits exceded for _audioSource, maybe you need to increase your audioSourcePoolSize (Size = {Instance.audioSourcePoolSize})");
             return false;
         }
-        
-        
         public static void PauseAllAudio()
         {
             foreach (AudioPlayer aS in Instance._audioSource)
@@ -203,20 +199,18 @@ namespace AudioAliase
                 aS.Source.UnPause();
             }
         }
-
         private static bool IsValidAliase()
         {
 
             return false;
         }
-
         private void AliaseIsValid()
         {
             
         }
-        public static Aliase PlaySoundAtPosition(string aliaseName, Vector3 position = default)
+        public static Alias PlaySoundAtPosition(string aliaseName, Vector3 position = default)
         {
-            if(GetSoundByAliase(aliaseName, out Aliase clip) && GetAudioPlayer(out AudioPlayer audioPlayer))
+            if(GetSoundByAliase(aliaseName, out Alias clip) && GetAudioPlayer(out AudioPlayer audioPlayer))
             {
                 audioPlayer.Setup(clip, position);
 
@@ -230,9 +224,9 @@ namespace AudioAliase
 
             return null;
         }
-        public static Aliase PlaySoundAtPosition(string aliaseName, AudioPlayer audioPlayer ,Vector3 position = default)
+        public static Alias PlaySoundAtPosition(string aliaseName, AudioPlayer audioPlayer ,Vector3 position = default)
         {
-            if(GetSoundByAliase(aliaseName, out Aliase clip))
+            if(GetSoundByAliase(aliaseName, out Alias clip))
             {
                 audioPlayer.Setup(clip , position);
                 if (clip.isPlaceholder)
@@ -278,7 +272,7 @@ namespace AudioAliase
             }
           
             // Check if the alias is valid
-            if (!GetSoundByAliase(aliaseName, out Aliase alias))
+            if (!GetSoundByAliase(aliaseName, out Alias alias))
             {
                 return ;
             }

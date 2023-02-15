@@ -592,7 +592,7 @@ public class PlayerInstance : MonoBehaviour , IActor
                 _playerVelocity.y = 0f;
                 _gravityValue = -20f;
                 // if the player jump and crouch while in the air and arrive on the ground crouched then isCrouching is set to true
-                if (_currentMovementInput.y < 0 && Physics.Raycast(transform.position, -Vector3.up, distToGround + Physics.defaultContactOffset, groundLayerMask ))
+                if (_currentMovementInput.y < 0 )
                 {
                     _isCrouching = true;
                 }
@@ -635,11 +635,8 @@ public class PlayerInstance : MonoBehaviour , IActor
             if (_jumped && Physics.Raycast(transform.position, -Vector3.up, distToGround + Physics.defaultContactOffset, groundLayerMask ))
             {
                 _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
-               
             }
-
         }
-
         // add gravity to the player
         _playerVelocity.y += _gravityValue * Time.deltaTime;
         // motion

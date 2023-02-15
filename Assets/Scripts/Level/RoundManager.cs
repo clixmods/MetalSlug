@@ -96,6 +96,11 @@ public class RoundManager : MonoBehaviour
         if (LevelManager.Instance.State != State.InGame)
             _needToSpawnAmount = 0;
 
+        if (_volumeTriggered && LevelManager.GetAlivePlayers.Count == 0)
+        {
+            IsSpawned = true;
+        }
+
         if (_noSpawn) IsSpawned = true;
         if (_needToSpawnAmount > 0 && !IsSpawned)
         {
@@ -144,14 +149,15 @@ public class RoundManager : MonoBehaviour
             _volumeTriggered = true;
             EventRoundTriggered?.Invoke(this);
             _needToSpawnAmount = numberOfEnemiesToSpawn;
-            foreach (var player in LevelManager.Players)
-            {
-                if (!player.gameObject.activeSelf)
-                {
-                    player.gameObject.SetActive(true);
-                    player.Teleport(LevelManager.GetRandomAlivePlayers.transform.position);
-                }
-            }
+            // TODO : Obsolete 
+            // foreach (var player in LevelManager.Players)
+            // {
+            //     if (!player.gameObject.activeSelf)
+            //     {
+            //         player.gameObject.SetActive(true);
+            //         player.Teleport(LevelManager.GetRandomAlivePlayers.transform.position);
+            //     }
+            // }
         }
     }
 #if UNITY_EDITOR

@@ -77,26 +77,26 @@ namespace Audio.Editor
         {
             _tags = GetTags();
         }
-        public void SetupAudioSource(Aliase aliase)
+        public void SetupAudioSource(Alias alias)
         {
-            _audioSource.clip = aliase.Audio;
-            _audioSource.volume = Random.Range(aliase.minVolume, aliase.maxVolume);
-            _audioSource.loop = aliase.isLooping;
-            _audioSource.pitch = Random.Range(aliase.minPitch, aliase.maxPitch);
+            _audioSource.clip = alias.Audio;
+            _audioSource.volume = Random.Range(alias.minVolume, alias.maxVolume);
+            _audioSource.loop = alias.isLooping;
+            _audioSource.pitch = Random.Range(alias.minPitch, alias.maxPitch);
             
-            _audioSource.spatialBlend = aliase.spatialBlend;
-            if (aliase.MixerGroup != null)
-                _audioSource.outputAudioMixerGroup = aliase.MixerGroup;
+            _audioSource.spatialBlend = alias.spatialBlend;
+            if (alias.MixerGroup != null)
+                _audioSource.outputAudioMixerGroup = alias.MixerGroup;
 
-            switch (aliase.CurveType)
+            switch (alias.CurveType)
             {
                 case AudioRolloffMode.Logarithmic:
                 case AudioRolloffMode.Linear:
-                    _audioSource.rolloffMode = aliase.CurveType;
+                    _audioSource.rolloffMode = alias.CurveType;
                     break;
                 case AudioRolloffMode.Custom:
-                    _audioSource.rolloffMode = aliase.CurveType;
-                    _audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, aliase.distanceCurve);
+                    _audioSource.rolloffMode = alias.CurveType;
+                    _audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, alias.distanceCurve);
                     break;
 
             }
@@ -168,7 +168,11 @@ namespace Audio.Editor
                 {
                     var aliasName = p.FindPropertyRelative("name").stringValue;
                     _aliases.Add(aliasName);
-                    _aliasesOptions.Add(aliasName);
+                    if (p.FindPropertyRelative("soundType").enumValueIndex == (int) SoundType.Root)
+                    {
+                        _aliasesOptions.Add(aliasName);
+                    }
+
                     if (p.FindPropertyRelative("soundType").enumValueIndex == (int) SoundType.Start)
                     {
                         _startLoopAliasesOptions.Add(aliasName);
@@ -457,7 +461,7 @@ namespace Audio.Editor
             var secondaryProp = currentElemFromArraySelected.FindPropertyRelative("Secondary");
             int selectedAll = GetIndexFromName(secondaryProp.stringValue , _aliasesOptions);
             selectedAll = EditorGUILayout.Popup("Secondary", selectedAll, _aliasesOptions.ToArray());
-            if (selectedAll == 0)
+            if (selectedAll == 0 || GetIndexFromName(currentElemFromArraySelected.FindPropertyRelative("name").stringValue, _aliasesOptions ) == selectedAll)
                 secondaryProp.stringValue = string.Empty;
             else
                 secondaryProp.stringValue = _aliasesOptions[selectedAll];
@@ -487,14 +491,14 @@ namespace Audio.Editor
                 var startProp = currentElemFromArraySelected.FindPropertyRelative("startAliase");
                 int selectedStartAll = GetIndexFromName(startProp.stringValue ,_startLoopAliasesOptions);
                 selectedStartAll = EditorGUILayout.Popup("Start Aliase", selectedStartAll, _startLoopAliasesOptions.ToArray());
-                if (selectedStartAll == 0)
+                if (selectedStartAll == 0 || GetIndexFromName(currentElemFromArraySelected.FindPropertyRelative("name").stringValue, _startLoopAliasesOptions ) == selectedStartAll)
                     startProp.stringValue = string.Empty;
                 else
                     startProp.stringValue = _startLoopAliasesOptions[selectedStartAll];
                 var endProp = currentElemFromArraySelected.FindPropertyRelative("endAliase");
                 int selectedendAll = GetIndexFromName(endProp.stringValue, _endLoopAliasesOptions);
                 selectedendAll = EditorGUILayout.Popup("End Aliase", selectedendAll, _endLoopAliasesOptions.ToArray());
-                if (selectedendAll == 0)
+                if (selectedendAll == 0 || GetIndexFromName(currentElemFromArraySelected.FindPropertyRelative("name").stringValue, _endLoopAliasesOptions ) == selectedendAll)
                     endProp.stringValue = string.Empty;
                 else
                     endProp.stringValue = _endLoopAliasesOptions[selectedendAll];
@@ -602,11 +606,11 @@ namespace Audio.Editor
             EditorGUILayout.PrefixLabel(prefixLabel);
             EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(false));
             
-            minValue = EditorGUILayout.FloatField(minValue, GUILayout.Width(widthLabel));
+            minValue = EditorGUILayout.DelayedFloatField(minValue, GUILayout.Width(widthLabel));
             
             EditorGUILayout.MinMaxSlider(ref minValue, ref maxValue, minLimit, maxLimit);
             
-            maxValue = EditorGUILayout.FloatField(maxValue, GUILayout.Width(widthLabel));
+            maxValue = EditorGUILayout.DelayedFloatField(maxValue, GUILayout.Width(widthLabel));
             
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(false));

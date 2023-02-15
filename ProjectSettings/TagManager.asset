@@ -9,6 +9,7 @@ TagManager:
   - RoundBlocker
   - PlayerSpawnPoint
   - Audio Aliase/voice
+  - Audio Aliase/Reverb
   layers:
   - Default
   - TransparentFX

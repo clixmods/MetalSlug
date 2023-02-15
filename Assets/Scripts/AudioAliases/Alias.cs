@@ -6,9 +6,8 @@ using Random = UnityEngine.Random;
 namespace AudioAliase
 {
     [System.Serializable]
-    public class Aliase
+    public class Alias
     {
-       
         public string name;
         public string description;
 
@@ -109,7 +108,7 @@ namespace AudioAliase
         // Give default value for a new aliase
         // We override the default constructor, because Unity doesnt give default value when we initialize variable
         // will be fix by unity in the future...
-        public Aliase()
+        public Alias()
         {
             name = "newAliase";
             volume = 0.8f;

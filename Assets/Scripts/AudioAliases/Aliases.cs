@@ -12,8 +12,8 @@ namespace AudioAliase
     {
         public bool DontLoad;
         public AudioMixerGroup defaultMixerGroup;
-        public List<Aliase> aliases;
-        public Dictionary<string, Queue<Aliase>> aliasesDictionnary;
+        public List<Alias> aliases;
+        public Dictionary<string, Queue<Alias>> aliasesDictionnary;
         private void OnValidate()
         {
             if (DontLoad == true)

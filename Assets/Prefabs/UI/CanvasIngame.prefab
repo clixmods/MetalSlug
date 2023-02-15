@@ -380,6 +380,7 @@ GameObject:
   - component: {fileID: 842762652746831525}
   - component: {fileID: 1544355754996118056}
   - component: {fileID: 7797850405510459772}
+  - component: {fileID: 2593227251942455481}
   m_Layer: 5
   m_Name: RespawnCount
   m_TagString: Untagged
@@ -505,6 +506,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2593227251942455481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769347991949692065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1389d9449eb7a514096c39829cfe579f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1865015093619818640
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,6 +760,7 @@ GameObject:
   - component: {fileID: 7311402594343360541}
   - component: {fileID: 8579990383480049222}
   - component: {fileID: 6394926104127363090}
+  - component: {fileID: 7981478829342488813}
   m_Layer: 5
   m_Name: ReviveCount
   m_TagString: Untagged
@@ -872,6 +886,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7981478829342488813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273378941850326442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1389d9449eb7a514096c39829cfe579f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3191944949220362511
 GameObject:
   m_ObjectHideFlags: 0

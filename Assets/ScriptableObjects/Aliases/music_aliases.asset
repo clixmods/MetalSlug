@@ -59,8 +59,7 @@ MonoBehaviour:
     customDuration: 0
     isInit: 0
     isPlaceholder: 1
-    audioPlayers:
-    - {fileID: 0}
+    audioPlayers: []
   - name: music_bg_boss
     description: 
     Tag: 
@@ -80,8 +79,8 @@ MonoBehaviour:
     maxVolume: 0.25
     limitCount: 0
     isLooping: 1
-    startAliase: round_boss_start
-    endAliase: round_boss_end
+    startAliase: 
+    endAliase: 
     UseDelayLoop: 0
     minDelayLoop: 0
     maxDelayLoop: 0
