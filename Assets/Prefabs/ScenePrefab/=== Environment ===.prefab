@@ -687,6 +687,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5879387464258876130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1794017122580140308}
+  m_Layer: 0
+  m_Name: CameraPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1794017122580140308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5879387464258876130}
+  m_LocalRotation: {x: 0.56922835, y: 0.44860175, z: 0.4111819, w: 0.5528698}
+  m_LocalPosition: {x: -3.26, y: 0.24, z: 4.62}
+  m_LocalScale: {x: 0.8, y: 0.79999983, z: 0.7999997}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7153418305247811730}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 15.1, y: 93, z: 89.18}
 --- !u!1 &6082524918638079149
 GameObject:
   m_ObjectHideFlags: 0

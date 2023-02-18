@@ -5,10 +5,10 @@ using AudioAliase;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayAliasListener : MonoBehaviour
+public class PlayLoopAlias : MonoBehaviour
 {
     [Aliase] [SerializeField] private string aliasToPlay;
-
+    private AudioPlayer _audioPlayer;
     private void Start()
     {
         PlayAlias();
@@ -16,6 +16,6 @@ public class PlayAliasListener : MonoBehaviour
 
     public void PlayAlias()
     {
-        transform.PlaySoundAtPosition(aliasToPlay);
+        transform.PlayLoopSound(aliasToPlay,ref _audioPlayer );
     }
 }

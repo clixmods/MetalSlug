@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class CameraManager
+public static class CameraUtility
 {
     private static Camera _camera;
     public static Camera Camera

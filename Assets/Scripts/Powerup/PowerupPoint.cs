@@ -1,9 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 namespace Powerup
 {
     public class PowerupPoint : PowerupInstance
     {
+        public delegate void EventPointGrab(int amount);
+        public static event EventPointGrab OnGrabPoint;
         [SerializeField] private int pointAmount;
         private void Awake()
         {
@@ -17,9 +18,9 @@ namespace Powerup
 
         public override void OnGrab(PlayerInstance playerInstance)
         {
-            UIPointsPlusPanel.CreateUIPointsPlus(FindObjectOfType<Canvas>().gameObject, transform.position, pointAmount);
             base.OnGrab(playerInstance);
             gameObject.SetActive(false);
+            OnGrabPoint?.Invoke(pointAmount);
         }
     }
 }

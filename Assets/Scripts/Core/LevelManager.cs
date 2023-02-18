@@ -45,6 +45,7 @@ public class LevelManager : MonoBehaviour
     #endregion
     #region Events
     public delegate void EventHandler();
+    public delegate void EventState(State state);
     public delegate void EventHandlerRound(int newRound);
     public static event EventHandler eventPreLevelRestart;
     public static event EventHandler eventPostLevelRestart;
@@ -53,6 +54,7 @@ public class LevelManager : MonoBehaviour
     public static event EventHandler eventResetSession;
     public static event EventHandler eventEndgame;
     public static event EventHandler eventRespawnPointUsed;
+    public static event EventState EventOnStateChanged;
     
     #endregion
     private List<PlayerInstance> players = new List<PlayerInstance>();
@@ -70,7 +72,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField][Aliase] private string Gameover;
     [SerializeField][Aliase] private string AllPlayersDead;
     private State _state = State.Menu;
-    public State State { get => _state; set => _state = value; }
+    public State State
+    {
+        get => _state;
+        set
+        {
+            _state = value;
+            EventOnStateChanged?.Invoke(_state);
+        }
+    }
+
     public int CurrentRound
     {
         get => _currentRound;
@@ -190,7 +201,7 @@ public class LevelManager : MonoBehaviour
             AudioManager.PlaySoundAtPosition(Instance.AllPlayersDead);
             foreach (var ai in AIInstance.AIInstances)
             {
-                if(!ai.Sleep)
+                if(!ai.IsSleeping)
                     ai.OnDown();
             }
         }

@@ -49,6 +49,8 @@ public class AIScriptableObject : ScriptableObject
     [Header("Score")]
     public int ScoreDead = 50;
     public int ScoreHit = 10;
+    public int IncreaseMultiplier = 1;
+    public bool IncreaseMultiplierOnHit = false;
     [Header("FX")] 
     public GameObject FXLoopAmbiant;
     public GameObject FXDeath;

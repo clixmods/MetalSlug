@@ -40,7 +40,7 @@ public class CharacterViewmodelManager : MonoBehaviour
     public static readonly int LookDown = Animator.StringToHash("LookDown");
     public static readonly int Down = Animator.StringToHash("Down");
     public static readonly int Revived = Animator.StringToHash("Revived");
-
+    Dictionary<int, bool> animNames = new Dictionary<int, bool>();
     public Vector3 Direction
     {
         set
@@ -53,6 +53,7 @@ public class CharacterViewmodelManager : MonoBehaviour
     }
     private void Awake()
     {
+       
         if (viewModel == null)
         {
             Debug.LogWarning("viewModel is not assigned", gameObject);
@@ -61,19 +62,37 @@ public class CharacterViewmodelManager : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _skinnedMeshRenderer ??= GetComponentInChildren<SkinnedMeshRenderer>();
         _animator = GetComponentInChildren<Animator>();
+        // Cache available parameters in animator
+        foreach (AnimatorControllerParameter param in _animator.parameters) 
+        {
+            animNames.Add(param.nameHash,true);
+        }
         leftHand ??= gameObject;
         rightHand ??= gameObject;
     }
 
     public bool GetAnimatorBool(int id)
     {
-        return _animator.GetBool(id);
+        if(animNames.ContainsKey(id))
+            return _animator.GetBool(id);
+        
+        return false;
     }
-
     public void SetAnimatorBool(int id, bool value)
     {
-        _animator.SetBool(id, value);
+        if(animNames.ContainsKey(id))
+            _animator.SetBool(id, value);
     }
+
+    private void SetAnimatorTrigger(int id)
+    {
+        if (animNames.ContainsKey(id))
+        {
+            _animator.SetTrigger(id);
+        }
+    }
+    
+    
     public void Play(AnimState state)
     {
         if (_animator == null)
@@ -84,16 +103,16 @@ public class CharacterViewmodelManager : MonoBehaviour
         switch (state)
         {
             case AnimState.Idle:
-                _animator.SetBool(IsRunning, false);
+                SetAnimatorBool(IsRunning, false);
                 break;
             case AnimState.Move:
-                _animator.SetBool(IsRunning, true);
+                SetAnimatorBool(IsRunning, true);
                 break;
             case AnimState.Fire:
-                _animator.SetTrigger(Shooting);
+                SetAnimatorTrigger(Shooting);
                 break;
             case AnimState.FireUp:
-                _animator.SetTrigger(ShootingUp);
+                SetAnimatorTrigger(ShootingUp);
                 break;
             case AnimState.Damaged:
                // _animator.Play("Fall", UPPERBODY );
@@ -105,19 +124,19 @@ public class CharacterViewmodelManager : MonoBehaviour
                 //_animator.SetBool("IsFalling", true);
                 break;
             case AnimState.FireDown:
-                _animator.SetTrigger(ShootingDown);
+                SetAnimatorTrigger(ShootingDown);
                 break;
             case AnimState.LookUp:
-                _animator.SetTrigger(LookUp);
+                SetAnimatorTrigger(LookUp);
                 break;
             case AnimState.LookDown:
-                _animator.SetTrigger(LookDown);
+                SetAnimatorTrigger(LookDown);
                 break;
             case AnimState.Down:
-                _animator.SetTrigger(Down);
+                SetAnimatorTrigger(Down);
                 break;
             case AnimState.Revived:
-                _animator.SetTrigger(Revived);
+                SetAnimatorTrigger(Revived);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -130,11 +149,11 @@ public class CharacterViewmodelManager : MonoBehaviour
         {
             if (_rigidbody.velocity.y is > 0.1f or < -0.1f)
             {
-                _animator.SetBool(IsFalling, true);
+                SetAnimatorBool(IsFalling, true);
             }
             else
             {
-                _animator.SetBool(IsFalling, false);
+                SetAnimatorBool(IsFalling, false);
             }
 
             if (_rigidbody.velocity.magnitude > 0)

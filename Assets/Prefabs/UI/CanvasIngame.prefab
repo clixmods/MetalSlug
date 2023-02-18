@@ -268,7 +268,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9014109681122709181
@@ -566,6 +566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1910345226824858254}
   - component: {fileID: 3727437193038887417}
+  - component: {fileID: 1582279877}
   m_Layer: 5
   m_Name: CanvasIngame
   m_TagString: Untagged
@@ -582,7 +583,7 @@ RectTransform:
   m_GameObject: {fileID: 1910345226824858250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1910345226028957517}
@@ -613,6 +614,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5da4da0a4546665418de6870911a6da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!222 &1582279877
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910345226824858250}
+  m_CullTransparentMesh: 1
 --- !u!1 &1983355212495317231
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +945,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -598.81604, y: -462}
+  m_AnchoredPosition: {x: -21.000854, y: 385}
   m_SizeDelta: {x: -1662.518, y: -993.056}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6745632689102147133
@@ -992,17 +1001,17 @@ MonoBehaviour:
   _text: {fileID: 430049574164779912}
   _canvasGroup: {fileID: 393493536701099270}
   positionWorld: {x: 0, y: 0, z: 0}
-  AliasOn10: 
-  AliasOn20: 
-  AliasOn30: 
-  AliasOn40: 
-  AliasOn50: 
-  AliasOn60: 
-  AliasOn70: 
-  AliasOn80: 
-  AliasOn90: 
-  AliasOn100: 
-  LoseMultiplier: 
+  AliasOn10: announcer_mutliplier_building
+  AliasOn20: announcer_mutliplier_charging
+  AliasOn30: announcer_mutliplier_climing
+  AliasOn40: announcer_mutliplier_increasing
+  AliasOn50: announcer_mutliplier_rising
+  AliasOn60: announcer_mutliplier_merciless
+  AliasOn70: announcer_mutliplier_insane
+  AliasOn80: announcer_mutliplier_brutal
+  AliasOn90: announcer_mutliplier_sadistic
+  AliasOn100: announcer_mutliplier_insane
+  LoseMultiplier: multiplier_lose
 --- !u!225 &393493536701099270
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1383,7 +1392,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 125, y: 125}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6873250366831043980
@@ -2298,7 +2307,7 @@ MonoBehaviour:
   _uiPlayerRevive: {fileID: 369782500139229939}
   panelTextJoin: {fileID: 6842517105363950142}
   panelPlayer: {fileID: 7315364230996231905}
-  isHostPanel: 0
+  isHostPanel: 1
 --- !u!1001 &878695709942934128
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2680,6 +2689,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8486860850450702613, guid: 072c33fcea4447040a77afba9f87c59c,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 072c33fcea4447040a77afba9f87c59c, type: 3}
 --- !u!224 &177725736558663231 stripped
@@ -2921,7 +2935,7 @@ PrefabInstance:
     - target: {fileID: 6696679674036249820, guid: 8cce2fb4d5eab8b48af0dda377f27592,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -51.805847
+      value: -51.80591
       objectReference: {fileID: 0}
     - target: {fileID: 6696679674036249820, guid: 8cce2fb4d5eab8b48af0dda377f27592,
         type: 3}

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CameraMotor : MonoBehaviour
@@ -10,7 +11,6 @@ public class CameraMotor : MonoBehaviour
 
     private Vector3 desiredPosition;
     
-    // Clamp code
 
     // the transform of the camera
     public Transform cameraTransform;
@@ -19,6 +19,8 @@ public class CameraMotor : MonoBehaviour
     private float _rightBoundaryInitial;
     [SerializeField] private float _leftBoundary;
     [SerializeField] private float _rightBoundary;
+    private Vector3 _initialPosition;
+    private Quaternion _initialRotation;
     public float leftBoundary
     {
         get => _leftBoundary;
@@ -42,11 +44,19 @@ public class CameraMotor : MonoBehaviour
     public static float LeftBoudary;
     private void Awake()
     {
+        _initialPosition = transform.position;
+        _initialRotation = transform.rotation;
         _leftBoundaryInitial = leftBoundary;
         _rightBoundaryInitial = rightBoundary;
         LevelManager.eventPreLevelRestart += ResetCamera;
         LevelManager.eventResetSession += ResetCamera;
+    }
 
+    private void OnEnable()
+    {
+         transform.position = _initialPosition; 
+         transform.rotation = _initialRotation;
+         ResetCamera(true, true);
     }
 
     private void Update()
@@ -113,4 +123,5 @@ public class CameraMotor : MonoBehaviour
         if(left) leftBoundary = _leftBoundaryInitial;
         if(right) rightBoundary = _rightBoundaryInitial;
     }
+    
 }
