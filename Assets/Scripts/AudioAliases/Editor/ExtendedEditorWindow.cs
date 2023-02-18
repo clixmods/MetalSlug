@@ -50,5 +50,6 @@ namespace Audio.Editor
         protected virtual void Apply()
         {
         }
+      
     }
 }

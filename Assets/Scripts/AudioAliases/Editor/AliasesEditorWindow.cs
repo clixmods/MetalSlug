@@ -56,10 +56,11 @@ namespace Audio.Editor
 
         private AudioSource _audioSource;
         // Method executed when we open the window
-        [MenuItem("Clix Addons/Audio Aliases Editor")]
+        [MenuItem("Tools/Audio Aliases")]
         public static void Open()
         {
             AliasesEditorWindow window = GetWindow<AliasesEditorWindow>("Audio Aliases Editor");
+            window.titleContent.image = EditorGUIUtility.IconContent("d_AudioImporter Icon").image;
             window.UpdateAliasesFileList();
             window.UpdateAliasesList();
             window.UpdateTagList();
@@ -105,7 +106,7 @@ namespace Audio.Editor
         {
             serializedObject = new List<SerializedObject>();
             // We get all aliases available in the project, to convert them into serializedObject
-            _aliasesArray = GetAllInstances<Aliases>();
+            _aliasesArray = XEditorUtility.GetAssets<Aliases>();
             foreach (Aliases asset in _aliasesArray)
             {
                
@@ -631,21 +632,7 @@ namespace Audio.Editor
             }
         }
 
-        // Find every instance of a ScriptableObjects
-        private static T[] GetAllInstances<T>() where T : ScriptableObject
-        {
-            string[] guids = AssetDatabase.FindAssets("t:" + typeof(T).Name);  //FindAssets uses tags check documentation for more info
-            int count = guids.Length;
-            T[] a = new T[count];
-            for (int i = 0; i < count; i++)         //probably could get optimized 
-            {
-                string path = AssetDatabase.GUIDToAssetPath(guids[i]);
-                a[i] = AssetDatabase.LoadAssetAtPath<T>(path);
-            }
-
-            return a;
-
-        }
+      
 
         string IsValidName(string nameToValidate)
         {
